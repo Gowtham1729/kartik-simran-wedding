@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <title>K &amp; S</title>
+  <circle cx="32" cy="32" r="31" fill="#1f3d2b"/>
+  <circle cx="32" cy="32" r="26" fill="none" stroke="#c9a96e" stroke-width="1.5"/>
+  <text x="32" y="41" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="24" fill="#fbf7f0">K&amp;S</text>
+</svg>
