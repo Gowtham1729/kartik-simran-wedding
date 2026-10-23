@@ -1,0 +1,25 @@
+---
+import { wedding } from "../config/wedding";
+import { heroModel, navItems } from "../lib/content";
+import { namesLine } from "../lib/format";
+import Mark from "./Mark.astro";
+
+const hero = heroModel(wedding);
+const items = navItems(wedding);
+const home = import.meta.env.BASE_URL;
+---
+<header class="site-header">
+  <a class="wordmark" href={home} aria-label={namesLine(wedding)}>
+    <Mark size={32} />
+  </a>
+  {items.length > 0 && (
+    <nav class="nav" aria-label="Sections">
+      <ul>
+        {items.map((item) => (
+          <li><a href={item.href}>{item.label}</a></li>
+        ))}
+      </ul>
+    </nav>
+  )}
+  {hero.folioText && <p class="folio">{hero.folioText}</p>}
+</header>

@@ -3,9 +3,11 @@
 .env
 .env.*
 
-# Node (if you add tooling later)
+# Node
 node_modules/
 npm-debug.log*
+dist/
+.astro/
 
 # OS / editor
 .DS_Store

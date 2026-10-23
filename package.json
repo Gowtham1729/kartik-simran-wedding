@@ -1,0 +1,19 @@
+{
+  "name": "kartik-simran-wedding",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build && node scripts/relativize.mjs && node scripts/share-images.mjs",
+    "preview": "astro preview",
+    "share-images": "node scripts/share-images.mjs"
+  },
+  "dependencies": {
+    "@resvg/resvg-js": "^2.6.2",
+    "astro": "^7.4.2",
+    "satori": "^0.63.2"
+  }
+}

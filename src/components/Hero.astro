@@ -1,0 +1,172 @@
+---
+import { wedding } from "../config/wedding";
+import { heroModel } from "../lib/content";
+
+const hero = heroModel(wedding);
+const [first, second] = hero.partners;
+---
+<section class="hero" id="top" aria-labelledby="hero-title">
+  <p class="kicker">Save the date</p>
+
+  <div class="hero-main">
+    <h1 id="hero-title" class="names">
+      <span class="line" translate="no">{first}</span>
+      <span class="and">and</span>
+      <span class="line" translate="no">{second}</span>
+    </h1>
+
+    {hero.parts && (
+      <p class="datemark">
+        <span class="visually-hidden">{hero.longDate}</span>
+        <span class="part" aria-hidden="true">{hero.parts.weekdayShort}</span>
+        <span class="num" aria-hidden="true">
+          <span class="num-red">{hero.parts.day}</span>
+          <span class="num-ink">{hero.parts.day}</span>
+        </span>
+        <span class="part" aria-hidden="true">{hero.parts.monthShort} {hero.parts.year}</span>
+      </p>
+    )}
+  </div>
+
+  <p class:list={["city", { "is-open": !hero.city }]}>
+    {hero.city || "City to be announced"}
+  </p>
+
+  {hero.target && (
+    <div class="count-block">
+      <div
+        class="countdown"
+        data-countdown
+        data-target={hero.target}
+        aria-hidden="true"
+      >
+        <div class="count-days">
+          <span class="day-count" data-days></span>
+          <span class="label">days</span>
+        </div>
+        <div class="clock">
+          <span class="digits" data-unit="hours" data-pad="2"></span>
+          <span class="colon">:</span>
+          <span class="digits" data-unit="minutes" data-pad="2"></span>
+          <span class="colon">:</span>
+          <span class="digits" data-unit="seconds" data-pad="2"></span>
+        </div>
+      </div>
+      <p class="count-note" data-count-note>{hero.note}</p>
+      <p class="count-done" data-count-done data-passed={hero.passed} hidden>{hero.here}</p>
+      <p class="visually-hidden" data-count-live aria-live="polite"></p>
+      <noscript>
+        <p class="count-note">The live figures need JavaScript. The date above is the one to keep.</p>
+      </noscript>
+      <script is:inline>
+        (function () {
+          var root = document.querySelector("[data-countdown]");
+          if (!root) return;
+          var target = new Date(root.getAttribute("data-target") || "");
+          if (isNaN(target.getTime())) return;
+          var note = document.querySelector("[data-count-note]");
+          var done = document.querySelector("[data-count-done]");
+          var live = document.querySelector("[data-count-live]");
+          var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+          var units = ["hours", "minutes", "seconds"];
+          var dayEl = root.querySelector("[data-days]");
+          var slots = {};
+
+          units.forEach(function (unit) {
+            var holder = root.querySelector('[data-unit="' + unit + '"]');
+            var pad = Number(holder.getAttribute("data-pad") || "2");
+            slots[unit] = [];
+            for (var i = 0; i < pad; i++) {
+              var cell = document.createElement("span");
+              cell.className = "digit";
+              var inner = document.createElement("span");
+              inner.className = "digit-n";
+              inner.textContent = "0";
+              cell.appendChild(inner);
+              holder.appendChild(cell);
+              slots[unit].push(inner);
+            }
+          });
+
+          function parts(ms) {
+            var s = Math.floor(ms / 1000);
+            return {
+              days: Math.floor(s / 86400),
+              hours: Math.floor((s % 86400) / 3600),
+              minutes: Math.floor((s % 3600) / 60),
+              seconds: s % 60
+            };
+          }
+
+          function paint(values, animate) {
+            if (dayEl) {
+              var dayText = String(values.days);
+              if (dayEl.textContent !== dayText) {
+                dayEl.textContent = dayText;
+                if (animate && !reduce) {
+                  dayEl.classList.remove("is-tick");
+                  void dayEl.offsetWidth;
+                  dayEl.classList.add("is-tick");
+                }
+              }
+            }
+            units.forEach(function (unit) {
+              var pad = slots[unit].length;
+              var text = String(values[unit]).padStart(pad, "0");
+              if (text.length > pad) text = text.slice(-pad);
+              slots[unit].forEach(function (inner, index) {
+                if (inner.textContent === text[index]) return;
+                inner.textContent = text[index];
+                if (animate && !reduce) {
+                  inner.classList.remove("is-tick");
+                  void inner.offsetWidth;
+                  inner.classList.add("is-tick");
+                }
+              });
+            });
+          }
+
+          function speak(values) {
+            if (!live) return;
+            live.textContent =
+              values.days + " days, " + values.hours + " hours, " + values.minutes + " minutes";
+          }
+
+          var lastSpoken = 0;
+          function finish(ms) {
+            root.hidden = true;
+            if (note) note.hidden = true;
+            if (done) {
+              if (ms < -36 * 60 * 60 * 1000 && done.getAttribute("data-passed")) {
+                done.textContent = done.getAttribute("data-passed");
+              }
+              done.hidden = false;
+              if (live) live.textContent = done.textContent;
+            }
+          }
+
+          function tick(animate) {
+            var ms = target.getTime() - Date.now();
+            if (ms <= 0) {
+              finish(ms);
+              return false;
+            }
+            var values = parts(ms);
+            paint(values, animate);
+            var now = Date.now();
+            if (now - lastSpoken > 60000) {
+              speak(values);
+              lastSpoken = now;
+            }
+            return true;
+          }
+
+          if (!tick(false)) return;
+          var timer = setInterval(function () {
+            if (!tick(true)) clearInterval(timer);
+          }, 1000);
+        })();
+      </script>
+    </div>
+  )}
+</section>
