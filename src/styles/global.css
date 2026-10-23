@@ -794,6 +794,11 @@ section[id] {
     line-height: 0.72;
   }
 
+  /* The vermillion pass sits 0.065em below the ink. Clear the month line of both. */
+  .datemark .num + .part {
+    translate: 0 calc(0.085 * clamp(9rem, 35.5vw, 32rem));
+  }
+
   .city {
     font-size: clamp(1.4rem, 1.7vw, 1.85rem);
   }
