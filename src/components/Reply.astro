@@ -1,0 +1,24 @@
+---
+import { rsvpLink } from "../lib/content";
+import Arrow from "./Arrow.astro";
+
+const reply = rsvpLink();
+---
+{reply && (
+  <section class="section" id="reply" aria-labelledby="reply-title">
+    <h2 id="reply-title" class="visually-hidden">Reply</h2>
+    <p class="reply-row">
+      <a
+        class="reply-link"
+        href={reply.href}
+        target={reply.external ? "_blank" : undefined}
+        rel={reply.external ? "noopener noreferrer" : undefined}
+      >
+        {reply.label}
+        <Arrow />
+        {reply.external && <span class="visually-hidden"> (opens in a new tab)</span>}
+      </a>
+    </p>
+    <p class="count-note">{reply.note}</p>
+  </section>
+)}

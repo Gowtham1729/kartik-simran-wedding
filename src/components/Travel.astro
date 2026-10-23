@@ -1,0 +1,40 @@
+---
+import { wedding } from "../config/wedding";
+import { travelHasDetail } from "../lib/content";
+import Arrow from "./Arrow.astro";
+
+const travel = wedding.travel;
+const show = travelHasDetail(wedding);
+---
+{show && (
+  <section class="section" id="travel" aria-labelledby="travel-title">
+    <h2 id="travel-title">Travel and stay</h2>
+    {travel.notes.trim() && (
+      <div class="prose">
+        {travel.notes
+          .trim()
+          .split(/\n+/)
+          .map((paragraph) => <p>{paragraph}</p>)}
+      </div>
+    )}
+    {travel.stays.length > 0 && (
+      <ul class="stays">
+        {travel.stays.map((stay) => (
+          <li>
+            <h3>{stay.name}</h3>
+            {stay.detail.trim() && <p>{stay.detail.trim()}</p>}
+            {stay.url.trim() && (
+              <p>
+                <a class="text-link" href={stay.url.trim()} target="_blank" rel="noopener noreferrer">
+                  Open the link
+                  <Arrow />
+                  <span class="visually-hidden"> (opens in a new tab)</span>
+                </a>
+              </p>
+            )}
+          </li>
+        ))}
+      </ul>
+    )}
+  </section>
+)}

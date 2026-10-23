@@ -1,86 +1,102 @@
-# Kartik & Simran
+# Kartik and Simran
 
-A small, static wedding website. Plain HTML, CSS and a little vanilla JavaScript.
-There is no framework and no build step. What's in `public/` is exactly what gets deployed.
+A save-the-date for Saturday, 27 February 2027, India time. Astro builds a static site. GitHub Pages serves it.
 
 **Live site:** https://gowtham1729.github.io/kartik-simran-wedding/
 
 ```
-public/
-  index.html    Page structure and section markup
-  styles.css    All styling. Colours, fonts and spacing live in :root at the top
-  script.js     The WEDDING config object, plus the code that renders it
-  favicon.svg   K&S monogram
-.github/workflows/pages.yml   CI/CD to GitHub Pages
+src/config/wedding.ts     The words. Edit this.
+src/config/site.ts        Origin and base path. Touch this for a custom domain.
+src/styles/global.css     Colour, type, spacing. Tokens are at the top.
+src/components/           One file per section. Empty sections render nothing.
+public/                   Favicon, share image, and any photographs.
+docs/design-research.md   Why the page looks like this.
 ```
 
-## Deploys
+The design is a letterpress sheet whose vermillion pass is slightly out of register. You can see it on the day number, on the word "and", and in the two rules at the left edge. Names are Brygada 1918, reading text is Newsreader, the clock and the folio are Azeret Mono. All three are SIL Open Font License, subset, and self-hosted. Licenses are in `src/assets/fonts/`.
 
-Hosting is GitHub Pages, deployed by `.github/workflows/pages.yml`:
+## Edit the content
 
-- **Push to `main`** and the workflow uploads `public/` and publishes it. The site
-  updates a minute or so after the run goes green (see the Actions tab).
-- You can also redeploy by hand from Actions, "Deploy to GitHub Pages", "Run workflow".
+Open `src/config/wedding.ts`. Leave a string as `""` and a list as `[]` until you know the real value.
 
-There are no secrets or keys to manage. The workflow uses GitHub's built-in Pages
-permissions.
+- `partnerOne`, `partnerTwo`: first names.
+- `date`: `"YYYY-MM-DD"`, or `null` to hide the date and the countdown. The weekday is calculated.
+- `time`: `"HH:MM"` in 24-hour time, or `null`. Null counts down to midnight at the start of the day, and the page says so. Guests should not think the ceremony is at midnight.
+- `utcOffset`: `"+05:30"` is India Standard Time. The countdown uses it, so it hits zero at the same moment everywhere.
+- `city`: `""` shows "City to be announced".
+- `intro`: the sentence under Details. `""` hides it.
+- `venue`: `name`, `address`, `notes`, `mapsUrl`. A maps link becomes "Open the map". The venue section appears once any of these is filled in.
+- `events`: one object per ceremony, in order. `note: ""` hides that line.
+- `travel`: `notes` and `stays`. Hidden until one of them is filled in.
+- `dressCode`: one or two sentences. Hidden until set. It shows as a row in Details.
+- `story`: an array of paragraphs. Hidden until you write them.
+- `faq`: `{ question, answer }`. Hidden until there is one.
+- `gallery`: `{ src, alt, width, height }`. Put files in `public/photos/` and set `src` to `"photos/evening.jpg"`. `width` and `height` are the pixel size of the file, so the layout does not jump.
+- `rsvp`: see below.
 
-The site is served from the `/kartik-simran-wedding/` subpath, so keep links to
-files relative (`styles.css`, not `/styles.css`). Absolute paths would point at
-`gowtham1729.github.io/` and break.
+Do not invent a city, a venue, or a story. Guests will treat the page as fact.
 
-## Editing the content
+## Reply link
 
-Almost everything you'll want to change is in the `WEDDING` object at the top of
-`public/script.js`:
+There is no form on this site and nowhere for replies to be stored. Set `rsvp.mode`:
 
-- `partnerOne`, `partnerTwo`, `tagline`: the hero text.
-- `date`: the wedding day as `"YYYY-MM-DD"`. It is set to `"2027-02-27"`, which the
-  page shows as "Saturday, 27 February 2027". Set it to `null` to show `dateFallback`
-  and hide the countdown.
-- `time`: optional start time as `"HH:MM"` (24-hour), for example `"18:30"`. While it
-  is `null`, the countdown runs to the start of the day.
-- `utcOffset`: the timezone of `date` and `time`. `"+05:30"` is India time, so the
-  countdown hits zero at the same moment for every guest, wherever they are.
-- `city`: the small line under the date.
-- `venue`: `name`, `address`, optional `notes`, and `mapsUrl`. Paste a Google Maps
-  share link into `mapsUrl` and an "Open in Google Maps" button appears. While it is
-  empty, the page says "Map link coming soon".
-- `events`: one object per event, rendered in order as cards. Each has `name`,
-  `date`, `time`, `location` and `description`. Entries with `placeholder: true` get a
-  visible "Placeholder" tag, so remove that flag once an event is real.
-- `footerNote`: the line in the footer.
+| mode | value | What the guest gets |
+| --- | --- | --- |
+| `""` | `""` | The row says "Not open yet". No button. |
+| `"url"` | a Google Form link, or any https link | Recommended. Opens in a new tab. |
+| `"mailto"` | an email address | Opens an email with the subject filled in. |
+| `"whatsapp"` | digits only, country code included, such as `"919876543210"` | Opens WhatsApp. `whatsappMessage` is optional prefilled text. |
 
-Apart from the date, all current values (city, venue, events) are placeholders.
+`"url"` is the right default once you know the questions you want to ask. A Google Form can collect names, a count, and which events someone can attend, without a server here.
 
-To change the look, start with the CSS variables in `:root` in `public/styles.css`
-(ivory background, deep green accent, gold ornaments, fonts). Fonts are Cormorant
-Garamond and Inter from Google Fonts, loaded in `index.html`.
+## Preview
 
-Motion is limited to a gentle fade-in on scroll, and it is switched off for anyone
-with "reduce motion" turned on in their OS settings.
-
-## Previewing locally
-
-From the repo root, either of these works:
+Node 22 or newer.
 
 ```sh
-npx serve public
-# or
-python3 -m http.server 8000 -d public
+npm install
+npm run dev
 ```
 
-Then open the URL it prints (for the Python one, http://localhost:8000).
+Open the URL Astro prints. It includes `/kartik-simran-wedding/`, the same path GitHub Pages uses.
 
-## Custom domain (later)
+To preview the production build:
 
-If you buy a domain, you can point it at this site:
+```sh
+npm run build
+npx serve dist
+```
 
-1. Add a file `public/CNAME` containing just the domain, for example
-   `kartikandsimran.com`, and push it.
-2. In the repo, go to Settings, then Pages, enter the same domain under
-   "Custom domain", and tick "Enforce HTTPS" once it is available.
-3. At your domain registrar, add the DNS records GitHub lists in its
-   [custom domain docs](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site)
-   (a `CNAME` to `gowtham1729.github.io` for a `www` subdomain, or the `A` records
-   for an apex domain).
+Asset paths in the built `index.html` are relative, so a static server at the root of `dist/` works. The dev server keeps the `/kartik-simran-wedding/` prefix.
+
+## Deploy
+
+Push to `main`. `.github/workflows/pages.yml` installs, runs `npm run build`, and uploads `dist/` to GitHub Pages. You can also run the workflow by hand from the Actions tab.
+
+The build generates `og.png` from the names and the date, so the WhatsApp preview stays in step with the page. There is no analytics snippet and no third-party font request.
+
+## Custom domain, later
+
+GitHub Pages is on a project path today. A custom domain is served from the root of that domain. Relative asset paths already work in both places. The absolute URLs (canonical, Open Graph) do not, until you change them.
+
+1. In `src/config/site.ts`, set `origin` to `https://your-domain` and `basePath` to `"/"`.
+2. Add `public/CNAME` containing the domain and nothing else, for example `kartikandsimran.com`.
+3. In the repo: Settings, Pages, set the custom domain, and turn on "Enforce HTTPS" once it is offered.
+4. At the registrar, add the DNS records from [GitHub's custom domain docs](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site). A `www` name wants a `CNAME` to `gowtham1729.github.io`. An apex domain wants the `A` records GitHub lists.
+5. Push, and let the workflow build again.
+
+`404.html` uses the base path on purpose. GitHub serves that file at the address that was wrong, so its CSS links have to be absolute. After `basePath` is `"/"`, those links are root-absolute and match the domain.
+
+## Look
+
+`src/styles/global.css` starts with the tokens: paper, ink, vermillion, and the three families. The vermillion rule is the second press pass. It is slightly to the right of the ink rule, and it draws itself on load. Scrolling drifts it a little further where the browser supports scroll-linked animation. Reduced motion shows both rules, already offset, and the countdown numbers change without the tick.
+
+## Fonts
+
+| Family | Role | License |
+| --- | --- | --- |
+| Brygada 1918 | Names, the day number, headings | SIL OFL |
+| Newsreader | Prose, the word "and" | SIL OFL |
+| Azeret Mono | The folio, the countdown | SIL OFL |
+
+`src/assets/fonts/OFL-*.txt` are the license texts. `scripts/fonts/` holds the instances the share image is drawn with. Both are generated from the Google Fonts sources and subset to Latin.

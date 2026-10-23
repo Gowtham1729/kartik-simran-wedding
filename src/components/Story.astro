@@ -1,0 +1,13 @@
+---
+import { wedding } from "../config/wedding";
+
+const paragraphs = wedding.story.map((p) => p.trim()).filter(Boolean);
+---
+{paragraphs.length > 0 && (
+  <section class="section" id="story" aria-labelledby="story-title">
+    <h2 id="story-title">Our story</h2>
+    <div class="prose">
+      {paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+    </div>
+  </section>
+)}
