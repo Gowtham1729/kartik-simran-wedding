@@ -750,21 +750,52 @@ section[id] {
 }
 
 @media (min-width: 860px) {
+  .hero {
+    gap: clamp(0.85rem, 1.6vh, 1.35rem);
+    padding-top: clamp(1rem, 2.5vh, 1.75rem);
+    padding-bottom: clamp(1rem, 3vh, 2rem);
+  }
+
+  /* One impression: the day number shares the name block's baseline
+     and kisses the end of the longer name. The spare paper is the
+     right margin, not a gap between two pinned edges. */
   .hero-main {
-    grid-template-columns: minmax(0, 1.35fr) minmax(8rem, 0.65fr);
-    column-gap: clamp(1.5rem, 4vw, 4rem);
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-start;
+    column-gap: 0;
+    width: 100%;
+  }
+
+  .names {
+    flex: 0 0 auto;
+    font-size: clamp(6.5rem, 15.05vw, 13.6rem);
+    line-height: 0.76;
+  }
+
+  .names .and {
+    margin-top: 0.1em;
+    margin-bottom: 0.06em;
   }
 
   .datemark {
+    position: relative;
+    z-index: 1;
+    flex: 0 0 auto;
     flex-direction: column;
     align-items: flex-end;
-    justify-self: end;
-    gap: 0.15rem;
+    gap: 0.08rem;
+    margin-inline-start: calc(-0.05 * clamp(9rem, 35.5vw, 32rem));
     text-align: right;
   }
 
   .datemark .num {
-    font-size: clamp(6.5rem, 11vw, 10.5rem);
+    font-size: clamp(9rem, 35.5vw, 32rem);
+    line-height: 0.72;
+  }
+
+  .city {
+    font-size: clamp(1.4rem, 1.7vw, 1.85rem);
   }
 
   .gallery {
