@@ -10,10 +10,15 @@ const WEDDING = {
   partnerTwo: "Simran",
   tagline: "We're getting married",
 
-  // ISO 8601 date-time with a timezone offset, e.g. "2027-02-14T18:00:00+05:30".
-  // Leave as null until the date is final. While null, the page shows
-  // `dateFallback` and the countdown stays hidden.
-  date: null,
+  // Wedding day as "YYYY-MM-DD". Leave as null until the date is final.
+  // While null, the page shows `dateFallback` and the countdown stays hidden.
+  date: "2027-02-27",
+  // Optional start time as "HH:MM" (24-hour), e.g. "18:30". While null, the
+  // countdown runs to the start of the day (00:00) in `utcOffset`.
+  time: null,
+  // Timezone the date and time are in. "+05:30" is India Standard Time.
+  // The countdown uses this, so it is the same for guests in any country.
+  utcOffset: "+05:30",
   dateFallback: "Date to be announced",
 
   // Shown under the date in the hero.
@@ -63,7 +68,10 @@ const WEDDING = {
 /* ========================================================================== */
 
 (function render(config) {
-  const weddingDate = config.date ? new Date(config.date) : null;
+  // The exact moment the countdown targets, in the configured timezone.
+  const weddingDate = config.date
+    ? new Date(`${config.date}T${config.time || "00:00"}:00${config.utcOffset || "+05:30"}`)
+    : null;
   const hasDate = weddingDate !== null && !Number.isNaN(weddingDate.getTime());
 
   // ---- Simple text bindings: <el data-bind="key"> ----
@@ -78,7 +86,7 @@ const WEDDING = {
     venueAddress: config.venue.address,
     venueNotes: config.venue.notes,
     footerNote: config.footerNote,
-    date: hasDate ? formatDate(weddingDate) : config.dateFallback,
+    date: hasDate ? formatDate(config.date) : config.dateFallback,
   };
 
   document.querySelectorAll("[data-bind]").forEach((el) => {
@@ -90,7 +98,7 @@ const WEDDING = {
 
   document.title = `${config.partnerOne} & ${config.partnerTwo}`;
   if (hasDate) {
-    document.querySelector('[data-bind="date"]').setAttribute("datetime", weddingDate.toISOString());
+    document.querySelector('[data-bind="date"]').setAttribute("datetime", config.date);
   }
 
   renderEvents(config.events);
@@ -100,13 +108,13 @@ const WEDDING = {
 
   // ---- Helpers ----
 
-  function formatDate(date) {
-    return date.toLocaleDateString("en-IN", {
-      weekday: "long",
-      day: "numeric",
-      month: "long",
-      year: "numeric",
-    });
+  // Formats "2027-02-27" as "Saturday, 27 February 2027". The calendar date is
+  // read as-is, so it never shifts a day for guests in other timezones.
+  function formatDate(isoDate) {
+    const [y, m, d] = isoDate.split("-").map(Number);
+    const day = new Date(Date.UTC(y, m - 1, d));
+    const part = (options) => day.toLocaleDateString("en-GB", { timeZone: "UTC", ...options });
+    return `${part({ weekday: "long" })}, ${d} ${part({ month: "long" })} ${y}`;
   }
 
   function renderEvents(events) {

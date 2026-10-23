@@ -1,12 +1,7 @@
-# Firebase
-.firebase/
-firebase-debug.log*
-firebase-debug.*.log*
-ui-debug.log*
-
-# Service account keys: never commit these
+# Credentials: never commit these
 *service-account*.json
-*-firebase-adminsdk-*.json
+.env
+.env.*
 
 # Node (if you add tooling later)
 node_modules/

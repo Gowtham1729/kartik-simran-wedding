@@ -3,16 +3,31 @@
 A small, static wedding website. Plain HTML, CSS and a little vanilla JavaScript.
 There is no framework and no build step. What's in `public/` is exactly what gets deployed.
 
+**Live site:** https://gowtham1729.github.io/kartik-simran-wedding/
+
 ```
 public/
   index.html    Page structure and section markup
   styles.css    All styling. Colours, fonts and spacing live in :root at the top
   script.js     The WEDDING config object, plus the code that renders it
   favicon.svg   K&S monogram
-firebase.json   Firebase Hosting config (public dir, cache headers)
-.firebaserc     Firebase project id
-.github/workflows/deploy.yml   CI/CD to Firebase Hosting
+.github/workflows/pages.yml   CI/CD to GitHub Pages
 ```
+
+## Deploys
+
+Hosting is GitHub Pages, deployed by `.github/workflows/pages.yml`:
+
+- **Push to `main`** and the workflow uploads `public/` and publishes it. The site
+  updates a minute or so after the run goes green (see the Actions tab).
+- You can also redeploy by hand from Actions, "Deploy to GitHub Pages", "Run workflow".
+
+There are no secrets or keys to manage. The workflow uses GitHub's built-in Pages
+permissions.
+
+The site is served from the `/kartik-simran-wedding/` subpath, so keep links to
+files relative (`styles.css`, not `/styles.css`). Absolute paths would point at
+`gowtham1729.github.io/` and break.
 
 ## Editing the content
 
@@ -20,10 +35,13 @@ Almost everything you'll want to change is in the `WEDDING` object at the top of
 `public/script.js`:
 
 - `partnerOne`, `partnerTwo`, `tagline`: the hero text.
-- `date`: an ISO 8601 date-time with a timezone offset, for example
-  `"2027-02-14T18:00:00+05:30"`. While it is `null` the page shows `dateFallback`
-  ("Date to be announced") and the countdown stays hidden. Set a real date and the
-  formatted date and a live countdown appear automatically.
+- `date`: the wedding day as `"YYYY-MM-DD"`. It is set to `"2027-02-27"`, which the
+  page shows as "Saturday, 27 February 2027". Set it to `null` to show `dateFallback`
+  and hide the countdown.
+- `time`: optional start time as `"HH:MM"` (24-hour), for example `"18:30"`. While it
+  is `null`, the countdown runs to the start of the day.
+- `utcOffset`: the timezone of `date` and `time`. `"+05:30"` is India time, so the
+  countdown hits zero at the same moment for every guest, wherever they are.
 - `city`: the small line under the date.
 - `venue`: `name`, `address`, optional `notes`, and `mapsUrl`. Paste a Google Maps
   share link into `mapsUrl` and an "Open in Google Maps" button appears. While it is
@@ -33,8 +51,7 @@ Almost everything you'll want to change is in the `WEDDING` object at the top of
   visible "Placeholder" tag, so remove that flag once an event is real.
 - `footerNote`: the line in the footer.
 
-All current values are placeholders. Nothing about real dates or venues has been
-filled in yet.
+Apart from the date, all current values (city, venue, events) are placeholders.
 
 To change the look, start with the CSS variables in `:root` in `public/styles.css`
 (ivory background, deep green accent, gold ornaments, fonts). Fonts are Cormorant
@@ -55,35 +72,15 @@ python3 -m http.server 8000 -d public
 
 Then open the URL it prints (for the Python one, http://localhost:8000).
 
-If you have the Firebase CLI, `firebase serve --only hosting` (or
-`firebase emulators:start --only hosting`) also works and applies the headers from
-`firebase.json`.
+## Custom domain (later)
 
-## Deploys
+If you buy a domain, you can point it at this site:
 
-Deploys run from `.github/workflows/deploy.yml` using
-[FirebaseExtended/action-hosting-deploy](https://github.com/FirebaseExtended/action-hosting-deploy):
-
-- **Push to `main`**: deploys to the live site, at
-  `https://<project-id>.web.app`.
-- **Pull request**: deploys a temporary preview channel (expires after 7 days) and
-  the action comments the preview URL on the PR. PRs from forks are skipped,
-  because they can't read the repo secrets.
-
-The Firebase project id is `kartik-simran-wedding`. It appears in two places,
-`.firebaserc` and the `FIREBASE_PROJECT_ID` env in the workflow, so change both if
-the project id changes.
-
-## The secret
-
-The workflow authenticates with a Firebase service account stored as a GitHub
-Actions secret named **`FIREBASE_SERVICE_ACCOUNT`** (repo Settings, then Secrets and
-variables, then Actions). Its value is the full JSON key of a service account with
-Firebase Hosting admin access.
-
-The easiest way to create it is `firebase init hosting:github` from the repo root,
-which makes the service account and adds the secret for you. Never commit the JSON
-key to the repo; `.gitignore` blocks the usual filenames as a safety net.
-
-`GITHUB_TOKEN` is provided by GitHub automatically and is only used to post the PR
-preview comment.
+1. Add a file `public/CNAME` containing just the domain, for example
+   `kartikandsimran.com`, and push it.
+2. In the repo, go to Settings, then Pages, enter the same domain under
+   "Custom domain", and tick "Enforce HTTPS" once it is available.
+3. At your domain registrar, add the DNS records GitHub lists in its
+   [custom domain docs](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site)
+   (a `CNAME` to `gowtham1729.github.io` for a `www` subdomain, or the `A` records
+   for an apex domain).
