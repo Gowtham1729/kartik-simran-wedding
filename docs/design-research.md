@@ -38,7 +38,7 @@ Wedding sites rarely win Site of the Day. The bar used here is SOTD craft applie
 - [Newsreader](https://fonts.google.com/specimen/Newsreader) (Production Type, OFL) for reading, with the optical size cut for text. [Azeret Mono](https://fonts.google.com/specimen/Azeret+Mono) (Displaay, OFL) for figures only.
 - [Fontshare](https://www.fontshare.com/) (Indian Type Foundry): Panchang, Boska, General Sans. Panchang is a display grotesque that would shout over the names. Boska is another fashion serif, closer to the stationery lane. They are free for commercial use and not OFL, so the self-hosted faces here stay on the Open Font License.
 - [MDN, CSS scroll-driven animations](https://developer.mozilla.org/en-US/docs/Web/CSS/Guides/Scroll-driven_animations) and [Safari 26's release notes](https://webkit.org/blog/17333/webkit-features-in-safari-26-0/). `animation-timeline` is in Chrome, Edge, and Safari 26. It is not in Firefox. It must not be load-bearing.
-- Chrome's modern-web-guidance notes on motion and scroll progress (skill text dated 2026-05-16, newer package 2026-10-16). Animate `transform` and `opacity` only. Do not zero every duration with one global override. Declare `animation-timeline` after the `animation` shorthand, because the shorthand resets it. Feature-detect scroll timelines. Do not ship the scroll-timeline polyfill. A decorative progress indicator needs `aria-hidden`. I used the scroll timeline for one drift and skipped the progress bar: a bar at the top of a short invitation is a template, and it does not belong to the idea.
+- Chrome's modern-web-guidance notes on motion and scroll progress (skill text dated 2026-05-16, newer package 2026-10-16). Animate `transform` and `opacity` only. Do not zero every duration with one global override. Declare `animation-timeline` after the `animation` shorthand, because the shorthand resets it. Feature-detect scroll timelines. Do not ship the scroll-timeline polyfill. A decorative progress indicator needs `aria-hidden`. This page does not use a scroll timeline. The motion is the stitch drawing down, the diamond settling, the word "and" rising, and the clock digits knocking.
 - [Astro on GitHub Pages](https://docs.astro.build/en/guides/deploy/github/). `site` is the origin. `base` is the project path. A later custom domain means the project path goes away.
 
 ## Direction
@@ -85,4 +85,4 @@ No form is hosted here. `rsvp.mode` is `""`, `"url"`, `"mailto"`, or `"whatsapp"
 
 ## Still open
 
-City, venue, map, schedule, travel, dress, story, questions, photographs, and the reply link. The config file is the list, with the shape of each field in the types above the object.
+Venue, map, schedule, travel, dress, story, questions, photographs, and the reply link. Punjab is already the place line. The config file is the list, with the shape of each field in the types above the object.
