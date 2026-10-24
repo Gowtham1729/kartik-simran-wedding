@@ -2,8 +2,9 @@
  *
  * Coordinates are pixels in a frame of `width` by `height`. The arch clip is
  * the objectBoundingBox path in Base.astro, so the same fractions hold at any
- * frame size. Bloom diameter, inset, leaves, and bells scale with the width
- * from the 390px spec (12px blooms, 6px inset, 12×5 leaves, 8px bells).
+ * frame size. On the 390 frame the opening is about 280px and blooms are 12px.
+ * A tall desktop arch uses the frame width as the arch width, so a 506px arch
+ * gets blooms of about 21px. Leaves, bells, and strand spacing use that scale.
  */
 
 export interface ToranBloom {
@@ -39,7 +40,7 @@ export interface ToranLayout {
   bells: ToranBell[];
 }
 
-const STRAND_LENGTHS = [3, 4, 5, 6, 7, 6, 5, 4, 3];
+const STRAND_LENGTHS = [4, 5, 6, 7, 6, 5, 4];
 
 interface Pt {
   x: number;
@@ -146,8 +147,20 @@ function yAtX(pts: Pt[], x: number): number {
   return pts[0].y;
 }
 
+function bloomScale(width: number, height: number): number {
+  const mobileAspect = 312 / 390;
+  const desktopAspect = 701 / 506;
+  const aspect = height / width;
+  const t = Math.min(1, Math.max(0, (aspect - mobileAspect) / (desktopAspect - mobileAspect)));
+  const inner = (0.86 - 0.14) * width;
+  // Mobile opening ≈ 280px at 12px blooms. The 506px desktop arch is the frame.
+  const archWidth = inner + t * (width - inner);
+  const mobileOpening = (0.86 - 0.14) * 390;
+  return archWidth / mobileOpening;
+}
+
 export function layoutToran(width: number, height: number): ToranLayout {
-  const scale = width / 390;
+  const scale = bloomScale(width, height);
   const bloom = 12 * scale;
   const inset = 6 * scale;
   const leafLength = 12 * scale;
@@ -156,23 +169,34 @@ export function layoutToran(width: number, height: number): ToranLayout {
   const bellWidth = (14 / 16) * bellHeight;
 
   const curve = offsetArch(width, height, inset);
-  const total = curveLength(curve);
-  const garlandCount = Math.max(2, Math.round(total / bloom) + 1);
-  const garland: Pt[] = [];
-  for (let i = 0; i < garlandCount; i++) {
-    garland.push(pointAtLength(curve, (total * i) / (garlandCount - 1)));
-  }
-
   const innerWidth = (0.86 - 0.14) * width;
   const span = 0.85 * innerWidth;
   const x0 = (width - span) / 2;
+  // Nine even slots across the opening. The two outer slots sit on the steep
+  // side of the arch, so the strands use the inner seven and the garland ends there.
+  const slots = STRAND_LENGTHS.length + 2;
+  const strandX = STRAND_LENGTHS.map((_, strand) => x0 + (span * (strand + 1)) / (slots - 1));
+  // Stop the garland at the outer strands so it does not run down the jambs beside them.
+  const leftX = strandX[0];
+  const rightX = strandX[strandX.length - 1];
+  const garlandCurve: Pt[] = [
+    { x: leftX, y: yAtX(curve, leftX) },
+    ...curve.filter((p) => p.x > leftX + 0.4 && p.x < rightX - 0.4),
+    { x: rightX, y: yAtX(curve, rightX) },
+  ];
+  const total = curveLength(garlandCurve);
+  const garlandCount = Math.max(2, Math.round(total / bloom) + 1);
+  const garland: Pt[] = [];
+  for (let i = 0; i < garlandCount; i++) {
+    garland.push(pointAtLength(garlandCurve, (total * i) / (garlandCount - 1)));
+  }
 
   const blooms: ToranBloom[] = [];
   const leaves: ToranLeaf[] = [];
   const bells: ToranBell[] = [];
 
   STRAND_LENGTHS.forEach((count, strand) => {
-    const x = x0 + (span * strand) / (STRAND_LENGTHS.length - 1);
+    const x = strandX[strand];
     const top = yAtX(curve, x);
     for (let k = 0; k < count; k++) {
       blooms.push({
@@ -190,8 +214,8 @@ export function layoutToran(width: number, height: number): ToranLayout {
       strand,
     });
     leaves.push(
-      { x: x - bloom * 0.42, y: top + bloom * 0.22, rot: 148, strand },
-      { x: x + bloom * 0.42, y: top + bloom * 0.22, rot: 32, strand },
+      { x: x - bloom * 0.78, y: top + bloom * 0.12, rot: 196, strand },
+      { x: x + bloom * 0.78, y: top + bloom * 0.12, rot: -16, strand },
     );
   });
 
