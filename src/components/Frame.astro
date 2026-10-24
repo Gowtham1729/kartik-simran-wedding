@@ -1,5 +1,6 @@
 ---
 import { assetPath } from "../lib/content";
+import { layoutToran } from "../lib/toran";
 
 interface Props {
   src?: string;
@@ -23,6 +24,10 @@ const {
   doorway = false,
 } = Astro.props;
 const file = src.trim();
+const toran = doorway ? layoutToran(390, 312) : null;
+
+const placed = (x: number, y: number, w: number, h: number, rot: number) =>
+  `translate(${x.toFixed(2)} ${y.toFixed(2)}) rotate(${rot.toFixed(2)}) translate(${(-w / 2).toFixed(2)} ${(-h / 2).toFixed(2)})`;
 ---
 <div class="frame">
   <div class="frame-clip">
@@ -44,67 +49,166 @@ const file = src.trim();
         {caption && <span>{alt}</span>}
       </div>
     )}
-    {doorway && (
-      <svg class="toran" viewBox="0 0 390 97" aria-hidden="true" focusable="false">
-      <defs>
-      <symbol id="toran-marigold" viewBox="0 0 64 64">
-        <ellipse cx="32.00" cy="16.50" rx="8.4" ry="14.2" fill="#F2A12C" transform="rotate(0.0 32.00 16.50)"></ellipse>
-        <ellipse cx="41.11" cy="19.46" rx="8.4" ry="14.2" fill="#F2A12C" transform="rotate(36.0 41.11 19.46)"></ellipse>
-        <ellipse cx="46.74" cy="27.21" rx="8.4" ry="14.2" fill="#F2A12C" transform="rotate(72.0 46.74 27.21)"></ellipse>
-        <ellipse cx="46.74" cy="36.79" rx="8.4" ry="14.2" fill="#F2A12C" transform="rotate(108.0 46.74 36.79)"></ellipse>
-        <ellipse cx="41.11" cy="44.54" rx="8.4" ry="14.2" fill="#F2A12C" transform="rotate(144.0 41.11 44.54)"></ellipse>
-        <ellipse cx="32.00" cy="47.50" rx="8.4" ry="14.2" fill="#F2A12C" transform="rotate(180.0 32.00 47.50)"></ellipse>
-        <ellipse cx="22.89" cy="44.54" rx="8.4" ry="14.2" fill="#F2A12C" transform="rotate(216.0 22.89 44.54)"></ellipse>
-        <ellipse cx="17.26" cy="36.79" rx="8.4" ry="14.2" fill="#F2A12C" transform="rotate(252.0 17.26 36.79)"></ellipse>
-        <ellipse cx="17.26" cy="27.21" rx="8.4" ry="14.2" fill="#F2A12C" transform="rotate(288.0 17.26 27.21)"></ellipse>
-        <ellipse cx="22.89" cy="19.46" rx="8.4" ry="14.2" fill="#F2A12C" transform="rotate(324.0 22.89 19.46)"></ellipse>
-        <ellipse cx="36.08" cy="19.45" rx="7.2" ry="12.4" fill="#E07A1F" transform="rotate(18.0 36.08 19.45)"></ellipse>
-        <ellipse cx="42.68" cy="24.24" rx="7.2" ry="12.4" fill="#E07A1F" transform="rotate(54.0 42.68 24.24)"></ellipse>
-        <ellipse cx="45.20" cy="32.00" rx="7.2" ry="12.4" fill="#E07A1F" transform="rotate(90.0 45.20 32.00)"></ellipse>
-        <ellipse cx="42.68" cy="39.76" rx="7.2" ry="12.4" fill="#E07A1F" transform="rotate(126.0 42.68 39.76)"></ellipse>
-        <ellipse cx="36.08" cy="44.55" rx="7.2" ry="12.4" fill="#E07A1F" transform="rotate(162.0 36.08 44.55)"></ellipse>
-        <ellipse cx="27.92" cy="44.55" rx="7.2" ry="12.4" fill="#E07A1F" transform="rotate(198.0 27.92 44.55)"></ellipse>
-        <ellipse cx="21.32" cy="39.76" rx="7.2" ry="12.4" fill="#E07A1F" transform="rotate(234.0 21.32 39.76)"></ellipse>
-        <ellipse cx="18.80" cy="32.00" rx="7.2" ry="12.4" fill="#E07A1F" transform="rotate(270.0 18.80 32.00)"></ellipse>
-        <ellipse cx="21.32" cy="24.24" rx="7.2" ry="12.4" fill="#E07A1F" transform="rotate(306.0 21.32 24.24)"></ellipse>
-        <ellipse cx="27.92" cy="19.45" rx="7.2" ry="12.4" fill="#E07A1F" transform="rotate(342.0 27.92 19.45)"></ellipse>
-        <ellipse cx="34.81" cy="24.30" rx="5.6" ry="8.6" fill="#F2A12C" transform="rotate(20.1 34.81 24.30)"></ellipse>
-        <ellipse cx="39.43" cy="28.54" rx="5.6" ry="8.6" fill="#F2A12C" transform="rotate(65.1 39.43 28.54)"></ellipse>
-        <ellipse cx="39.70" cy="34.81" rx="5.6" ry="8.6" fill="#F2A12C" transform="rotate(110.1 39.70 34.81)"></ellipse>
-        <ellipse cx="35.46" cy="39.43" rx="5.6" ry="8.6" fill="#F2A12C" transform="rotate(155.1 35.46 39.43)"></ellipse>
-        <ellipse cx="29.19" cy="39.70" rx="5.6" ry="8.6" fill="#F2A12C" transform="rotate(200.1 29.19 39.70)"></ellipse>
-        <ellipse cx="24.57" cy="35.46" rx="5.6" ry="8.6" fill="#F2A12C" transform="rotate(245.1 24.57 35.46)"></ellipse>
-        <ellipse cx="24.30" cy="29.19" rx="5.6" ry="8.6" fill="#F2A12C" transform="rotate(290.1 24.30 29.19)"></ellipse>
-        <ellipse cx="28.54" cy="24.57" rx="5.6" ry="8.6" fill="#F2A12C" transform="rotate(335.1 28.54 24.57)"></ellipse>
-        <ellipse cx="36.41" cy="32.89" rx="3.8" ry="5.4" fill="#E07A1F" transform="rotate(101.5 36.41 32.89)"></ellipse>
-        <ellipse cx="34.05" cy="36.01" rx="3.8" ry="5.4" fill="#E07A1F" transform="rotate(152.9 34.05 36.01)"></ellipse>
-        <ellipse cx="30.15" cy="36.10" rx="3.8" ry="5.4" fill="#E07A1F" transform="rotate(204.3 30.15 36.10)"></ellipse>
-        <ellipse cx="27.64" cy="33.11" rx="3.8" ry="5.4" fill="#E07A1F" transform="rotate(255.7 27.64 33.11)"></ellipse>
-        <ellipse cx="28.41" cy="29.28" rx="3.8" ry="5.4" fill="#E07A1F" transform="rotate(307.2 28.41 29.28)"></ellipse>
-        <ellipse cx="31.89" cy="27.50" rx="3.8" ry="5.4" fill="#E07A1F" transform="rotate(358.6 31.89 27.50)"></ellipse>
-        <ellipse cx="35.45" cy="29.11" rx="3.8" ry="5.4" fill="#E07A1F" transform="rotate(410.0 35.45 29.11)"></ellipse>
-        <circle cx="32" cy="32" r="7.4" fill="#7A320C"></circle>
-        <circle cx="30.8" cy="30.6" r="2.5" fill="#E07A1F"></circle>
-      </symbol>
-      <symbol id="toran-leaf" viewBox="0 0 22 40">
-        <path fill="#123D2F" d="M11 1.2C16.4 7.2 19.4 14.2 17.5 25.6C16.3 32.4 13.3 37.4 11 38.8C8.7 37.4 5.7 32.4 4.5 25.6C2.6 14.2 5.6 7.2 11 1.2Z"></path>
-        <path fill="none" stroke="#0C2E22" stroke-width="0.85" stroke-linecap="round" d="M11 6C11.1 15 10.9 26 11 35.5"></path>
-        <path fill="none" stroke="#1C5340" stroke-width="0.55" stroke-linecap="round" d="M11 13L6.8 17.4M11 20L15.4 24.6M11 27L7.4 31.2"></path>
-      </symbol>
-      <symbol id="toran-bell" viewBox="0 0 16 22">
-        <circle cx="8" cy="2.1" r="1.15" fill="none" stroke="#CE266E" stroke-width="1.15"></circle>
-        <path stroke="#CE266E" stroke-width="1.15" stroke-linecap="round" d="M8 3.2V5.1"></path>
-        <path fill="#CE266E" d="M3.2 8.6C3.2 6.1 5 5.2 8 5.2C11 5.2 12.8 6.1 12.8 8.6C13.5 12.6 12.2 15.8 8 16.7C3.8 15.8 2.5 12.6 3.2 8.6Z"></path>
-        <path fill="#F0A0C2" d="M5.1 9.4C5.5 7.6 6.6 6.9 8 6.9C8.4 6.9 8.1 8.8 7.5 10.4C7 11.5 6.1 11.6 5.5 10.6C5.1 10 4.9 9.7 5.1 9.4Z"></path>
-        <circle cx="8" cy="18.5" r="1.35" fill="#CE266E"></circle>
-      </symbol>
-      </defs>
-        
-<use href="#toran-leaf" width="12" height="22" transform="translate(165.00 55.00) rotate(-24) translate(-6 -1)"></use>        <use href="#toran-leaf" width="12" height="22" transform="translate(195.00 55.00) rotate(4) translate(-6 -1)"></use>        <use href="#toran-leaf" width="12" height="22" transform="translate(225.00 55.00) rotate(24) translate(-6 -1)"></use>        <use href="#toran-marigold" width="14" height="14" transform="translate(154.00 46.00) rotate(-10) translate(-7 -7)"></use>        <use href="#toran-marigold" width="14" height="14" transform="translate(162.25 52.79) rotate(7) translate(-7 -7)"></use>        <use href="#toran-marigold" width="14" height="14" transform="translate(171.75 48.80) rotate(-4) translate(-7 -7)"></use>        <use href="#toran-marigold" width="14" height="14" transform="translate(177.94 56.36) rotate(13) translate(-7 -7)"></use>        <use href="#toran-marigold" width="14" height="14" transform="translate(185.55 62.83) rotate(2) translate(-7 -7)"></use>        <use href="#toran-marigold" width="14" height="14" transform="translate(191.95 54.43) rotate(-9) translate(-7 -7)"></use>        <use href="#toran-marigold" width="14" height="14" transform="translate(195.00 46.00) rotate(8) translate(-7 -7)"></use>        <use href="#toran-marigold" width="14" height="14" transform="translate(206.55 62.83) rotate(-3) translate(-7 -7)"></use>        <use href="#toran-marigold" width="14" height="14" transform="translate(212.95 54.43) rotate(14) translate(-7 -7)"></use>        <use href="#toran-marigold" width="14" height="14" transform="translate(216.00 46.00) rotate(3) translate(-7 -7)"></use>        <use href="#toran-marigold" width="14" height="14" transform="translate(224.25 52.79) rotate(-8) translate(-7 -7)"></use>        <use href="#toran-marigold" width="14" height="14" transform="translate(233.75 48.80) rotate(9) translate(-7 -7)"></use>        <use href="#toran-marigold" width="14" height="14" transform="translate(164.00 63.80) rotate(0) translate(-7 -7)"></use>        <use href="#toran-bell" width="7.4" height="9.2" x="160.30" y="68.60"></use>        <use href="#toran-marigold" width="14" height="14" transform="translate(174.00 56.80) rotate(0) translate(-7 -7)"></use>        <use href="#toran-marigold" width="14" height="14" transform="translate(174.00 67.60) rotate(-7) translate(-7 -7)"></use>        <use href="#toran-bell" width="7.4" height="9.2" x="170.30" y="72.40"></use>        <use href="#toran-marigold" width="14" height="14" transform="translate(184.50 73.80) rotate(0) translate(-7 -7)"></use>        <use href="#toran-bell" width="7.4" height="9.2" x="180.80" y="78.60"></use>        <use href="#toran-marigold" width="14" height="14" transform="translate(195.00 56.80) rotate(0) translate(-7 -7)"></use>        <use href="#toran-marigold" width="14" height="14" transform="translate(195.00 67.60) rotate(-7) translate(-7 -7)"></use>        <use href="#toran-marigold" width="14" height="14" transform="translate(195.00 78.40) rotate(12) translate(-7 -7)"></use>        <use href="#toran-bell" width="7.4" height="9.2" x="191.30" y="83.20"></use>        <use href="#toran-marigold" width="14" height="14" transform="translate(205.50 73.80) rotate(0) translate(-7 -7)"></use>        <use href="#toran-bell" width="7.4" height="9.2" x="201.80" y="78.60"></use>        <use href="#toran-marigold" width="14" height="14" transform="translate(216.00 56.80) rotate(0) translate(-7 -7)"></use>        <use href="#toran-marigold" width="14" height="14" transform="translate(216.00 67.60) rotate(-7) translate(-7 -7)"></use>        <use href="#toran-bell" width="7.4" height="9.2" x="212.30" y="72.40"></use>        <use href="#toran-marigold" width="14" height="14" transform="translate(226.00 63.80) rotate(0) translate(-7 -7)"></use>        <use href="#toran-bell" width="7.4" height="9.2" x="222.30" y="68.60"></use>
-    </svg>
+    {toran && (
+      <svg class="toran" data-toran viewBox="0 0 390 312" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false">
+        <defs>
+          <symbol id="toran-marigold" viewBox="0 0 64 64">
+            <ellipse cx="32.00" cy="16.50" rx="8.4" ry="14.2" fill="#F2A12C" transform="rotate(0.0 32.00 16.50)"></ellipse>
+            <ellipse cx="41.11" cy="19.46" rx="8.4" ry="14.2" fill="#F2A12C" transform="rotate(36.0 41.11 19.46)"></ellipse>
+            <ellipse cx="46.74" cy="27.21" rx="8.4" ry="14.2" fill="#F2A12C" transform="rotate(72.0 46.74 27.21)"></ellipse>
+            <ellipse cx="46.74" cy="36.79" rx="8.4" ry="14.2" fill="#F2A12C" transform="rotate(108.0 46.74 36.79)"></ellipse>
+            <ellipse cx="41.11" cy="44.54" rx="8.4" ry="14.2" fill="#F2A12C" transform="rotate(144.0 41.11 44.54)"></ellipse>
+            <ellipse cx="32.00" cy="47.50" rx="8.4" ry="14.2" fill="#F2A12C" transform="rotate(180.0 32.00 47.50)"></ellipse>
+            <ellipse cx="22.89" cy="44.54" rx="8.4" ry="14.2" fill="#F2A12C" transform="rotate(216.0 22.89 44.54)"></ellipse>
+            <ellipse cx="17.26" cy="36.79" rx="8.4" ry="14.2" fill="#F2A12C" transform="rotate(252.0 17.26 36.79)"></ellipse>
+            <ellipse cx="17.26" cy="27.21" rx="8.4" ry="14.2" fill="#F2A12C" transform="rotate(288.0 17.26 27.21)"></ellipse>
+            <ellipse cx="22.89" cy="19.46" rx="8.4" ry="14.2" fill="#F2A12C" transform="rotate(324.0 22.89 19.46)"></ellipse>
+            <ellipse cx="36.08" cy="19.45" rx="7.2" ry="12.4" fill="#E07A1F" transform="rotate(18.0 36.08 19.45)"></ellipse>
+            <ellipse cx="42.68" cy="24.24" rx="7.2" ry="12.4" fill="#E07A1F" transform="rotate(54.0 42.68 24.24)"></ellipse>
+            <ellipse cx="45.20" cy="32.00" rx="7.2" ry="12.4" fill="#E07A1F" transform="rotate(90.0 45.20 32.00)"></ellipse>
+            <ellipse cx="42.68" cy="39.76" rx="7.2" ry="12.4" fill="#E07A1F" transform="rotate(126.0 42.68 39.76)"></ellipse>
+            <ellipse cx="36.08" cy="44.55" rx="7.2" ry="12.4" fill="#E07A1F" transform="rotate(162.0 36.08 44.55)"></ellipse>
+            <ellipse cx="27.92" cy="44.55" rx="7.2" ry="12.4" fill="#E07A1F" transform="rotate(198.0 27.92 44.55)"></ellipse>
+            <ellipse cx="21.32" cy="39.76" rx="7.2" ry="12.4" fill="#E07A1F" transform="rotate(234.0 21.32 39.76)"></ellipse>
+            <ellipse cx="18.80" cy="32.00" rx="7.2" ry="12.4" fill="#E07A1F" transform="rotate(270.0 18.80 32.00)"></ellipse>
+            <ellipse cx="21.32" cy="24.24" rx="7.2" ry="12.4" fill="#E07A1F" transform="rotate(306.0 21.32 24.24)"></ellipse>
+            <ellipse cx="27.92" cy="19.45" rx="7.2" ry="12.4" fill="#E07A1F" transform="rotate(342.0 27.92 19.45)"></ellipse>
+            <ellipse cx="34.81" cy="24.30" rx="5.6" ry="8.6" fill="#F2A12C" transform="rotate(20.1 34.81 24.30)"></ellipse>
+            <ellipse cx="39.43" cy="28.54" rx="5.6" ry="8.6" fill="#F2A12C" transform="rotate(65.1 39.43 28.54)"></ellipse>
+            <ellipse cx="39.70" cy="34.81" rx="5.6" ry="8.6" fill="#F2A12C" transform="rotate(110.1 39.70 34.81)"></ellipse>
+            <ellipse cx="35.46" cy="39.43" rx="5.6" ry="8.6" fill="#F2A12C" transform="rotate(155.1 35.46 39.43)"></ellipse>
+            <ellipse cx="29.19" cy="39.70" rx="5.6" ry="8.6" fill="#F2A12C" transform="rotate(200.1 29.19 39.70)"></ellipse>
+            <ellipse cx="24.57" cy="35.46" rx="5.6" ry="8.6" fill="#F2A12C" transform="rotate(245.1 24.57 35.46)"></ellipse>
+            <ellipse cx="24.30" cy="29.19" rx="5.6" ry="8.6" fill="#F2A12C" transform="rotate(290.1 24.30 29.19)"></ellipse>
+            <ellipse cx="28.54" cy="24.57" rx="5.6" ry="8.6" fill="#F2A12C" transform="rotate(335.1 28.54 24.57)"></ellipse>
+            <ellipse cx="36.41" cy="32.89" rx="3.8" ry="5.4" fill="#E07A1F" transform="rotate(101.5 36.41 32.89)"></ellipse>
+            <ellipse cx="34.05" cy="36.01" rx="3.8" ry="5.4" fill="#E07A1F" transform="rotate(152.9 34.05 36.01)"></ellipse>
+            <ellipse cx="30.15" cy="36.10" rx="3.8" ry="5.4" fill="#E07A1F" transform="rotate(204.3 30.15 36.10)"></ellipse>
+            <ellipse cx="27.64" cy="33.11" rx="3.8" ry="5.4" fill="#E07A1F" transform="rotate(255.7 27.64 33.11)"></ellipse>
+            <ellipse cx="28.41" cy="29.28" rx="3.8" ry="5.4" fill="#E07A1F" transform="rotate(307.2 28.41 29.28)"></ellipse>
+            <ellipse cx="31.89" cy="27.50" rx="3.8" ry="5.4" fill="#E07A1F" transform="rotate(358.6 31.89 27.50)"></ellipse>
+            <ellipse cx="35.45" cy="29.11" rx="3.8" ry="5.4" fill="#E07A1F" transform="rotate(410.0 35.45 29.11)"></ellipse>
+            <circle cx="32" cy="32" r="7.4" fill="#7A320C"></circle>
+            <circle cx="30.8" cy="30.6" r="2.5" fill="#E07A1F"></circle>
+          </symbol>
+          <symbol id="toran-leaf" viewBox="0 0 24 10">
+            <path fill="#123D2F" stroke="#F7F1E6" stroke-width="1.45" stroke-linejoin="round" d="M1.7 5C6.4 1.05 15.6 0.45 22.4 5C15.6 8.95 6.4 8.35 1.7 5Z"></path>
+            <path fill="none" stroke="#DCEFE4" stroke-width="1.05" stroke-linecap="round" d="M4 5C9.2 4.55 16.2 4.5 20.2 5"></path>
+          </symbol>
+          <symbol id="toran-bell" viewBox="0 0 14 16">
+            <circle cx="7" cy="1.15" r="0.95" fill="none" stroke="#CE266E" stroke-width="0.9"></circle>
+            <path stroke="#CE266E" stroke-width="0.8" stroke-linecap="round" d="M7 2.05V3.25"></path>
+            <path fill="#CE266E" d="M4.5 3.6C3 3.95 1.95 5.6 1.6 7.4C1.3 8.95 0.75 9.55 0.95 10.15H13.05C13.25 9.55 12.7 8.95 12.4 7.4C12.05 5.6 11 3.95 9.5 3.6C8.8 3.4 7.9 3.9 7 3.9C6.1 3.9 5.2 3.4 4.5 3.6Z"></path>
+            <path fill="#9E1A54" d="M3.15 8.65C4.3 9.4 5.6 9.65 7 9.65C8.4 9.65 9.7 9.4 10.85 8.65C10.2 9.2 8.7 9.95 7 9.95C5.3 9.95 3.8 9.2 3.15 8.65Z"></path>
+            <path stroke="#CE266E" stroke-width="0.85" stroke-linecap="round" d="M4.55 10.4L3.95 14.7M7 10.5V15.2M9.45 10.4L10.05 14.7"></path>
+          </symbol>
+        </defs>
+        {toran.leaves.map((leaf) => (
+          <use
+            class="toran-part"
+            href="#toran-leaf"
+            data-role="leaf"
+            data-strand={leaf.strand}
+            width={toran.leafLength.toFixed(2)}
+            height={toran.leafWidth.toFixed(2)}
+            transform={placed(leaf.x, leaf.y, toran.leafLength, toran.leafWidth, leaf.rot)}
+          />
+        ))}
+        {toran.blooms.map((bloom) => (
+          <use
+            class="toran-part"
+            href="#toran-marigold"
+            data-role={bloom.role}
+            data-strand={bloom.strand}
+            width={toran.bloom.toFixed(2)}
+            height={toran.bloom.toFixed(2)}
+            transform={placed(bloom.x, bloom.y, toran.bloom, toran.bloom, bloom.rot)}
+          />
+        ))}
+        {toran.bells.map((bell) => (
+          <use
+            class="toran-part"
+            href="#toran-bell"
+            data-role="bell"
+            data-strand={bell.strand}
+            width={toran.bellWidth.toFixed(2)}
+            height={toran.bellHeight.toFixed(2)}
+            transform={placed(bell.x, bell.y, toran.bellWidth, toran.bellHeight, 0)}
+          />
+        ))}
+      </svg>
     )}
   </div>
   <svg class="frame-stroke" viewBox="0 0 100 128" preserveAspectRatio="none" aria-hidden="true">
     <path d="M14 128 L14 62 C14 36 32 16 50 6 C68 16 86 36 86 62 L86 128" fill="none"></path>
   </svg>
 </div>
+<script>
+  import { layoutToran } from "../lib/toran";
+
+  const paint = () => {
+    document.querySelectorAll<SVGSVGElement>("[data-toran]").forEach((svg) => {
+      const frame = svg.closest(".frame");
+      if (!frame) return;
+      const rect = frame.getBoundingClientRect();
+      const w = rect.width;
+      const h = rect.height;
+      if (w < 8 || h < 8) return;
+      const prevW = Number(svg.dataset.laidW || 0);
+      const prevH = Number(svg.dataset.laidH || 0);
+      if (Math.abs(prevW - w) < 0.5 && Math.abs(prevH - h) < 0.5) return;
+      svg.dataset.laidW = String(w);
+      svg.dataset.laidH = String(h);
+
+      const layout = layoutToran(w, h);
+      svg.setAttribute("viewBox", `0 0 ${w} ${h}`);
+      svg.setAttribute("preserveAspectRatio", "none");
+      svg.querySelectorAll(".toran-part").forEach((node) => node.remove());
+
+      const ns = "http://www.w3.org/2000/svg";
+      const add = (
+        href: string,
+        x: number,
+        y: number,
+        partW: number,
+        partH: number,
+        rot: number,
+        role: string,
+        strand: number,
+      ) => {
+        const el = document.createElementNS(ns, "use");
+        el.setAttribute("class", "toran-part");
+        el.setAttribute("href", href);
+        el.setAttribute("width", partW.toFixed(2));
+        el.setAttribute("height", partH.toFixed(2));
+        el.setAttribute("data-role", role);
+        el.setAttribute("data-strand", String(strand));
+        el.setAttribute(
+          "transform",
+          `translate(${x.toFixed(2)} ${y.toFixed(2)}) rotate(${rot.toFixed(2)}) translate(${(-partW / 2).toFixed(2)} ${(-partH / 2).toFixed(2)})`,
+        );
+        svg.appendChild(el);
+      };
+
+      for (const leaf of layout.leaves) {
+        add("#toran-leaf", leaf.x, leaf.y, layout.leafLength, layout.leafWidth, leaf.rot, "leaf", leaf.strand);
+      }
+      for (const bloom of layout.blooms) {
+        add("#toran-marigold", bloom.x, bloom.y, layout.bloom, layout.bloom, bloom.rot, bloom.role, bloom.strand);
+      }
+      for (const bell of layout.bells) {
+        add("#toran-bell", bell.x, bell.y, layout.bellWidth, layout.bellHeight, 0, "bell", bell.strand);
+      }
+    });
+  };
+
+  const kick = () => {
+    paint();
+    requestAnimationFrame(paint);
+  };
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", kick);
+  else kick();
+  window.addEventListener("resize", paint, { passive: true });
+  const framed = document.querySelector("[data-toran]")?.closest(".frame");
+  if (framed && "ResizeObserver" in window) new ResizeObserver(() => paint()).observe(framed);
+</script>
