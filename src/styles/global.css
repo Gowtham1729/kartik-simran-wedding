@@ -222,6 +222,13 @@ a:hover {
   display: block;
 }
 
+.header-tools {
+  display: none;
+  margin-left: auto;
+  align-items: center;
+  gap: 1.2rem;
+}
+
 .nav {
   display: none;
 }
@@ -441,13 +448,12 @@ a:hover {
 .toran {
   position: absolute;
   z-index: 1;
-  left: 50%;
-  top: 8%;
-  width: 70%;
+  left: 0;
+  top: 6%;
+  width: 100%;
   height: auto;
-  transform: translateX(-50%);
-  overflow: visible;
   pointer-events: none;
+  transform-origin: 50% 0;
 }
 
 .frame-hold span {
@@ -678,7 +684,21 @@ a:hover {
 .site-footer {
   background: var(--green);
   color: var(--ivory);
-  padding: clamp(3.25rem, 8vw, 6rem) var(--pad) calc(5.25rem + env(safe-area-inset-bottom));
+  padding: clamp(3.25rem, 8vw, 6rem) var(--pad) clamp(2.75rem, 7vw, 4.5rem);
+}
+
+@media (max-width: 879px) {
+  body:has(.sticky-reply) {
+    scroll-padding-bottom: calc(3.75rem + env(safe-area-inset-bottom));
+  }
+
+  body:has(.sticky-reply) .hero {
+    padding-bottom: calc(1.25rem + 3.75rem + env(safe-area-inset-bottom));
+  }
+
+  body:has(.sticky-reply) .site-footer {
+    padding-bottom: calc(3.75rem + env(safe-area-inset-bottom));
+  }
 }
 
 .sign {
@@ -740,6 +760,7 @@ a:hover {
 }
 
 @media (min-width: 880px) {
+  .header-tools,
   .nav,
   .reply-btn {
     display: flex;
@@ -757,8 +778,8 @@ a:hover {
   .section,
   .band,
   .site-footer {
-    padding-left: max(var(--pad), calc((100% - 1200px) / 2));
-    padding-right: max(var(--pad), calc((100% - 1200px) / 2));
+    padding-left: max(var(--pad), calc((100% - 1100px) / 2));
+    padding-right: max(var(--pad), calc((100% - 1100px) / 2));
   }
 
   .site-header {
@@ -766,22 +787,28 @@ a:hover {
   }
 
   .hero {
-    display: grid;
-    grid-template-columns: 1.22fr 1fr;
-    grid-template-areas: "copy frame";
-    align-items: center;
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    justify-content: center;
+    gap: 12px;
+    box-sizing: border-box;
+    width: min(1100px, 100%);
+    margin-inline: auto;
     min-height: 85vh;
-    width: 100%;
-    padding: 1.5rem max(var(--pad), calc((100% - 1200px) / 2));
+    padding: 0 0 64px;
   }
 
   .hero-copy {
-    grid-area: copy;
-    padding: 0 2.5rem 0 0;
+    align-self: center;
+    width: max-content;
+    max-width: 46%;
+    padding: 0;
   }
 
   .hero-frame {
-    grid-area: frame;
+    flex: 0 0 46%;
+    width: 46%;
     align-self: stretch;
     display: flex;
     min-height: 0;
@@ -805,6 +832,10 @@ a:hover {
     height: 100%;
     aspect-ratio: auto;
     min-height: 0;
+  }
+
+  .toran {
+    top: 7%;
   }
 
   .split,
@@ -839,6 +870,21 @@ a:hover {
 @media (prefers-reduced-motion: no-preference) {
   html {
     scroll-behavior: smooth;
+  }
+
+  .toran {
+    transform-origin: 50% 0;
+    animation: toran-sway 14s ease-in-out infinite;
+  }
+
+  @keyframes toran-sway {
+    0%,
+    100% {
+      transform: rotate(-0.6deg);
+    }
+    50% {
+      transform: rotate(0.6deg);
+    }
   }
 
   @supports ((animation-timeline: view()) and (animation-range: entry)) {

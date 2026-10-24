@@ -29,12 +29,14 @@ const label = wedding.rsvp.label.trim() || "RSVP";
   </div>
 </section>
 
-<a
-  class="sticky-reply"
-  href={reply ? reply.href : "#rsvp"}
-  target={reply?.external ? "_blank" : undefined}
-  rel={reply?.external ? "noopener" : undefined}
->
-  {label}
-  {reply?.external && <span class="visually-hidden"> (opens in a new tab)</span>}
-</a>
+{reply && (
+  <a
+    class="sticky-reply"
+    href={reply.href}
+    target={reply.external ? "_blank" : undefined}
+    rel={reply.external ? "noopener" : undefined}
+  >
+    {label}
+    {reply.external && <span class="visually-hidden"> (opens in a new tab)</span>}
+  </a>
+)}

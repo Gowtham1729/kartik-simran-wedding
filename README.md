@@ -42,12 +42,12 @@ There is no form on this site and nowhere for replies to be stored. Set `rsvp.mo
 
 | mode | value | What the guest gets |
 | --- | --- | --- |
-| `""` | `""` | The section says "RSVP is not open yet". The button scrolls there. |
+| `""` | `""` | The section says "RSVP is not open yet". No RSVP button yet. |
 | `"url"` | a Google Form link, or any https link | Recommended. Opens in a new tab. |
 | `"mailto"` | an email address | Opens an email with the subject filled in. |
 | `"whatsapp"` | digits only, country code included, such as `"919876543210"` | Opens WhatsApp. `whatsappMessage` is optional prefilled text. |
 
-`"url"` is the right choice once you know the questions you want to ask. On a phone the RSVP button stays on screen.
+`"url"` is the right choice once you know the questions you want to ask. The header button and the phone button appear only after `mode` and `value` are set. Until then the section says RSVP is not open yet.
 
 ## Preview
 

@@ -112,7 +112,8 @@ export interface Wedding {
   gallery: FrameImage[];
   /**
    * Replies are a link, not a form hosted here.
-   * mode "" keeps the reply section, and it says replies are not open yet.
+   * The RSVP section always shows. The buttons stay hidden until this is open:
+   * set mode and value together.
    * "url": put a Google Form (or any https) link in value. Recommended.
    * "mailto": an email address, not a mailto: string.
    * "whatsapp": country code and number, digits only, for example "919876543210".

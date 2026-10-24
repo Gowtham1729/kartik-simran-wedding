@@ -42,10 +42,11 @@ const imageAlt = pageTitle();
       .names .line, .names .and { display: block; white-space: nowrap; }
       .names .and { font-size: 0.38em; line-height: 1.1; margin: 0.18em 0 0.08em; letter-spacing: 0; }
       @media (min-width: 880px) {
-        .nav, .reply-btn { display: flex; }
-        .hero { display: grid; grid-template-columns: 1.22fr 1fr; grid-template-areas: "copy frame"; align-items: center; min-height: 85vh; width: 100%; padding: 1.5rem max(clamp(1.25rem, 4.5vw, 4.5rem), calc((100% - 1200px) / 2)); }
-        .hero-copy { grid-area: copy; padding: 0 2.5rem 0 0; }
-        .hero-frame { grid-area: frame; display: flex; align-self: stretch; min-height: 0; }
+        .header-tools, .nav, .reply-btn { display: flex; }
+        .header-tools { align-items: center; gap: 1.2rem; margin-left: auto; }
+        .hero { display: flex; flex-direction: row; align-items: stretch; justify-content: center; gap: 12px; box-sizing: border-box; width: min(1100px, 100%); margin-inline: auto; min-height: 85vh; padding: 0 0 64px; }
+        .hero-copy { align-self: center; width: max-content; max-width: 46%; padding: 0; }
+        .hero-frame { flex: 0 0 46%; width: 46%; display: flex; align-self: stretch; min-height: 0; }
         .hero-frame .frame { aspect-ratio: auto; min-height: 0; width: 100%; height: 100%; }
         .names { font-size: clamp(5.5rem, 7.4vw, 8.75rem); }
       }

@@ -26,13 +26,13 @@ The design lead's direction, October 2026, replaces the earlier wheat stitch and
 
 ## Direction
 
-Ivory `#F7F1E6`. Bottle green `#123D2F` for type and for the functions band and the footer. Rani `#CE266E` only for the reply control, links, and small marks. The brief's `#D2266E` is about 4.4:1 on the ivory, which fails ordinary text contrast, so the red is one step deeper. Rani on the green band is too faint, so links on that band are ivory. Gold `#B08A3E` is a flat 1px hairline, never text. Marigold `#E39A14` is the 7px square on the timeline and nothing else. A screen shows at most those three colours plus the ivory.
+Ivory `#F7F1E6`. Bottle green `#123D2F` for type and for the functions band and the footer. Rani `#CE266E` only for the reply control, links, and small marks. The brief's `#D2266E` is about 4.4:1 on the ivory, which fails ordinary text contrast, so the red is one step deeper. Rani on the green band is too faint, so links on that band are ivory. Gold `#B08A3E` is a flat 1px hairline, never text. Marigold is the 7px timeline square (`#E39A14`) and the toran blooms (`#F2A12C` and `#E07A1F`). A screen shows at most those three colours plus the ivory.
 
-The motif is the arch. Phulkari, if it appears, is one thin diamond line between the story and the functions. No mandala, paisley, diya, elephant, petal, or toran.
+The motif is the arch. Phulkari, if it appears, is one thin diamond line between the story and the functions. No mandala, paisley, diya, elephant, or petal. The toran is line-art on that one arch: a hairline, four scallops, mango-leaf triangles in bottle green, and seven strands of stacked blooms. It hangs inside the arch mask, just below the gold tip.
 
 The hero is the names, then the date and Punjab, India in small caps, then one arched photograph. Until `heroPhoto` is set, the arch holds a dusk gradient, marigold at the foot and peach with soft rani above, with a little grain. A line-art marigold toran hangs across the top of the arch. It is part of the doorway, still the one motif. The functions list renders one card, "Function to be confirmed", until a real function is entered. Story, venue, travel, dress, photographs, and questions stay off until their fields are filled in. It does not invent a Jaggo or a Sangeet.
 
-Motion is a short rise as a section enters, opacity and transform only, inside `prefers-reduced-motion: no-preference` and `@supports ((animation-timeline: view()) and (animation-range: entry))`. The timeline is declared after the `animation` shorthand. There is no polyfill. The hero, which is the first thing on the page, does not animate. The countdown is a sentence, not a flip clock.
+Motion is a short rise as a section enters, opacity and transform only, inside `prefers-reduced-motion: no-preference` and `@supports ((animation-timeline: view()) and (animation-range: entry))`. The timeline is declared after the `animation` shorthand. There is no polyfill. The hero, which is the first thing on the page, does not rise. The toran may sway, a slow rotation of under a degree, and that sway is off when reduced motion is requested. The countdown is a sentence, not a flip clock.
 
 Chrome's modern-web-guidance note on scroll entry (skill text dated 2026-05-16, current package 2026-10-16) is the source for that motion. The installed skill is behind the package. Update it from [the project docs](https://github.com/GoogleChrome/modern-web-guidance#updating). The parallax guide came back in the same search and was not used.
 
@@ -46,7 +46,7 @@ Asset URLs in `index.html` are rewritten to relative paths after the build (`scr
 
 ## RSVP
 
-No form is hosted here. `rsvp.mode` is `""`, `"url"`, `"mailto"`, or `"whatsapp"`. Empty still shows the RSVP section, and it says RSVP is not open yet. The RSVP control stays on screen on a phone and jumps to that section. `"url"` is the one to use once the questions are known: paste a Google Form link. Nothing is stored on this site.
+No form is hosted here. `rsvp.mode` is `""`, `"url"`, `"mailto"`, or `"whatsapp"`. Empty still shows the RSVP section, and it says RSVP is not open yet. The header button and the phone button stay off until `mode` and `value` are both set. When the phone button is on, the page keeps a bottom pad equal to that button so it does not cover the last content. `"url"` is the one to use once the questions are known: paste a Google Form link. Nothing is stored on this site.
 
 ## Still open
 

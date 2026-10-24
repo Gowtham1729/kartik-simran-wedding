@@ -6,7 +6,7 @@ import { namesLine } from "../lib/format";
 const items = navItems();
 const reply = rsvpLink(wedding);
 const home = import.meta.env.BASE_URL;
-const replyHref = reply?.href ?? `${home}#rsvp`;
+const showNav = items.length > 1;
 ---
 <header class="site-header">
   <a class="brand" href={home} aria-label={namesLine(wedding)}>
@@ -15,20 +15,28 @@ const replyHref = reply?.href ?? `${home}#rsvp`;
     </svg>
     <span translate="no">{wedding.partnerOne} <i>and</i> {wedding.partnerTwo}</span>
   </a>
-  <nav class="nav" aria-label="Sections">
-    <ul>
-      {items.map((item) => (
-        <li><a href={item.href}>{item.label}</a></li>
-      ))}
-    </ul>
-  </nav>
-  <a
-    class="reply-btn"
-    href={replyHref}
-    target={reply?.external ? "_blank" : undefined}
-    rel={reply?.external ? "noopener" : undefined}
-  >
-    {wedding.rsvp.label || "RSVP"}
-    {reply?.external && <span class="visually-hidden"> (opens in a new tab)</span>}
-  </a>
+  {(showNav || reply) && (
+    <div class="header-tools">
+      {showNav && (
+        <nav class="nav" aria-label="Sections">
+          <ul>
+            {items.map((item) => (
+              <li><a href={item.href}>{item.label}</a></li>
+            ))}
+          </ul>
+        </nav>
+      )}
+      {reply && (
+        <a
+          class="reply-btn"
+          href={reply.href}
+          target={reply.external ? "_blank" : undefined}
+          rel={reply.external ? "noopener" : undefined}
+        >
+          {reply.label}
+          {reply.external && <span class="visually-hidden"> (opens in a new tab)</span>}
+        </a>
+      )}
+    </div>
+  )}
 </header>
