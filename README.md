@@ -13,7 +13,7 @@ public/                   Favicon, share image, and any photographs.
 docs/design-research.md   Why the page looks like this.
 ```
 
-The design is a letterpress sheet whose vermillion pass is slightly out of register. You can see it on the day number, on the word "and", and in the two rules at the left edge. Names are Brygada 1918, reading text is Newsreader, the clock and the folio are Azeret Mono. All three are SIL Open Font License, subset, and self-hosted. Licenses are in `src/assets/fonts/`.
+The design is a Punjabi wedding invitation on a wheat ground: Eczar for the names, a rani stitch down the margin, and one marigold diamond. Reading text is Newsreader. The clock and the folio are Azeret Mono. All three are SIL Open Font License, subset, and self-hosted. Licenses are in `src/assets/fonts/`.
 
 ## Edit the content
 
@@ -89,13 +89,13 @@ GitHub Pages is on a project path today. A custom domain is served from the root
 
 ## Look
 
-`src/styles/global.css` starts with the tokens: paper, ink, vermillion, and the three families. The vermillion rule is the second press pass. It is slightly to the right of the ink rule, and it draws itself on load. Scrolling drifts it a little further where the browser supports scroll-linked animation. Reduced motion shows both rules, already offset, and the countdown numbers change without the tick.
+`src/styles/global.css` starts with the tokens: wheat, ink, rani, marigold, and the three families. A column of rani stitches draws down the left edge on load. Reduced motion shows the stitches already there, and the countdown numbers change without the tick.
 
 ## Fonts
 
 | Family | Role | License |
 | --- | --- | --- |
-| Brygada 1918 | Names, the day number, headings | SIL OFL |
+| Eczar | Names, the day number, headings | SIL OFL |
 | Newsreader | Prose, the word "and" | SIL OFL |
 | Azeret Mono | The folio, the countdown | SIL OFL |
 

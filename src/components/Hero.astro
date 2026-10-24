@@ -1,6 +1,7 @@
 ---
 import { wedding } from "../config/wedding";
 import { heroModel } from "../lib/content";
+import Mark from "./Mark.astro";
 
 const hero = heroModel(wedding);
 const [first, second] = hero.partners;
@@ -15,12 +16,13 @@ const [first, second] = hero.partners;
       <span class="line" translate="no">{second}</span>
     </h1>
 
+    <span class="join" aria-hidden="true"><Mark size={84} /></span>
+
     {hero.parts && (
       <p class="datemark">
         <span class="visually-hidden">{hero.longDate}</span>
         <span class="part" aria-hidden="true">{hero.parts.weekdayShort}</span>
         <span class="num" aria-hidden="true">
-          <span class="num-red">{hero.parts.day}</span>
           <span class="num-ink">{hero.parts.day}</span>
         </span>
         <span class="part" aria-hidden="true">{hero.parts.monthShort} {hero.parts.year}</span>

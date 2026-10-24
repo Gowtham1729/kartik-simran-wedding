@@ -24,7 +24,7 @@ const imageAlt = pageTitle();
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#efe7d8" />
+    <meta name="theme-color" content="#f4e6c4" />
     <meta name="color-scheme" content="light" />
     <meta name="format-detection" content="telephone=no" />
     <link rel="canonical" href={canonical} />
@@ -53,10 +53,7 @@ const imageAlt = pageTitle();
     {jsonLd && <script is:inline type="application/ld+json" set:html={jsonLd} />}
   </head>
   <body>
-    <div class="spine" aria-hidden="true">
-      <span class="spine-ink"></span>
-      <span class="spine-red"></span>
-    </div>
+    <div class="stitch" aria-hidden="true"></div>
     <a class="skip" href="#main">Skip to content</a>
     <Header />
     <main id="main">
