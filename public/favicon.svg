@@ -1,9 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
   <title>Kartik and Simran</title>
-  <rect width="32" height="32" fill="#efe7d8"/>
-  <g fill="none" stroke="#1c1612" stroke-width="1.5" stroke-linecap="square">
-    <circle cx="13.5" cy="13.5" r="8"/>
-    <path d="M13.5 2.2v5.2M13.5 19.6v6.2M2.2 13.5h5.2M19.6 13.5h6.2"/>
-  </g>
-  <rect x="16.4" y="16.4" width="6.6" height="6.6" fill="#c43822"/>
+  <rect width="32" height="32" fill="#f4e6c4"/>
+  <path d="M16 2.2 29.2 16 16 29.8 2.8 16Z" fill="none" stroke="#24160f" stroke-width="1.6"/>
+  <path d="M16 9.2 22.6 16 16 22.8 9.4 16Z" fill="#e39a14"/>
+  <path d="M16 9.2v13.6M9.4 16h13.2" fill="none" stroke="#24160f" stroke-width="1.15"/>
 </svg>
