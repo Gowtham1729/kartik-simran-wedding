@@ -2,6 +2,7 @@ import { wedding, type Wedding } from "../config/wedding";
 import { pageUrl } from "../config/site";
 import {
   countdownNote,
+  countdownPhrase,
   countdownTarget,
   folio,
   formatClock,
@@ -136,16 +137,24 @@ export function detailRows(w: Wedding = wedding): SheetRow[] {
   return rows;
 }
 
-export function navItems(w: Wedding = wedding): { href: string; label: string }[] {
-  const items = [{ href: "#details", label: "Details" }];
-  if (w.story.some((p) => p.trim())) items.push({ href: "#story", label: "Story" });
-  if (w.events.length) items.push({ href: "#schedule", label: "Schedule" });
-  if (venueHasDetail(w)) items.push({ href: "#venue", label: "Venue" });
-  if (travelHasDetail(w)) items.push({ href: "#travel", label: "Travel" });
-  if (w.gallery.length) items.push({ href: "#gallery", label: "Photographs" });
-  if (w.faq.length) items.push({ href: "#faq", label: "Questions" });
-  if (rsvpLink(w)) items.push({ href: "#reply", label: "Reply" });
-  return items.length > 1 ? items : [];
+export function navItems(): { href: string; label: string }[] {
+  return [
+    { href: "#story", label: "Story" },
+    { href: "#schedule", label: "Functions" },
+    { href: "#venue", label: "Venue" },
+    { href: "#gallery", label: "Photographs" },
+  ];
+}
+
+/** A dress chip colour, or "" when the value is not a plain hex. */
+export function chipColor(value: string): string {
+  const hex = value.trim();
+  return /^#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(hex) ? hex : "";
+}
+
+export function httpUrl(value: string): string {
+  const url = value.trim();
+  return /^https?:\/\//i.test(url) ? url : "";
 }
 
 export function eventJsonLd(w: Wedding = wedding): string | null {
@@ -182,7 +191,13 @@ export function heroModel(w: Wedding = wedding) {
     longDate: w.date ? formatLongDate(w.date) : "",
     folioText: w.date ? folio(w.date) : "",
     city: w.city.trim(),
+    image: w.heroImage,
+    gurmukhi:
+      w.showGurmukhi && w.gurmukhiOne.trim() && w.gurmukhiTwo.trim()
+        ? { one: w.gurmukhiOne.trim(), two: w.gurmukhiTwo.trim() }
+        : null,
     target: countdownTarget(w),
+    phrase: countdownPhrase(w),
     note: countdownNote(w),
     here: w.date ? `${formatLongDate(w.date)} is here.` : "",
     passed: w.date ? `${formatLongDate(w.date)} has passed.` : "",

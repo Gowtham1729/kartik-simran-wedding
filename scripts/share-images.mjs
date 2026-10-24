@@ -3,29 +3,46 @@ import { join } from "node:path";
 import satori from "satori";
 import { Resvg } from "@resvg/resvg-js";
 import { wedding } from "../src/config/wedding.ts";
-import { formatParts, namesLine } from "../src/lib/format.ts";
+import { formatLongDate, namesLine } from "../src/lib/format.ts";
 
 const root = process.cwd();
 const fontsDir = join(root, "scripts/fonts");
-const paper = "#f4e6c4";
-const ink = "#24160f";
-const soft = "#5c4636";
-const rani = "#9d1d4a";
-const marigold = "#e39a14";
+const ivory = "#F7F1E6";
+const green = "#123D2F";
+const gold = "#B08A3E";
 
 const fonts = [
-  { name: "Eczar", data: readFileSync(join(fontsDir, "eczar-700.ttf")), weight: 700, style: "normal" },
-  { name: "Newsreader", data: readFileSync(join(fontsDir, "newsreader-italic.ttf")), weight: 400, style: "italic" },
-  { name: "Newsreader", data: readFileSync(join(fontsDir, "newsreader-roman.ttf")), weight: 400, style: "normal" },
-  { name: "Azeret", data: readFileSync(join(fontsDir, "azeret-mono.ttf")), weight: 400, style: "normal" },
+  { name: "Instrument Serif", data: readFileSync(join(fontsDir, "instrument-serif.ttf")), weight: 400, style: "normal" },
+  { name: "Instrument Serif", data: readFileSync(join(fontsDir, "instrument-serif-italic.ttf")), weight: 400, style: "italic" },
+  { name: "Manrope", data: readFileSync(join(fontsDir, "manrope-400.ttf")), weight: 400, style: "normal" },
+  { name: "Manrope", data: readFileSync(join(fontsDir, "manrope-500.ttf")), weight: 500, style: "normal" },
 ];
 
 function node(type, style, children, extra = {}) {
   return { type, props: { style, children, ...extra } };
 }
 
-const parts = wedding.date ? formatParts(wedding.date) : null;
-const place = wedding.city.trim() || "India";
+const when = wedding.date ? formatLongDate(wedding.date) : "Date to be announced";
+const place = wedding.city.trim() || "City to be announced";
+
+const arch = {
+  type: "svg",
+  props: {
+    width: 280,
+    height: 358,
+    viewBox: "0 0 100 128",
+    xmlns: "http://www.w3.org/2000/svg",
+    children: {
+      type: "path",
+      props: {
+        d: "M14 128 L14 62 C14 36 32 16 50 6 C68 16 86 36 86 62 L86 128",
+        fill: "none",
+        stroke: gold,
+        "stroke-width": 1.25,
+      },
+    },
+  },
+};
 
 const card = node(
   "div",
@@ -33,52 +50,69 @@ const card = node(
     width: "1200px",
     height: "630px",
     display: "flex",
-    background: paper,
-    color: ink,
-    position: "relative",
+    background: ivory,
+    color: green,
   },
   [
-    node("div", { position: "absolute", left: "0px", top: "0px", bottom: "0px", width: "8px", background: rani, display: "flex" }, ""),
     node(
       "div",
       {
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
-        width: "100%",
-        height: "100%",
-        padding: "58px 72px 56px 78px",
+        width: "760px",
+        height: "630px",
+        padding: "64px 40px 64px 72px",
       },
       [
         node(
           "div",
-          { display: "flex", justifyContent: "space-between", alignItems: "center", width: "100%" },
-          [
-            node("div", { display: "flex", fontFamily: "Newsreader", fontStyle: "italic", fontSize: "28px", color: soft }, "Save the date"),
-            node("div", { display: "flex", fontFamily: "Azeret", fontSize: "20px", letterSpacing: "0.14em", color: ink }, parts ? `${parts.day.padStart(2, "0")}.${wedding.date.slice(5, 7)}.${parts.year.slice(2)}` : ""),
-          ]
+          {
+            display: "flex",
+            fontFamily: "Manrope",
+            fontWeight: 500,
+            fontSize: "18px",
+            letterSpacing: "0.18em",
+            textTransform: "uppercase",
+          },
+          "The wedding of"
         ),
-        node(
-          "div",
-          { display: "flex", justifyContent: "space-between", alignItems: "flex-end", width: "100%" },
-          [
-            node("div", { display: "flex", flexDirection: "column" }, [
-              node("div", { display: "flex", fontFamily: "Eczar", fontWeight: 700, fontSize: "108px", lineHeight: 0.84, letterSpacing: "-0.03em" }, wedding.partnerOne),
-              node("div", { display: "flex", fontFamily: "Newsreader", fontStyle: "italic", fontSize: "36px", color: rani, marginTop: "14px", marginBottom: "8px" }, "and"),
-              node("div", { display: "flex", fontFamily: "Eczar", fontWeight: 700, fontSize: "108px", lineHeight: 0.84, letterSpacing: "-0.03em" }, wedding.partnerTwo),
-            ]),
-            parts
-              ? node("div", { display: "flex", flexDirection: "column", alignItems: "flex-end" }, [
-                  node("div", { display: "flex", width: "22px", height: "22px", background: marigold, transform: "rotate(45deg)", marginBottom: "10px" }, ""),
-                  node("div", { display: "flex", fontFamily: "Azeret", fontSize: "18px", letterSpacing: "0.16em", color: soft }, parts.weekdayShort),
-                  node("div", { display: "flex", fontFamily: "Eczar", fontWeight: 700, fontSize: "150px", lineHeight: 0.8, letterSpacing: "-0.04em" }, parts.day),
-                  node("div", { display: "flex", fontFamily: "Azeret", fontSize: "18px", letterSpacing: "0.16em", color: soft }, `${parts.monthShort} ${parts.year}`),
-                ])
-              : null,
-          ]
-        ),
-        node("div", { display: "flex", fontFamily: "Newsreader", fontStyle: "italic", fontSize: "28px", color: soft }, place),
+        node("div", { display: "flex", flexDirection: "column" }, [
+          node(
+            "div",
+            { display: "flex", fontFamily: "Instrument Serif", fontWeight: 400, fontSize: "92px", lineHeight: 0.86, letterSpacing: "-0.03em" },
+            wedding.partnerOne
+          ),
+          node(
+            "div",
+            { display: "flex", fontFamily: "Instrument Serif", fontStyle: "italic", fontWeight: 400, fontSize: "36px", marginTop: "8px", marginBottom: "6px" },
+            "and"
+          ),
+          node(
+            "div",
+            { display: "flex", fontFamily: "Instrument Serif", fontWeight: 400, fontSize: "92px", lineHeight: 0.86, letterSpacing: "-0.03em" },
+            wedding.partnerTwo
+          ),
+        ]),
+        node("div", { display: "flex", flexDirection: "column", gap: "10px" }, [
+          node("div", { width: "72px", height: "1px", background: gold, display: "flex" }, ""),
+          node(
+            "div",
+            { display: "flex", fontFamily: "Manrope", fontWeight: 500, fontSize: "18px", letterSpacing: "0.14em", textTransform: "uppercase" },
+            when
+          ),
+          node(
+            "div",
+            { display: "flex", fontFamily: "Manrope", fontWeight: 500, fontSize: "18px", letterSpacing: "0.16em", textTransform: "uppercase" },
+            place
+          ),
+        ]),
       ]
+    ),
+    node(
+      "div",
+      { display: "flex", alignItems: "flex-end", justifyContent: "flex-end", width: "440px", height: "630px", padding: "48px 56px 0 0" },
+      [arch]
     ),
   ]
 );
@@ -86,21 +120,19 @@ const card = node(
 const svg = await satori(card, { width: 1200, height: 630, fonts });
 const png = new Resvg(svg, {
   fitTo: { mode: "width", value: 1200 },
-  background: paper,
+  background: ivory,
 }).render().asPng();
 
 const iconSvg = `<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
-  <rect width="32" height="32" fill="${paper}"/>
-  <path d="M16 2.2 29.2 16 16 29.8 2.8 16Z" fill="none" stroke="${ink}" stroke-width="1.6"/>
-  <path d="M16 9.2 22.6 16 16 22.8 9.4 16Z" fill="${marigold}"/>
-  <path d="M16 9.2v13.6M9.4 16h13.2" fill="none" stroke="${ink}" stroke-width="1.15"/>
+  <rect width="32" height="32" fill="${ivory}"/>
+  <path d="M8 28 V16.5 C8 10.5 12 6.2 16 4.2 C20 6.2 24 10.5 24 16.5 V28" fill="none" stroke="${green}" stroke-width="1.4"/>
 </svg>`;
 
 function raster(svgText, size) {
   return new Resvg(svgText, {
     fitTo: { mode: "width", value: size },
-    background: paper,
+    background: ivory,
   }).render().asPng();
 }
 

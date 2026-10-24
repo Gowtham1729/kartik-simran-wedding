@@ -2,22 +2,26 @@
  * Kartik and Simran. Edit this file to change what guests read.
  *
  * Leave a string as "" and a list as [] until you know the real value.
- * Empty essential fields (city, venue, schedule, reply) show as
- * "To be announced" or "Not open yet". Empty optional sections
- * (story, travel, dress, questions, photographs) are left off the page.
- *
- * Do not invent a city, venue, ceremony, or story here. Guests will
- * treat whatever you type as fact.
+ * The page still shows that section, marked as a placeholder.
+ * Guests will treat whatever you type as fact, so do not guess a
+ * venue, a time, a function name, or a story.
  */
 
 export interface WeddingEvent {
+  /** Only once this function is confirmed. For example "Mehndi". */
   name: string;
-  /** Shown as written, for example "Saturday, 27 February 2027". */
+  /** Shown as written, for example "Friday, 26 February 2027". */
   date: string;
-  /** Shown as written, for example "6:30 pm". */
+  /** Shown as written, for example "4:00 pm". */
   time: string;
   place: string;
-  /** One practical sentence. Leave "" to hide the line. */
+  /** https link. "" hides the map link. */
+  mapsUrl: string;
+  /** Shown next to the colour chip. "" becomes "Dress to be confirmed". */
+  dress: string;
+  /** A hex colour for the chip, for example "#E39A14". "" keeps an empty chip. */
+  dressColor: string;
+  /** One practical sentence. "" hides the line. */
   note: string;
 }
 
@@ -29,8 +33,11 @@ export interface Stay {
   url: string;
 }
 
-export interface GalleryImage {
-  /** Path inside public/, for example "photos/evening.jpg". Or a full https URL. */
+export interface FrameImage {
+  /**
+   * Path inside public/, for example "photos/evening.jpg".
+   * Or a full https URL. "" keeps the arched placeholder.
+   */
   src: string;
   alt: string;
   width: number;
@@ -40,6 +47,14 @@ export interface GalleryImage {
 export interface Wedding {
   partnerOne: string;
   partnerTwo: string;
+  /**
+   * Gurmukhi spellings of the two names.
+   * Leave showGurmukhi false. Spelling to be confirmed by the couple.
+   * Do not guess a spelling here.
+   */
+  showGurmukhi: boolean;
+  gurmukhiOne: string;
+  gurmukhiTwo: string;
   /**
    * Wedding day as YYYY-MM-DD, or null to hide the countdown and the date.
    * The weekday is calculated. It is not typed by hand.
@@ -54,13 +69,15 @@ export interface Wedding {
   utcOffset: string;
   /** Shown under the names. "" becomes "City to be announced". */
   city: string;
-  /** Short paragraph under Details. "" hides it. */
+  /** The hero photograph. src "" keeps the arched placeholder. */
+  heroImage: FrameImage;
+  /** Short paragraph under the story title. "" leaves the story as a placeholder. */
   intro: string;
   venue: {
     name: string;
     address: string;
     notes: string;
-    /** Google Maps (or any) link. "" hides the map link. */
+    /** https link. "" hides the map link. */
     mapsUrl: string;
   };
   events: WeddingEvent[];
@@ -68,15 +85,15 @@ export interface Wedding {
     notes: string;
     stays: Stay[];
   };
-  /** One or two sentences. "" hides the dress row. */
+  /** One or two sentences. "" leaves the dress section as a placeholder. */
   dressCode: string;
-  /** Each string is a paragraph. [] hides the story. */
+  /** Each string is a paragraph. [] leaves the story as a placeholder. */
   story: string[];
   faq: { question: string; answer: string }[];
-  gallery: GalleryImage[];
+  gallery: FrameImage[];
   /**
    * Replies are a link, not a form hosted here.
-   * mode "" hides the reply link.
+   * mode "" keeps the reply section, and it says replies are not open yet.
    * "url": put a Google Form (or any https) link in value. Recommended.
    * "mailto": an email address, not a mailto: string.
    * "whatsapp": country code and number, digits only, for example "919876543210".
@@ -94,11 +111,22 @@ export const wedding: Wedding = {
   partnerOne: "Kartik",
   partnerTwo: "Simran",
 
+  showGurmukhi: false,
+  gurmukhiOne: "",
+  gurmukhiTwo: "",
+
   date: "2027-02-27",
   time: null,
   utcOffset: "+05:30",
 
   city: "Punjab",
+
+  heroImage: {
+    src: "",
+    alt: "Photograph to be added",
+    width: 900,
+    height: 1152,
+  },
 
   intro: "",
 
@@ -122,7 +150,11 @@ export const wedding: Wedding = {
 
   faq: [],
 
-  gallery: [],
+  gallery: [
+    { src: "", alt: "Photograph to be added", width: 900, height: 1152 },
+    { src: "", alt: "Photograph to be added", width: 900, height: 1152 },
+    { src: "", alt: "Photograph to be added", width: 900, height: 1152 },
+  ],
 
   rsvp: {
     mode: "",

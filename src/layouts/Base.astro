@@ -1,5 +1,7 @@
 ---
 import "../styles/global.css";
+import serifUrl from "../assets/fonts/instrument-serif.woff2";
+import serifItalicUrl from "../assets/fonts/instrument-serif-italic.woff2";
 import { pageUrl } from "../config/site";
 import { wedding } from "../config/wedding";
 import { pageTitle } from "../lib/content";
@@ -21,10 +23,37 @@ const imageAlt = pageTitle();
 <html lang="en">
   <head>
     <meta charset="utf-8" />
+    <link rel="preload" href={serifUrl} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={serifItalicUrl} as="font" type="font/woff2" crossorigin />
+    <style is:inline>
+      *, *::before, *::after { box-sizing: border-box; }
+      body { margin: 0; background: #f7f1e6; }
+      .site-header { height: 4.25rem; overflow: hidden; }
+      .nav, .reply-btn { display: none; }
+      .hero { display: flex; flex-direction: column; padding: 0 0 1.5rem; }
+      .hero-frame { width: 100%; }
+      .hero-frame .frame { display: block; width: 100%; aspect-ratio: 100 / 80; min-height: 80vw; position: relative; }
+      @media (max-height: 760px) and (max-width: 879px) {
+        .hero-frame .frame { aspect-ratio: 100 / 48; min-height: 48vw; }
+        .names { font-size: clamp(3.5rem, 18vw, 5.2rem); }
+      }
+      .hero-copy { padding: 1.35rem clamp(1.25rem, 4.5vw, 4.5rem) 0; }
+      .names { margin: 0; font-weight: 400; font-size: clamp(4.75rem, 22vw, 6.5rem); line-height: 0.84; letter-spacing: -0.035em; }
+      .names .line, .names .and { display: block; white-space: nowrap; }
+      .names .and { font-size: 0.38em; line-height: 1.1; margin: 0.18em 0 0.08em; letter-spacing: 0; }
+      @media (min-width: 880px) {
+        .nav, .reply-btn { display: flex; }
+        .hero { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.78fr); grid-template-areas: "copy frame"; align-items: end; min-height: calc(100svh - 4.25rem); padding: 0 0 2.5rem; }
+        .hero-copy { grid-area: copy; padding: 8vh clamp(1.25rem, 4.5vw, 4.5rem) 4vh; }
+        .hero-frame { grid-area: frame; display: flex; justify-content: flex-end; align-items: flex-end; align-self: stretch; padding-top: 6vh; }
+        .hero-frame .frame { aspect-ratio: 100 / 128; min-height: 0; width: min(100%, 32rem); height: auto; }
+        .names { font-size: clamp(5.5rem, 7.4vw, 8.75rem); }
+      }
+    </style>
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#f4e6c4" />
+    <meta name="theme-color" content="#F7F1E6" />
     <meta name="color-scheme" content="light" />
     <meta name="format-detection" content="telephone=no" />
     <link rel="canonical" href={canonical} />
@@ -53,7 +82,13 @@ const imageAlt = pageTitle();
     {jsonLd && <script is:inline type="application/ld+json" set:html={jsonLd} />}
   </head>
   <body>
-    <div class="stitch" aria-hidden="true"></div>
+    <svg class="defs" width="0" height="0" aria-hidden="true" focusable="false">
+      <defs>
+        <clipPath id="arch-clip" clipPathUnits="objectBoundingBox">
+          <path d="M0.14,1 L0.14,0.484 C0.14,0.281 0.32,0.125 0.5,0.047 C0.68,0.125 0.86,0.281 0.86,0.484 L0.86,1 Z"></path>
+        </clipPath>
+      </defs>
+    </svg>
     <a class="skip" href="#main">Skip to content</a>
     <Header />
     <main id="main">

@@ -1,6 +1,6 @@
 # Kartik and Simran
 
-A save-the-date for Saturday, 27 February 2027, India time. Astro builds a static site. GitHub Pages serves it.
+A wedding page for Saturday, 27 February 2027, India time. Astro builds a static site. GitHub Pages serves it.
 
 **Live site:** https://gowtham1729.github.io/kartik-simran-wedding/
 
@@ -8,33 +8,33 @@ A save-the-date for Saturday, 27 February 2027, India time. Astro builds a stati
 src/config/wedding.ts     The words. Edit this.
 src/config/site.ts        Origin and base path. Touch this for a custom domain.
 src/styles/global.css     Colour, type, spacing. Tokens are at the top.
-src/components/           One file per section. Empty sections render nothing.
+src/components/           One file per section.
 public/                   Favicon, share image, and any photographs.
 docs/design-research.md   Why the page looks like this.
 ```
 
-The design is a Punjabi wedding invitation on a wheat ground: Eczar for the names, a rani stitch down the margin, and one marigold diamond. Reading text is Newsreader. The clock and the folio are Azeret Mono. All three are SIL Open Font License, subset, and self-hosted. Licenses are in `src/assets/fonts/`.
+Ivory ground, bottle green for the type and for the functions band, rani only on the reply control and on links. The display face is Instrument Serif at weight 400. The interface is Manrope. One motif, a pointed arch. Licenses are in `src/assets/fonts/`.
 
 ## Edit the content
 
-Open `src/config/wedding.ts`. Leave a string as `""` and a list as `[]` until you know the real value.
+Open `src/config/wedding.ts`. Leave a string as `""` and a list as `[]` until you know the real value. An empty section stays on the page and is marked as a placeholder. Guests will treat whatever you type as fact, so do not guess a venue, a time, a function name, or a story.
 
 - `partnerOne`, `partnerTwo`: first names.
+- `showGurmukhi`, `gurmukhiOne`, `gurmukhiTwo`: off by default. Spelling to be confirmed by the couple. Leave the flag false until both spellings are real. The line is not shown while either string is empty.
 - `date`: `"YYYY-MM-DD"`, or `null` to hide the date and the countdown. The weekday is calculated.
-- `time`: `"HH:MM"` in 24-hour time, or `null`. Null counts down to midnight at the start of the day, and the page says so. Guests should not think the ceremony is at midnight.
-- `utcOffset`: `"+05:30"` is India Standard Time. The countdown uses it, so it hits zero at the same moment everywhere.
-- `city`: `""` shows "City to be announced".
-- `intro`: the sentence under Details. `""` hides it.
-- `venue`: `name`, `address`, `notes`, `mapsUrl`. A maps link becomes "Open the map". The venue section appears once any of these is filled in.
-- `events`: one object per ceremony, in order. `note: ""` hides that line.
-- `travel`: `notes` and `stays`. Hidden until one of them is filled in.
-- `dressCode`: one or two sentences. Hidden until set. It shows as a row in Details.
-- `story`: an array of paragraphs. Hidden until you write them.
-- `faq`: `{ question, answer }`. Hidden until there is one.
-- `gallery`: `{ src, alt, width, height }`. Put files in `public/photos/` and set `src` to `"photos/evening.jpg"`. `width` and `height` are the pixel size of the file, so the layout does not jump.
+- `time`: `"HH:MM"` in 24-hour time, or `null`. Null counts down to midnight at the start of the day, and the page says so.
+- `utcOffset`: `"+05:30"` is India Standard Time.
+- `city`: `""` shows "City to be announced". It is already `"Punjab"`.
+- `heroImage`: `src` is a path inside `public/`, or `""` for the arched placeholder. `width` and `height` are the pixel size of the file.
+- `intro`: the story paragraph. `""` leaves the story as a placeholder.
+- `venue`: `name`, `address`, `notes`, `mapsUrl`. An empty venue says it has not been named.
+- `events`: one object per confirmed function, in order. Each card shows the name, the day and time, the venue with a map link, and the dress as a colour chip. `dressColor` is a hex such as `"#E39A14"`, or `""` for an empty chip. Leave the list empty until a function is real. The page then shows a single placeholder card, not a made-up ceremony.
+- `travel`: `notes` and `stays`. Empty until you write them.
+- `dressCode`: one or two sentences. Empty until set.
+- `story`: an array of paragraphs.
+- `faq`: `{ question, answer }`.
+- `gallery`: `{ src, alt, width, height }`. Put files in `public/photos/` and set `src` to `"photos/evening.jpg"`. Empty `src` keeps the arched placeholder.
 - `rsvp`: see below.
-
-Do not invent a city, a venue, or a story. Guests will treat the page as fact.
 
 ## Reply link
 
@@ -42,16 +42,16 @@ There is no form on this site and nowhere for replies to be stored. Set `rsvp.mo
 
 | mode | value | What the guest gets |
 | --- | --- | --- |
-| `""` | `""` | The row says "Not open yet". No button. |
+| `""` | `""` | The section says "Replies are not open yet". The button scrolls there. |
 | `"url"` | a Google Form link, or any https link | Recommended. Opens in a new tab. |
 | `"mailto"` | an email address | Opens an email with the subject filled in. |
 | `"whatsapp"` | digits only, country code included, such as `"919876543210"` | Opens WhatsApp. `whatsappMessage` is optional prefilled text. |
 
-`"url"` is the right default once you know the questions you want to ask. A Google Form can collect names, a count, and which events someone can attend, without a server here.
+`"url"` is the right choice once you know the questions you want to ask. On a phone the reply button stays on screen.
 
 ## Preview
 
-Node 22 or newer.
+Node 22.23 or newer. The Pages workflow builds on Node 24.
 
 ```sh
 npm install
@@ -89,14 +89,14 @@ GitHub Pages is on a project path today. A custom domain is served from the root
 
 ## Look
 
-`src/styles/global.css` starts with the tokens: wheat, ink, rani, marigold, and the three families. A column of rani stitches draws down the left edge on load. Reduced motion shows the stitches already there, and the countdown numbers change without the tick.
+`src/styles/global.css` starts with the tokens: ivory, green, rani, gold, marigold. Gold is a hairline. Marigold is the timeline square. The arch is a clip on each photograph. Reduced motion drops the rise and keeps every word where it is. The countdown is one sentence.
 
 ## Fonts
 
 | Family | Role | License |
 | --- | --- | --- |
-| Eczar | Names, the day number, headings | SIL OFL |
-| Newsreader | Prose, the word "and" | SIL OFL |
-| Azeret Mono | The folio, the countdown | SIL OFL |
+| Instrument Serif | Names and headings, weight 400 | SIL OFL |
+| Manrope | Interface, 400 and 500 | SIL OFL |
+| Noto Sans Gurmukhi | Optional names line, weight 300 | SIL OFL |
 
-`src/assets/fonts/OFL-*.txt` are the license texts. `scripts/fonts/` holds the instances the share image is drawn with. Both are generated from the Google Fonts sources and subset to Latin.
+`src/assets/fonts/OFL-*.txt` are the license texts. `scripts/fonts/` holds the files the share image is drawn with. Both are generated from the Google Fonts sources. The Latin faces are subset. Gurmukhi is limited to its own letters.

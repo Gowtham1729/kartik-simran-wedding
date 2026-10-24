@@ -1,34 +1,28 @@
 ---
 import { wedding } from "../config/wedding";
-import { venueHasDetail } from "../lib/content";
-import Arrow from "./Arrow.astro";
+import { httpUrl } from "../lib/content";
 
-const venue = wedding.venue;
-const show = venueHasDetail(wedding);
-const maps = venue.mapsUrl.trim();
+const name = wedding.venue.name.trim();
+const address = wedding.venue.address.trim();
+const notes = wedding.venue.notes.trim();
+const map = httpUrl(wedding.venue.mapsUrl);
+const open = !name && !address && !notes;
 ---
-{show && (
-  <section class="section" id="venue" aria-labelledby="venue-title">
+<section class="section rise" id="venue" aria-labelledby="venue-title">
+  <div class="split">
     <h2 id="venue-title">Venue</h2>
-    <div class="prose">
-      <p class="place-name">{venue.name.trim() || "To be announced"}</p>
-      {venue.address.trim() ? (
-        <address>{venue.address.trim()}</address>
-      ) : (
-        <p class="is-open">Address to be announced</p>
-      )}
-      {venue.notes.trim() && <p>{venue.notes.trim()}</p>}
-      {maps ? (
+    <div class="split-body">
+      {open && <p class="kicker">Placeholder</p>}
+      <p class="lead">{name || "The venue has not been named."}</p>
+      {address && <p>{address}</p>}
+      {notes && <p>{notes}</p>}
+      {map && (
         <p>
-          <a class="text-link" href={maps} target="_blank" rel="noopener noreferrer">
-            Open the map
-            <Arrow />
-            <span class="visually-hidden"> (opens in a new tab)</span>
+          <a href={map} target="_blank" rel="noopener">
+            Open the map<span class="visually-hidden"> (opens in a new tab)</span>
           </a>
         </p>
-      ) : (
-        <p class="is-open">Map to be announced</p>
       )}
     </div>
-  </section>
-)}
+  </div>
+</section>

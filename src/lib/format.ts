@@ -65,3 +65,18 @@ export function countdownNote(w: Wedding): string {
 export function namesLine(w: Wedding): string {
   return `${w.partnerOne} and ${w.partnerTwo}`;
 }
+
+/** A quiet phrase for the countdown, from the clock at build time. */
+export function countdownPhrase(w: Wedding): string {
+  const target = countdownTarget(w);
+  if (!target) return "";
+  const ms = new Date(target).getTime() - Date.now();
+  if (ms <= 0) return "";
+  const days = Math.floor(ms / 86400000);
+  if (days > 1) return `${days} days`;
+  if (days === 1) return "1 day";
+  const hours = Math.floor(ms / 3600000);
+  if (hours > 1) return `${hours} hours`;
+  if (hours === 1) return "1 hour";
+  return "Less than an hour";
+}

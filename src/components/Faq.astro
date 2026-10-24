@@ -3,18 +3,25 @@ import { wedding } from "../config/wedding";
 
 const items = wedding.faq.filter((item) => item.question.trim() && item.answer.trim());
 ---
-{items.length > 0 && (
-  <section class="section" id="faq" aria-labelledby="faq-title">
+<section class="section rise" id="faq" aria-labelledby="faq-title">
+  <div class="split">
     <h2 id="faq-title">Questions</h2>
-    <div class="faq">
-      {items.map((item) => (
-        <details>
-          <summary>
-            <h3>{item.question.trim()}</h3>
-          </summary>
-          <p>{item.answer.trim()}</p>
-        </details>
-      ))}
+    <div class="split-body">
+      {items.length === 0 ? (
+        <>
+          <p class="kicker">Placeholder</p>
+          <p class="placeholder">No questions have been added yet.</p>
+        </>
+      ) : (
+        <div class="faqs">
+          {items.map((item) => (
+            <details>
+              <summary>{item.question.trim()}</summary>
+              <p>{item.answer.trim()}</p>
+            </details>
+          ))}
+        </div>
+      )}
     </div>
-  </section>
-)}
+  </div>
+</section>
