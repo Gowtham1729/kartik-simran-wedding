@@ -98,7 +98,7 @@ export const wedding: Wedding = {
   time: null,
   utcOffset: "+05:30",
 
-  city: "",
+  city: "Punjab",
 
   intro: "",
 

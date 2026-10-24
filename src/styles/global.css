@@ -1,23 +1,13 @@
 /* Kartik and Simran
    Recolour the page from the tokens below.
-   Paper, ink, and one vermillion. The vermillion is the second
-   press pass: it is never a gradient, a shadow, or a fill behind text. */
+   Wheat field, ink, rani for text, marigold only on the stitch. */
 
 @font-face {
-  font-family: "Brygada 1918";
-  font-style: italic;
-  font-weight: 500;
-  font-display: swap;
-  src: url("../assets/fonts/brygada-1918-italic.woff2") format("woff2");
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+2000-206F, U+20AC, U+2122;
-}
-
-@font-face {
-  font-family: "Brygada 1918";
+  font-family: Eczar;
   font-style: normal;
-  font-weight: 600;
+  font-weight: 700;
   font-display: swap;
-  src: url("../assets/fonts/brygada-1918-roman.woff2") format("woff2");
+  src: url("../assets/fonts/eczar-700.woff2") format("woff2");
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+2000-206F, U+20AC, U+2122;
 }
 
@@ -49,13 +39,14 @@
 }
 
 :root {
-  --paper: #efe7d8;
-  --ink: #1c1612;
-  --soft: #51473f;
-  --red: #c43822;
-  --red-ink: #8d2a18;
-  --rule: rgba(28, 22, 18, 0.18);
-  --font-display: "Brygada 1918", Palatino, "Palatino Linotype", "Iowan Old Style", serif;
+  --paper: #f4e6c4;
+  --ink: #24160f;
+  --soft: #5c4636;
+  --rani: #d63a6e;
+  --rani-ink: #9d1d4a;
+  --marigold: #e39a14;
+  --rule: rgba(36, 22, 15, 0.16);
+  --font-display: Eczar, Palatino, "Palatino Linotype", "Iowan Old Style", serif;
   --font-text: Newsreader, "Iowan Old Style", Palatino, "Palatino Linotype", serif;
   --font-mono: "Azeret Mono", "Courier New", monospace;
   --header: 4.25rem;
@@ -117,7 +108,7 @@ img {
 }
 
 ::selection {
-  background: var(--red-ink);
+  background: var(--rani-ink);
   color: var(--paper);
 }
 
@@ -126,14 +117,14 @@ img {
 }
 
 :focus-visible {
-  outline: 2px solid var(--red-ink);
+  outline: 2px solid var(--rani-ink);
   outline-offset: 3px;
 }
 
 a {
   color: inherit;
   text-decoration-line: underline;
-  text-decoration-color: var(--red-ink);
+  text-decoration-color: var(--rani-ink);
   text-decoration-thickness: 1px;
   text-underline-offset: 0.18em;
 }
@@ -174,8 +165,8 @@ a:hover {
   display: none !important;
 }
 
-/* The second colour is printed a few pixels out of register. */
-.spine {
+/* A column of stitches down the margin, the way a phulkari edge is worked. */
+.stitch {
   position: fixed;
   z-index: 4;
   left: env(safe-area-inset-left);
@@ -183,30 +174,15 @@ a:hover {
   bottom: 0;
   width: var(--spine);
   pointer-events: none;
-}
-
-.spine-ink,
-.spine-red {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 4px;
-}
-
-.spine-ink {
-  left: 0;
-  background: var(--ink);
-}
-
-.spine-red {
-  left: 8px;
-  top: 16px;
-  background: var(--red);
+  background-image: radial-gradient(circle, var(--rani) 1.35px, transparent 1.55px);
+  background-size: 0.7rem 0.85rem;
+  background-position: 0.28rem 0.4rem;
+  background-repeat: repeat-y;
   transform-origin: top center;
 }
 
-.mark-square {
-  fill: var(--red);
+.mark-petal {
+  fill: var(--marigold);
 }
 
 .site-header {
@@ -232,8 +208,8 @@ a:hover {
   min-width: 3rem;
   min-height: 3rem;
   font-family: var(--font-display);
-  font-style: italic;
-  font-weight: 500;
+  font-style: normal;
+  font-weight: 700;
   font-size: clamp(1.05rem, 2vw, 1.4rem);
   line-height: 1;
   letter-spacing: -0.02em;
@@ -242,7 +218,7 @@ a:hover {
 
 .wordmark:hover {
   text-decoration: none;
-  color: var(--red-ink);
+  color: var(--rani-ink);
 }
 
 .folio {
@@ -273,7 +249,7 @@ a:hover {
 
 .nav a:hover {
   text-decoration: underline;
-  text-decoration-color: var(--red-ink);
+  text-decoration-color: var(--rani-ink);
 }
 
 .hero {
@@ -301,11 +277,11 @@ a:hover {
 
 .names {
   font-family: var(--font-display);
-  font-style: italic;
-  font-weight: 500;
+  font-style: normal;
+  font-weight: 700;
   font-size: clamp(4.6rem, 12.4vw, 9.4rem);
   line-height: 0.8;
-  letter-spacing: -0.025em;
+  letter-spacing: -0.03em;
   font-kerning: normal;
   text-wrap: balance;
 }
@@ -324,8 +300,7 @@ a:hover {
   font-size: max(1.65rem, 0.32em);
   line-height: 1;
   letter-spacing: 0;
-  color: var(--red-ink);
-  translate: 0.14em 0.28em;
+  color: var(--rani-ink);
 }
 
 .datemark {
@@ -347,32 +322,29 @@ a:hover {
   display: inline-block;
   font-family: var(--font-display);
   font-style: normal;
-  font-weight: 600;
+  font-weight: 700;
   font-size: clamp(4.4rem, 14vw, 6.5rem);
   line-height: 0.75;
   letter-spacing: -0.04em;
   font-variant-numeric: lining-nums;
 }
 
-.num-ink,
-.num-red {
+.num-ink {
+  position: relative;
+  z-index: 1;
   font: inherit;
   letter-spacing: inherit;
   line-height: inherit;
 }
 
-.num-ink {
-  position: relative;
-  z-index: 1;
+.join {
+  display: flex;
+  align-items: center;
 }
 
-.num-red {
-  position: absolute;
-  z-index: 0;
-  left: 0.07em;
-  top: 0.065em;
-  color: var(--red);
-  user-select: none;
+.join .mark {
+  width: 2.6rem;
+  height: auto;
 }
 
 .city {
@@ -411,7 +383,7 @@ a:hover {
   min-width: 2.2ch;
   font-family: var(--font-display);
   font-style: normal;
-  font-weight: 600;
+  font-weight: 700;
   font-size: clamp(3.6rem, 9vw, 5.6rem);
   line-height: 0.8;
   letter-spacing: -0.045em;
@@ -428,7 +400,7 @@ a:hover {
   font-family: var(--font-mono);
   font-size: clamp(1.25rem, 2.8vw, 1.7rem);
   line-height: 1;
-  color: var(--red-ink);
+  color: var(--rani-ink);
 }
 
 .digits {
@@ -486,8 +458,8 @@ section[id] {
 .schedule h3,
 .stays h3 {
   font-family: var(--font-display);
-  font-style: italic;
-  font-weight: 500;
+  font-style: normal;
+  font-weight: 700;
   letter-spacing: -0.02em;
   line-height: 0.92;
   text-wrap: balance;
@@ -558,8 +530,8 @@ section[id] {
 
 .place-name {
   font-family: var(--font-display);
-  font-style: italic;
-  font-weight: 500;
+  font-style: normal;
+  font-weight: 700;
   font-size: clamp(2rem, 4vw, 3rem);
   line-height: 1;
 }
@@ -672,12 +644,12 @@ section[id] {
   width: 0.55rem;
   height: 0.55rem;
   margin-right: 0.7rem;
-  border: 1.5px solid var(--red-ink);
+  border: 1.5px solid var(--rani-ink);
   transform: translateY(-0.08em);
 }
 
 .faq details[open] h3::before {
-  background: var(--red);
+  background: var(--rani);
 }
 
 .reply-row {
@@ -687,8 +659,8 @@ section[id] {
 .reply-link {
   min-height: 2.75rem;
   font-family: var(--font-display);
-  font-style: italic;
-  font-weight: 500;
+  font-style: normal;
+  font-weight: 700;
   font-size: clamp(3rem, 7vw, 5.2rem);
   line-height: 0.9;
   letter-spacing: -0.03em;
@@ -696,7 +668,7 @@ section[id] {
 }
 
 .reply-link:hover {
-  color: var(--red-ink);
+  color: var(--rani-ink);
   text-decoration: none;
 }
 
@@ -707,8 +679,8 @@ section[id] {
 
 .sign {
   font-family: var(--font-display);
-  font-style: italic;
-  font-weight: 500;
+  font-style: normal;
+  font-weight: 700;
   font-size: clamp(2.8rem, 6vw, 4.8rem);
   line-height: 0.86;
   letter-spacing: -0.025em;
@@ -719,7 +691,6 @@ section[id] {
   margin: 0 0.12em;
   font-size: 0.42em;
   vertical-align: 0.35em;
-  translate: 0.1em 0.3em;
 }
 
 .sign-date {
@@ -737,8 +708,8 @@ section[id] {
 
 .missing h1 {
   font-family: var(--font-display);
-  font-style: italic;
-  font-weight: 500;
+  font-style: normal;
+  font-weight: 700;
   font-size: clamp(3rem, 7vw, 5.5rem);
   line-height: 0.9;
   letter-spacing: -0.03em;
@@ -756,26 +727,27 @@ section[id] {
     padding-bottom: clamp(1rem, 3vh, 2rem);
   }
 
-  /* One impression: the day number shares the name block's baseline
-     and kisses the end of the longer name. The spare paper is the
-     right margin, not a gap between two pinned edges. */
   .hero-main {
     display: flex;
-    align-items: flex-end;
+    align-items: center;
     justify-content: flex-start;
-    column-gap: 0;
+    gap: clamp(0.85rem, 1.6vw, 1.6rem);
     width: 100%;
   }
 
   .names {
     flex: 0 0 auto;
-    font-size: clamp(6.5rem, 15.05vw, 13.6rem);
-    line-height: 0.76;
+    font-size: clamp(6.25rem, 15.2vw, 18rem);
+    line-height: 0.78;
   }
 
   .names .and {
-    margin-top: 0.1em;
-    margin-bottom: 0.06em;
+    margin-top: 0.12em;
+    margin-bottom: 0.08em;
+  }
+
+  .join .mark {
+    width: clamp(3.25rem, 5.5vw, 5.25rem);
   }
 
   .datemark {
@@ -784,19 +756,13 @@ section[id] {
     flex: 0 0 auto;
     flex-direction: column;
     align-items: flex-end;
-    gap: 0.08rem;
-    margin-inline-start: calc(-0.05 * clamp(9rem, 35.5vw, 32rem));
+    gap: 0.2rem;
     text-align: right;
   }
 
   .datemark .num {
-    font-size: clamp(9rem, 35.5vw, 32rem);
-    line-height: 0.72;
-  }
-
-  /* The vermillion pass sits 0.065em below the ink. Clear the month line of both. */
-  .datemark .num + .part {
-    translate: 0 calc(0.085 * clamp(9rem, 35.5vw, 32rem));
+    font-size: clamp(6.5rem, 21vw, 26rem);
+    line-height: 0.78;
   }
 
   .city {
@@ -833,21 +799,16 @@ section[id] {
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .spine-red {
-    animation: press 1.15s cubic-bezier(0.16, 0.84, 0.2, 1) both;
+  .stitch {
+    animation: press 1.05s cubic-bezier(0.16, 0.84, 0.2, 1) both;
+  }
+
+  .join {
+    animation: pop 0.7s cubic-bezier(0.16, 0.84, 0.2, 1) 0.12s both;
   }
 
   .names .and {
-    animation: rise 0.7s cubic-bezier(0.16, 0.84, 0.2, 1) 0.18s both;
-  }
-
-  @supports (animation-timeline: scroll()) {
-    .spine-red {
-      animation:
-        press 1.15s cubic-bezier(0.16, 0.84, 0.2, 1) both,
-        drift linear;
-      animation-timeline: auto, scroll(root block);
-    }
+    animation: rise 0.65s cubic-bezier(0.16, 0.84, 0.2, 1) 0.08s both;
   }
 
   .digit-n.is-tick,
@@ -861,18 +822,19 @@ section[id] {
   to { scale: 1 1; }
 }
 
-@keyframes drift {
-  to { translate: 4px 0; }
+@keyframes pop {
+  from { scale: 0.6; opacity: 0; }
+  to { scale: 1; opacity: 1; }
 }
 
 @keyframes rise {
   from {
     opacity: 0;
-    translate: 0.14em 0.62em;
+    translate: 0 0.35em;
   }
   to {
     opacity: 1;
-    translate: 0.14em 0.28em;
+    translate: 0 0;
   }
 }
 
@@ -886,7 +848,8 @@ section[id] {
     scroll-behavior: auto;
   }
 
-  .spine-red,
+  .stitch,
+  .join,
   .names .and,
   .digit-n,
   .day-count {
@@ -894,17 +857,13 @@ section[id] {
     animation-timeline: auto;
     scale: none;
     opacity: 1;
-  }
-
-  .spine-red {
     translate: none;
   }
 }
 
 @media (forced-colors: active) {
-  .spine-ink,
-  .spine-red,
-  .mark-square,
+  .stitch,
+  .mark-petal,
   .faq details[open] h3::before {
     background: CanvasText;
     fill: CanvasText;
@@ -917,7 +876,7 @@ section[id] {
 }
 
 @media print {
-  .spine,
+  .stitch,
   .skip,
   .countdown {
     display: none;

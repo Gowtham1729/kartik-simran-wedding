@@ -7,15 +7,14 @@ import { formatParts, namesLine } from "../src/lib/format.ts";
 
 const root = process.cwd();
 const fontsDir = join(root, "scripts/fonts");
-const paper = "#efe7d8";
-const ink = "#1c1612";
-const soft = "#51473f";
-const red = "#c43822";
-const redInk = "#8d2a18";
+const paper = "#f4e6c4";
+const ink = "#24160f";
+const soft = "#5c4636";
+const rani = "#9d1d4a";
+const marigold = "#e39a14";
 
 const fonts = [
-  { name: "Brygada", data: readFileSync(join(fontsDir, "brygada-1918-italic.ttf")), weight: 500, style: "italic" },
-  { name: "Brygada", data: readFileSync(join(fontsDir, "brygada-1918-roman.ttf")), weight: 600, style: "normal" },
+  { name: "Eczar", data: readFileSync(join(fontsDir, "eczar-700.ttf")), weight: 700, style: "normal" },
   { name: "Newsreader", data: readFileSync(join(fontsDir, "newsreader-italic.ttf")), weight: 400, style: "italic" },
   { name: "Newsreader", data: readFileSync(join(fontsDir, "newsreader-roman.ttf")), weight: 400, style: "normal" },
   { name: "Azeret", data: readFileSync(join(fontsDir, "azeret-mono.ttf")), weight: 400, style: "normal" },
@@ -39,8 +38,7 @@ const card = node(
     position: "relative",
   },
   [
-    node("div", { position: "absolute", left: "0px", top: "0px", bottom: "0px", width: "4px", background: ink, display: "flex" }, ""),
-    node("div", { position: "absolute", left: "14px", top: "22px", bottom: "0px", width: "4px", background: red, display: "flex" }, ""),
+    node("div", { position: "absolute", left: "0px", top: "0px", bottom: "0px", width: "8px", background: rani, display: "flex" }, ""),
     node(
       "div",
       {
@@ -65,17 +63,15 @@ const card = node(
           { display: "flex", justifyContent: "space-between", alignItems: "flex-end", width: "100%" },
           [
             node("div", { display: "flex", flexDirection: "column" }, [
-              node("div", { display: "flex", fontFamily: "Brygada", fontStyle: "italic", fontWeight: 500, fontSize: "118px", lineHeight: 0.82, letterSpacing: "-0.03em" }, wedding.partnerOne),
-              node("div", { display: "flex", fontFamily: "Newsreader", fontStyle: "italic", fontSize: "36px", color: redInk, marginTop: "22px", marginBottom: "6px", marginLeft: "16px" }, "and"),
-              node("div", { display: "flex", fontFamily: "Brygada", fontStyle: "italic", fontWeight: 500, fontSize: "118px", lineHeight: 0.82, letterSpacing: "-0.03em" }, wedding.partnerTwo),
+              node("div", { display: "flex", fontFamily: "Eczar", fontWeight: 700, fontSize: "108px", lineHeight: 0.84, letterSpacing: "-0.03em" }, wedding.partnerOne),
+              node("div", { display: "flex", fontFamily: "Newsreader", fontStyle: "italic", fontSize: "36px", color: rani, marginTop: "14px", marginBottom: "8px" }, "and"),
+              node("div", { display: "flex", fontFamily: "Eczar", fontWeight: 700, fontSize: "108px", lineHeight: 0.84, letterSpacing: "-0.03em" }, wedding.partnerTwo),
             ]),
             parts
               ? node("div", { display: "flex", flexDirection: "column", alignItems: "flex-end" }, [
+                  node("div", { display: "flex", width: "22px", height: "22px", background: marigold, transform: "rotate(45deg)", marginBottom: "10px" }, ""),
                   node("div", { display: "flex", fontFamily: "Azeret", fontSize: "18px", letterSpacing: "0.16em", color: soft }, parts.weekdayShort),
-                  node("div", { display: "flex", position: "relative" }, [
-                    node("div", { display: "flex", position: "absolute", left: "14px", top: "12px", fontFamily: "Brygada", fontWeight: 600, fontSize: "168px", lineHeight: 0.78, letterSpacing: "-0.04em", color: red }, parts.day),
-                    node("div", { display: "flex", fontFamily: "Brygada", fontWeight: 600, fontSize: "168px", lineHeight: 0.78, letterSpacing: "-0.04em" }, parts.day),
-                  ]),
+                  node("div", { display: "flex", fontFamily: "Eczar", fontWeight: 700, fontSize: "150px", lineHeight: 0.8, letterSpacing: "-0.04em" }, parts.day),
                   node("div", { display: "flex", fontFamily: "Azeret", fontSize: "18px", letterSpacing: "0.16em", color: soft }, `${parts.monthShort} ${parts.year}`),
                 ])
               : null,
@@ -96,11 +92,9 @@ const png = new Resvg(svg, {
 const iconSvg = `<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
   <rect width="32" height="32" fill="${paper}"/>
-  <g fill="none" stroke="${ink}" stroke-width="1.5" stroke-linecap="square">
-    <circle cx="13.5" cy="13.5" r="8"/>
-    <path d="M13.5 2.2v5.2M13.5 19.6v6.2M2.2 13.5h5.2M19.6 13.5h6.2"/>
-  </g>
-  <rect x="16.4" y="16.4" width="6.6" height="6.6" fill="${red}"/>
+  <path d="M16 2.2 29.2 16 16 29.8 2.8 16Z" fill="none" stroke="${ink}" stroke-width="1.6"/>
+  <path d="M16 9.2 22.6 16 16 22.8 9.4 16Z" fill="${marigold}"/>
+  <path d="M16 9.2v13.6M9.4 16h13.2" fill="none" stroke="${ink}" stroke-width="1.15"/>
 </svg>`;
 
 function raster(svgText, size) {
