@@ -1,7 +1,7 @@
 import { wedding, type Wedding } from "../config/wedding";
 import { pageUrl } from "../config/site";
+import { sectionFlags } from "../config/wedding";
 import {
-  countdownNote,
   countdownPhrase,
   countdownTarget,
   folio,
@@ -9,6 +9,7 @@ import {
   formatLongDate,
   formatParts,
   namesLine,
+  placeLine,
 } from "./format";
 
 export interface SheetRow {
@@ -34,9 +35,7 @@ export function pageTitle(w: Wedding = wedding): string {
 export function pageDescription(w: Wedding = wedding): string {
   const names = namesLine(w);
   const when = w.date ? formatLongDate(w.date) : "a date still to be set";
-  const city = w.city.trim();
-  if (city) return `${names} are marrying on ${when}, in ${city}.`;
-  return `${names} are marrying on ${when}. The city is still to be announced.`;
+  return `${names} are marrying on ${when}, in ${placeLine(w)}.`;
 }
 
 export function rsvpLink(w: Wedding = wedding): RsvpLink | null {
@@ -49,7 +48,7 @@ export function rsvpLink(w: Wedding = wedding): RsvpLink | null {
       href: value,
       external: true,
       note: "Opens a form in a new tab.",
-      label: w.rsvp.label || "Reply",
+      label: w.rsvp.label || "RSVP",
     };
   }
   if (w.rsvp.mode === "mailto") {
@@ -58,7 +57,7 @@ export function rsvpLink(w: Wedding = wedding): RsvpLink | null {
       href: `mailto:${value}?subject=${subject}`,
       external: false,
       note: "Opens an email.",
-      label: w.rsvp.label || "Reply",
+      label: w.rsvp.label || "RSVP",
     };
   }
   const digits = value.replace(/\D/g, "");
@@ -71,7 +70,7 @@ export function rsvpLink(w: Wedding = wedding): RsvpLink | null {
     href,
     external: true,
     note: "Opens WhatsApp.",
-    label: w.rsvp.label || "Reply",
+    label: w.rsvp.label || "RSVP",
   };
 }
 
@@ -97,7 +96,7 @@ export function detailRows(w: Wedding = wedding): SheetRow[] {
   const city = w.city.trim();
   rows.push({
     label: "City",
-    value: city || "To be announced",
+    value: placeLine(w),
     open: !city,
   });
   const venueName = w.venue.name.trim();
@@ -129,21 +128,25 @@ export function detailRows(w: Wedding = wedding): SheetRow[] {
   }
   const reply = rsvpLink(w);
   rows.push({
-    label: "Reply",
+    label: "RSVP",
     value: reply ? reply.label : "Not open yet",
     open: !reply,
-    href: reply ? "#reply" : undefined,
+    href: reply ? "#rsvp" : undefined,
   });
   return rows;
 }
 
-export function navItems(): { href: string; label: string }[] {
-  return [
-    { href: "#story", label: "Story" },
-    { href: "#schedule", label: "Functions" },
-    { href: "#venue", label: "Venue" },
-    { href: "#gallery", label: "Photographs" },
-  ];
+export function navItems(w: Wedding = wedding): { href: string; label: string }[] {
+  const on = sectionFlags(w);
+  const items: { href: string; label: string }[] = [];
+  if (on.story) items.push({ href: "#story", label: "Story" });
+  items.push({ href: "#schedule", label: "Functions" });
+  if (on.venue) items.push({ href: "#venue", label: "Venue" });
+  if (on.travel) items.push({ href: "#travel", label: "Travel" });
+  if (on.dress) items.push({ href: "#dress", label: "Dress" });
+  if (on.photographs) items.push({ href: "#gallery", label: "Photographs" });
+  if (on.questions) items.push({ href: "#faq", label: "Questions" });
+  return items;
 }
 
 /** A dress chip colour, or "" when the value is not a plain hex. */
@@ -169,7 +172,7 @@ export function eventJsonLd(w: Wedding = wedding): string | null {
     description: pageDescription(w),
     url: pageUrl(),
   };
-  const city = w.city.trim();
+  const city = placeLine(w);
   const venueName = w.venue.name.trim();
   const address = w.venue.address.trim();
   if (city || venueName || address) {
@@ -190,15 +193,14 @@ export function heroModel(w: Wedding = wedding) {
     parts,
     longDate: w.date ? formatLongDate(w.date) : "",
     folioText: w.date ? folio(w.date) : "",
-    city: w.city.trim(),
-    image: w.heroImage,
+    city: placeLine(w),
+    image: w.heroPhoto,
     gurmukhi:
       w.showGurmukhi && w.gurmukhiOne.trim() && w.gurmukhiTwo.trim()
         ? { one: w.gurmukhiOne.trim(), two: w.gurmukhiTwo.trim() }
         : null,
     target: countdownTarget(w),
     phrase: countdownPhrase(w),
-    note: countdownNote(w),
     here: w.date ? `${formatLongDate(w.date)} is here.` : "",
     passed: w.date ? `${formatLongDate(w.date)} has passed.` : "",
   };

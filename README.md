@@ -13,19 +13,19 @@ public/                   Favicon, share image, and any photographs.
 docs/design-research.md   Why the page looks like this.
 ```
 
-Ivory ground, bottle green for the type and for the functions band, rani only on the reply control and on links. The display face is Instrument Serif at weight 400. The interface is Manrope. One motif, a pointed arch. Licenses are in `src/assets/fonts/`.
+Ivory ground, bottle green for the type and for the functions band, rani only on the RSVP control and on links. The display face is Instrument Serif at weight 400. The interface is Manrope. One motif, a pointed arch, with a marigold toran across the top. Licenses are in `src/assets/fonts/`.
 
 ## Edit the content
 
-Open `src/config/wedding.ts`. Leave a string as `""` and a list as `[]` until you know the real value. An empty section stays on the page and is marked as a placeholder. Guests will treat whatever you type as fact, so do not guess a venue, a time, a function name, or a story.
+Open `src/config/wedding.ts`. Leave a string as `""` and a list as `[]` until you know the real value. Hero, Functions, and RSVP always show. Story, Venue, Travel, Dress, Photographs, and Questions stay off until their fields are filled in (`sections` in that file, all false). Filling a field turns that section, and its nav link, back on. Guests will treat whatever you type as fact, so do not guess a venue, a time, a function name, or a story.
 
 - `partnerOne`, `partnerTwo`: first names.
 - `showGurmukhi`, `gurmukhiOne`, `gurmukhiTwo`: off by default. Spelling to be confirmed by the couple. Leave the flag false until both spellings are real. The line is not shown while either string is empty.
 - `date`: `"YYYY-MM-DD"`, or `null` to hide the date and the countdown. The weekday is calculated.
 - `time`: `"HH:MM"` in 24-hour time, or `null`. Null counts down to midnight at the start of the day, and the page says so.
 - `utcOffset`: `"+05:30"` is India Standard Time.
-- `city`: `""` shows "City to be announced". It is already `"Punjab"`.
-- `heroImage`: `src` is a path inside `public/`, or `""` for the arched placeholder. `width` and `height` are the pixel size of the file.
+- `city`: `""` shows "Punjab, India" until a city is set.
+- `heroPhoto`: `src` is a path inside `public/`, or `""` for the dusk gradient inside the arch. `width` and `height` are the pixel size of the file.
 - `intro`: the story paragraph. `""` leaves the story as a placeholder.
 - `venue`: `name`, `address`, `notes`, `mapsUrl`. An empty venue says it has not been named.
 - `events`: one object per confirmed function, in order. Each card shows the name, the day and time, the venue with a map link, and the dress as a colour chip. `dressColor` is a hex such as `"#E39A14"`, or `""` for an empty chip. Leave the list empty until a function is real. The page then shows a single placeholder card, not a made-up ceremony.
@@ -33,21 +33,21 @@ Open `src/config/wedding.ts`. Leave a string as `""` and a list as `[]` until yo
 - `dressCode`: one or two sentences. Empty until set.
 - `story`: an array of paragraphs.
 - `faq`: `{ question, answer }`.
-- `gallery`: `{ src, alt, width, height }`. Put files in `public/photos/` and set `src` to `"photos/evening.jpg"`. Empty `src` keeps the arched placeholder.
+- `gallery`: `{ src, alt, width, height }`. Put files in `public/photos/` and set `src` to `"photos/evening.jpg"`. An empty list hides Photographs.
 - `rsvp`: see below.
 
-## Reply link
+## RSVP link
 
 There is no form on this site and nowhere for replies to be stored. Set `rsvp.mode`:
 
 | mode | value | What the guest gets |
 | --- | --- | --- |
-| `""` | `""` | The section says "Replies are not open yet". The button scrolls there. |
+| `""` | `""` | The section says "RSVP is not open yet". The button scrolls there. |
 | `"url"` | a Google Form link, or any https link | Recommended. Opens in a new tab. |
 | `"mailto"` | an email address | Opens an email with the subject filled in. |
 | `"whatsapp"` | digits only, country code included, such as `"919876543210"` | Opens WhatsApp. `whatsappMessage` is optional prefilled text. |
 
-`"url"` is the right choice once you know the questions you want to ask. On a phone the reply button stays on screen.
+`"url"` is the right choice once you know the questions you want to ask. On a phone the RSVP button stays on screen.
 
 ## Preview
 

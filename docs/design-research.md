@@ -30,7 +30,7 @@ Ivory `#F7F1E6`. Bottle green `#123D2F` for type and for the functions band and 
 
 The motif is the arch. Phulkari, if it appears, is one thin diamond line between the story and the functions. No mandala, paisley, diya, elephant, petal, or toran.
 
-The hero is the names, then the date and Punjab in small caps, then one arched photograph. Until a real file is set, the arch is a placeholder of ivory and a few green lines, labelled as a photograph to be added. Sections with nothing in the config stay on the page and say so. The functions list renders one card, "Function to be confirmed", until a real function is entered. It does not invent a Jaggo or a Sangeet.
+The hero is the names, then the date and Punjab, India in small caps, then one arched photograph. Until `heroPhoto` is set, the arch holds a dusk gradient, marigold at the foot and peach with soft rani above, with a little grain. A line-art marigold toran hangs across the top of the arch. It is part of the doorway, still the one motif. The functions list renders one card, "Function to be confirmed", until a real function is entered. Story, venue, travel, dress, photographs, and questions stay off until their fields are filled in. It does not invent a Jaggo or a Sangeet.
 
 Motion is a short rise as a section enters, opacity and transform only, inside `prefers-reduced-motion: no-preference` and `@supports ((animation-timeline: view()) and (animation-range: entry))`. The timeline is declared after the `animation` shorthand. There is no polyfill. The hero, which is the first thing on the page, does not animate. The countdown is a sentence, not a flip clock.
 
@@ -44,9 +44,9 @@ Not used, on purpose: view transitions, a smooth-scroll library, and a motion li
 
 Asset URLs in `index.html` are rewritten to relative paths after the build (`scripts/relativize.mjs`). `404.html` keeps base-absolute URLs, because GitHub Pages serves that file at the address that was wrong. Canonical and Open Graph URLs stay absolute.
 
-## Reply
+## RSVP
 
-No form is hosted here. `rsvp.mode` is `""`, `"url"`, `"mailto"`, or `"whatsapp"`. Empty still shows the reply section, and it says replies are not open yet. The reply control stays on screen on a phone and jumps to that section. `"url"` is the one to use once the questions are known: paste a Google Form link. Nothing is stored on this site.
+No form is hosted here. `rsvp.mode` is `""`, `"url"`, `"mailto"`, or `"whatsapp"`. Empty still shows the RSVP section, and it says RSVP is not open yet. The RSVP control stays on screen on a phone and jumps to that section. `"url"` is the one to use once the questions are known: paste a Google Form link. Nothing is stored on this site.
 
 ## Still open
 

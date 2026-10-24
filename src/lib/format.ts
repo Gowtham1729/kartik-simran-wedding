@@ -53,13 +53,10 @@ export function countdownTarget(w: Wedding): string | null {
   return `${w.date}T${time}:00${w.utcOffset}`;
 }
 
-export function countdownNote(w: Wedding): string {
-  if (!w.date) return "";
-  const { weekdayLong } = formatParts(w.date);
-  if (!w.time) {
-    return `Counting to midnight at the start of ${weekdayLong}, India time.`;
-  }
-  return `Counting to ${formatClock(w.time)} on ${weekdayLong}, India time.`;
+/** "" means the city is not set yet, so the page says Punjab, India. */
+export function placeLine(w: Wedding): string {
+  const city = w.city.trim();
+  return city || "Punjab, India";
 }
 
 export function namesLine(w: Wedding): string {
@@ -73,10 +70,10 @@ export function countdownPhrase(w: Wedding): string {
   const ms = new Date(target).getTime() - Date.now();
   if (ms <= 0) return "";
   const days = Math.floor(ms / 86400000);
-  if (days > 1) return `${days} days`;
-  if (days === 1) return "1 day";
+  if (days > 1) return `${days} days to go`;
+  if (days === 1) return "1 day to go";
   const hours = Math.floor(ms / 3600000);
-  if (hours > 1) return `${hours} hours`;
-  if (hours === 1) return "1 hour";
-  return "Less than an hour";
+  if (hours > 1) return `${hours} hours to go`;
+  if (hours === 1) return "1 hour to go";
+  return "Less than an hour to go";
 }

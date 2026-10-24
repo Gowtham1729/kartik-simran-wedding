@@ -3,7 +3,7 @@ import { join } from "node:path";
 import satori from "satori";
 import { Resvg } from "@resvg/resvg-js";
 import { wedding } from "../src/config/wedding.ts";
-import { formatLongDate, namesLine } from "../src/lib/format.ts";
+import { formatLongDate, namesLine, placeLine } from "../src/lib/format.ts";
 
 const root = process.cwd();
 const fontsDir = join(root, "scripts/fonts");
@@ -23,7 +23,7 @@ function node(type, style, children, extra = {}) {
 }
 
 const when = wedding.date ? formatLongDate(wedding.date) : "Date to be announced";
-const place = wedding.city.trim() || "City to be announced";
+const place = placeLine(wedding);
 
 const arch = {
   type: "svg",

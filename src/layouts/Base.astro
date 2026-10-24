@@ -30,7 +30,7 @@ const imageAlt = pageTitle();
       body { margin: 0; background: #f7f1e6; }
       .site-header { height: 4.25rem; overflow: hidden; }
       .nav, .reply-btn { display: none; }
-      .hero { display: flex; flex-direction: column; padding: 0 0 1.5rem; }
+      .hero { display: flex; flex-direction: column; padding: 0.85rem 0 1.25rem; }
       .hero-frame { width: 100%; }
       .hero-frame .frame { display: block; width: 100%; aspect-ratio: 100 / 80; min-height: 80vw; position: relative; }
       @media (max-height: 760px) and (max-width: 879px) {
@@ -43,10 +43,10 @@ const imageAlt = pageTitle();
       .names .and { font-size: 0.38em; line-height: 1.1; margin: 0.18em 0 0.08em; letter-spacing: 0; }
       @media (min-width: 880px) {
         .nav, .reply-btn { display: flex; }
-        .hero { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.78fr); grid-template-areas: "copy frame"; align-items: end; min-height: calc(100svh - 4.25rem); padding: 0 0 2.5rem; }
-        .hero-copy { grid-area: copy; padding: 8vh clamp(1.25rem, 4.5vw, 4.5rem) 4vh; }
-        .hero-frame { grid-area: frame; display: flex; justify-content: flex-end; align-items: flex-end; align-self: stretch; padding-top: 6vh; }
-        .hero-frame .frame { aspect-ratio: 100 / 128; min-height: 0; width: min(100%, 32rem); height: auto; }
+        .hero { display: grid; grid-template-columns: 1.22fr 1fr; grid-template-areas: "copy frame"; align-items: center; min-height: 85vh; width: 100%; padding: 1.5rem max(clamp(1.25rem, 4.5vw, 4.5rem), calc((100% - 1200px) / 2)); }
+        .hero-copy { grid-area: copy; padding: 0 2.5rem 0 0; }
+        .hero-frame { grid-area: frame; display: flex; align-self: stretch; min-height: 0; }
+        .hero-frame .frame { aspect-ratio: auto; min-height: 0; width: 100%; height: 100%; }
         .names { font-size: clamp(5.5rem, 7.4vw, 8.75rem); }
       }
     </style>
@@ -87,6 +87,10 @@ const imageAlt = pageTitle();
         <clipPath id="arch-clip" clipPathUnits="objectBoundingBox">
           <path d="M0.14,1 L0.14,0.484 C0.14,0.281 0.32,0.125 0.5,0.047 C0.68,0.125 0.86,0.281 0.86,0.484 L0.86,1 Z"></path>
         </clipPath>
+        <filter id="arch-grain" x="0%" y="0%" width="100%" height="100%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="4" stitchTiles="stitch"></feTurbulence>
+          <feColorMatrix type="saturate" values="0"></feColorMatrix>
+        </filter>
       </defs>
     </svg>
     <a class="skip" href="#main">Skip to content</a>

@@ -11,16 +11,19 @@ import Gallery from "../components/Gallery.astro";
 import Faq from "../components/Faq.astro";
 import Reply from "../components/Reply.astro";
 import { eventJsonLd, pageDescription, pageTitle } from "../lib/content";
+import { sectionFlags } from "../config/wedding";
+
+const sections = sectionFlags();
 ---
 <Base title={pageTitle()} description={pageDescription()} jsonLd={eventJsonLd()}>
   <Hero />
-  <Story />
-  <Divider />
+  {sections.story && <Story />}
+  {sections.story && <Divider />}
   <Schedule />
-  <Venue />
-  <Travel />
-  <Dress />
-  <Gallery />
-  <Faq />
+  {sections.venue && <Venue />}
+  {sections.travel && <Travel />}
+  {sections.dress && <Dress />}
+  {sections.photographs && <Gallery />}
+  {sections.questions && <Faq />}
   <Reply />
 </Base>

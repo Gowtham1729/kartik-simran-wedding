@@ -20,7 +20,7 @@ const images = wedding.gallery;
             alt={image.alt || "Photograph to be added"}
             width={image.width}
             height={image.height}
-            priority={index === 0 && Boolean(image.src.trim()) && !wedding.heroImage.src.trim()}
+            priority={index === 0 && Boolean(image.src.trim()) && !wedding.heroPhoto.src.trim()}
           />
         </li>
       ))}

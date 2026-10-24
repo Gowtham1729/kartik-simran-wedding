@@ -3,11 +3,11 @@ import { wedding } from "../config/wedding";
 import { rsvpLink } from "../lib/content";
 
 const reply = rsvpLink(wedding);
-const label = wedding.rsvp.label.trim() || "Reply";
+const label = wedding.rsvp.label.trim() || "RSVP";
 ---
-<section class="section rise" id="reply" aria-labelledby="reply-title">
+<section class="section rise" id="rsvp" aria-labelledby="rsvp-title">
   <div class="split">
-    <h2 id="reply-title">Reply</h2>
+    <h2 id="rsvp-title">RSVP</h2>
     <div class="split-body">
       {reply ? (
         <>
@@ -22,7 +22,7 @@ const label = wedding.rsvp.label.trim() || "Reply";
       ) : (
         <>
           <p class="kicker">Placeholder</p>
-          <p class="placeholder">Replies are not open yet.</p>
+          <p class="placeholder">RSVP is not open yet.</p>
         </>
       )}
     </div>
@@ -31,7 +31,7 @@ const label = wedding.rsvp.label.trim() || "Reply";
 
 <a
   class="sticky-reply"
-  href={reply ? reply.href : "#reply"}
+  href={reply ? reply.href : "#rsvp"}
   target={reply?.external ? "_blank" : undefined}
   rel={reply?.external ? "noopener" : undefined}
 >

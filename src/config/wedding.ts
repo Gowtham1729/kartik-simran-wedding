@@ -2,9 +2,11 @@
  * Kartik and Simran. Edit this file to change what guests read.
  *
  * Leave a string as "" and a list as [] until you know the real value.
- * The page still shows that section, marked as a placeholder.
- * Guests will treat whatever you type as fact, so do not guess a
- * venue, a time, a function name, or a story.
+ * Hero, Functions, and RSVP always show. Story, Venue, Travel, Dress,
+ * Photographs, and Questions stay off until their fields are filled in.
+ * sectionFlags() is what the page reads. Filling a field turns that
+ * section on. Guests will treat whatever you type as fact, so do not
+ * guess a venue, a time, a function name, or a story.
  */
 
 export interface WeddingEvent {
@@ -44,9 +46,23 @@ export interface FrameImage {
   height: number;
 }
 
+export interface SectionFlags {
+  story: boolean;
+  venue: boolean;
+  travel: boolean;
+  dress: boolean;
+  photographs: boolean;
+  questions: boolean;
+}
+
 export interface Wedding {
   partnerOne: string;
   partnerTwo: string;
+  /**
+   * Optional sections. Off by default.
+   * A section also turns on by itself once its fields below are filled in.
+   */
+  sections: SectionFlags;
   /**
    * Gurmukhi spellings of the two names.
    * Leave showGurmukhi false. Spelling to be confirmed by the couple.
@@ -62,15 +78,18 @@ export interface Wedding {
   date: string | null;
   /**
    * Start time as 24-hour "HH:MM", or null.
-   * Null counts down to midnight at the start of the day, and the page says so.
+   * Null counts down to midnight at the start of the day.
    */
   time: string | null;
   /** Offset of `date` and `time`. "+05:30" is India Standard Time. */
   utcOffset: string;
-  /** Shown under the names. "" becomes "City to be announced". */
+  /** A city, once known. "" shows "Punjab, India". */
   city: string;
-  /** The hero photograph. src "" keeps the arched placeholder. */
-  heroImage: FrameImage;
+  /**
+   * The hero photograph, masked to the arch.
+   * src "" keeps the dusk gradient.
+   */
+  heroPhoto: FrameImage;
   /** Short paragraph under the story title. "" leaves the story as a placeholder. */
   intro: string;
   venue: {
@@ -107,9 +126,39 @@ export interface Wedding {
   };
 }
 
+export function sectionFlags(w: Wedding = wedding): SectionFlags {
+  const text = (value: string) => value.trim().length > 0;
+  return {
+    story: w.sections.story || text(w.intro) || w.story.some((paragraph) => text(paragraph)),
+    venue:
+      w.sections.venue ||
+      text(w.venue.name) ||
+      text(w.venue.address) ||
+      text(w.venue.notes) ||
+      text(w.venue.mapsUrl),
+    travel:
+      w.sections.travel ||
+      text(w.travel.notes) ||
+      w.travel.stays.some((stay) => text(stay.name) || text(stay.detail) || text(stay.url)),
+    dress: w.sections.dress || text(w.dressCode),
+    photographs: w.sections.photographs || w.gallery.some((image) => text(image.src)),
+    questions:
+      w.sections.questions || w.faq.some((item) => text(item.question) && text(item.answer)),
+  };
+}
+
 export const wedding: Wedding = {
   partnerOne: "Kartik",
   partnerTwo: "Simran",
+
+  sections: {
+    story: false,
+    venue: false,
+    travel: false,
+    dress: false,
+    photographs: false,
+    questions: false,
+  },
 
   showGurmukhi: false,
   gurmukhiOne: "",
@@ -119,9 +168,9 @@ export const wedding: Wedding = {
   time: null,
   utcOffset: "+05:30",
 
-  city: "Punjab",
+  city: "",
 
-  heroImage: {
+  heroPhoto: {
     src: "",
     alt: "Photograph to be added",
     width: 900,
@@ -150,16 +199,12 @@ export const wedding: Wedding = {
 
   faq: [],
 
-  gallery: [
-    { src: "", alt: "Photograph to be added", width: 900, height: 1152 },
-    { src: "", alt: "Photograph to be added", width: 900, height: 1152 },
-    { src: "", alt: "Photograph to be added", width: 900, height: 1152 },
-  ],
+  gallery: [],
 
   rsvp: {
     mode: "",
     value: "",
-    label: "Reply",
+    label: "RSVP",
     whatsappMessage: "",
   },
 };

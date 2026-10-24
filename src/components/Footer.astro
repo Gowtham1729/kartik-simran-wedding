@@ -1,9 +1,9 @@
 ---
 import { wedding } from "../config/wedding";
-import { formatLongDate } from "../lib/format";
+import { formatLongDate, placeLine } from "../lib/format";
 
 const when = wedding.date ? formatLongDate(wedding.date) : "";
-const city = wedding.city.trim();
+const city = placeLine(wedding);
 ---
 <footer class="site-footer">
   <p class="sign">
