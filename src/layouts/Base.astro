@@ -2,6 +2,8 @@
 import "../styles/global.css";
 import serifUrl from "../assets/fonts/instrument-serif.woff2";
 import serifItalicUrl from "../assets/fonts/instrument-serif-italic.woff2";
+import sansUrl from "../assets/fonts/manrope-400.woff2";
+import sansMediumUrl from "../assets/fonts/manrope-500.woff2";
 import { pageUrl } from "../config/site";
 import { wedding } from "../config/wedding";
 import { pageTitle } from "../lib/content";
@@ -25,6 +27,8 @@ const imageAlt = pageTitle();
     <meta charset="utf-8" />
     <link rel="preload" href={serifUrl} as="font" type="font/woff2" crossorigin />
     <link rel="preload" href={serifItalicUrl} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={sansUrl} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={sansMediumUrl} as="font" type="font/woff2" crossorigin />
     <style is:inline>
       *, *::before, *::after { box-sizing: border-box; }
       body { margin: 0; background: #f7f1e6; }

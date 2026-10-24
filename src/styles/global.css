@@ -1,9 +1,31 @@
 @font-face {
+  font-family: "Instrument Serif Fallback";
+  src: local("Liberation Serif"), local("Times New Roman"), local("Nimbus Roman"), local("Times");
+  font-weight: 400;
+  font-style: normal;
+  size-adjust: 84%;
+  ascent-override: 92%;
+  descent-override: 22%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: "Instrument Serif Fallback";
+  src: local("Liberation Serif"), local("Times New Roman"), local("Nimbus Roman"), local("Times");
+  font-weight: 400;
+  font-style: italic;
+  size-adjust: 98%;
+  ascent-override: 92%;
+  descent-override: 22%;
+  line-gap-override: 0%;
+}
+
+@font-face {
   font-family: "Instrument Serif";
   src: url("../assets/fonts/instrument-serif.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
-  font-display: optional;
+  font-display: swap;
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
@@ -12,8 +34,30 @@
   src: url("../assets/fonts/instrument-serif-italic.woff2") format("woff2");
   font-weight: 400;
   font-style: italic;
-  font-display: optional;
+  font-display: swap;
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Manrope Fallback";
+  src: local("Liberation Sans"), local("Arial"), local("Nimbus Sans");
+  font-weight: 400;
+  font-style: normal;
+  size-adjust: 103%;
+  ascent-override: 95%;
+  descent-override: 25%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: "Manrope Fallback";
+  src: local("Liberation Sans"), local("Arial"), local("Nimbus Sans");
+  font-weight: 500;
+  font-style: normal;
+  size-adjust: 95%;
+  ascent-override: 95%;
+  descent-override: 25%;
+  line-gap-override: 0%;
 }
 
 @font-face {
@@ -21,7 +65,7 @@
   src: url("../assets/fonts/manrope-400.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
-  font-display: optional;
+  font-display: swap;
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
@@ -30,7 +74,7 @@
   src: url("../assets/fonts/manrope-500.woff2") format("woff2");
   font-weight: 500;
   font-style: normal;
-  font-display: optional;
+  font-display: swap;
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
@@ -49,8 +93,8 @@
   --rani: #ce266e;
   --gold: #b08a3e;
   --marigold: #e39a14;
-  --font-display: "Instrument Serif", "Iowan Old Style", Palatino, "Palatino Linotype", serif;
-  --font-sans: Manrope, "Avenir Next", "Segoe UI", sans-serif;
+  --font-display: "Instrument Serif", "Instrument Serif Fallback", "Iowan Old Style", Palatino, "Palatino Linotype", serif;
+  --font-sans: Manrope, "Manrope Fallback", "Avenir Next", "Segoe UI", sans-serif;
   --font-gurmukhi: "Noto Sans Gurmukhi", Manrope, sans-serif;
   --header: 4.25rem;
   --pad: clamp(1.25rem, 4.5vw, 4.5rem);
@@ -581,9 +625,9 @@ a:hover {
 }
 
 .chip {
-  width: 0.7rem;
-  height: 0.7rem;
-  border: 1px solid currentColor;
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
   flex: 0 0 auto;
 }
 

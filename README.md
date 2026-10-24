@@ -28,7 +28,7 @@ Open `src/config/wedding.ts`. Leave a string as `""` and a list as `[]` until yo
 - `heroPhoto`: `src` is a path inside `public/`, or `""` for the dusk gradient inside the arch. `width` and `height` are the pixel size of the file.
 - `intro`: the story paragraph. `""` leaves the story as a placeholder.
 - `venue`: `name`, `address`, `notes`, `mapsUrl`. An empty venue says it has not been named.
-- `events`: one object per confirmed function, in order. Each card shows the name, the day and time, the venue with a map link, and the dress as a colour chip. `dressColor` is a hex such as `"#E39A14"`, or `""` for an empty chip. Leave the list empty until a function is real. The page then shows a single placeholder card, not a made-up ceremony.
+- `events`: one object per confirmed function, in order. Each card shows the name, the day and time, and the venue with a map link. A dress line appears only once `dress` or `dressColor` is set. `dressColor` is a hex such as `"#E39A14"` and draws a round swatch. Leave the list empty until a function is real. The page then shows a single placeholder card, not a made-up ceremony.
 - `travel`: `notes` and `stays`. Empty until you write them.
 - `dressCode`: one or two sentences. Empty until set.
 - `story`: an array of paragraphs.

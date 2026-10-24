@@ -24,7 +24,7 @@ const events = wedding.events.filter((event) =>
           <h3>Function to be confirmed</h3>
           <p>Day and time to be confirmed</p>
           <p>Venue to be confirmed</p>
-          <p class="dress"><span class="chip" aria-hidden="true"></span> Dress to be confirmed</p>
+          <p class="dress">Dress to be confirmed</p>
         </li>
       ) : (
         events.map((event) => {
@@ -48,10 +48,12 @@ const events = wedding.events.filter((event) =>
                 )}
               </p>
               {event.note.trim() && <p class="note">{event.note.trim()}</p>}
-              <p class="dress">
-                <span class="chip" style={color ? `background:${color};border-color:${color}` : undefined} aria-hidden="true"></span>
-                {event.dress.trim() || "Dress to be confirmed"}
-              </p>
+              {(event.dress.trim() || color) && (
+                <p class="dress">
+                  {color && <span class="chip" style={`background:${color}`} aria-hidden="true"></span>}
+                  {event.dress.trim() || "Dress"}
+                </p>
+              )}
             </li>
           );
         })

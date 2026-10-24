@@ -19,9 +19,9 @@ export interface WeddingEvent {
   place: string;
   /** https link. "" hides the map link. */
   mapsUrl: string;
-  /** Shown next to the colour chip. "" becomes "Dress to be confirmed". */
+  /** Dress note for this function. "" hides the line on a real card. */
   dress: string;
-  /** A hex colour for the chip, for example "#E39A14". "" keeps an empty chip. */
+  /** Hex for a round swatch, for example "#E39A14". "" hides the swatch. */
   dressColor: string;
   /** One practical sentence. "" hides the line. */
   note: string;
