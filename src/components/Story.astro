@@ -8,6 +8,7 @@ const photo = wedding.storyPhoto.src.trim();
 ---
 <section class="section story rise" id="story" aria-labelledby="story-title">
   <div class="story-copy">
+    {!(intro || paragraphs.length) && <p class="kicker flag">Placeholder</p>}
     <p class="kicker">Our story</p>
     <h2 id="story-title">How they met</h2>
     {intro || paragraphs.length ? (
@@ -17,7 +18,6 @@ const photo = wedding.storyPhoto.src.trim();
       </div>
     ) : (
       <div class="prose">
-        <p class="kicker">Placeholder</p>
         <p class="placeholder">Replace this with Kartik and Simran's own account of how they met.</p>
         <p>Nothing has been written here yet.</p>
       </div>

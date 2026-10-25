@@ -26,7 +26,7 @@ The design lead's direction, October 2026, replaces the earlier wheat stitch and
 
 ## Direction
 
-Ivory `#F7F1E6`. Bottle green `#123D2F` for type, one story block, and the footer. Rani `#D2266E` is the hero colour block and the ampersand in the monogram. It is about 4.4:1 on ivory, short of ordinary text, so small type stays green. Marigold is the short toran of blooms along the top of the hero frame (`#F2A12C` and `#E07A1F`).
+Ivory `#F7F1E6`. Bottle green `#123D2F` for type, one story block, and the footer. Rani `#D2266E` is the offset block behind the large hero frame and the ampersand in the monogram. It is about 4.4:1 on ivory, short of ordinary text, so small type stays green. Marigold is a garland strung across the top of that frame (`#F2A12C` and `#E07A1F`).
 
 The page is an editorial wedding layout: a sticky monogram nav, an asymmetric hero of two overlapping photographs, then story, celebrations, gallery, travel, questions, and RSVP. The sections do not repeat one card grid. Celebrations are Mehndi, Sangeet, Anand Karaj, and Reception, each able to be turned off in config, and each reading "Date and venue to be announced" until a real date or place is typed. Story, travel, questions, and RSVP stay visible as placeholders. The photographs are Unsplash stand-ins. Couple pictures are marked `MOCK` in `src/config/wedding.ts`. Alt text describes the picture. It does not name Kartik or Simran.
 

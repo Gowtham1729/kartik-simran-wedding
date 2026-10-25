@@ -11,6 +11,7 @@ import { assetPath, imageSrcSet, pageTitle } from "../lib/content";
 const heroSrc = wedding.heroPhoto.src.trim();
 const heroSrcSet = imageSrcSet(wedding.heroPhoto);
 const heroSizes = "(min-width: 880px) 50vw, 74vw";
+const accentSrc = wedding.heroAccent.src.trim();
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 
@@ -45,22 +46,25 @@ const imageAlt = pageTitle();
         fetchpriority="high"
       />
     )}
+    {accentSrc && <link rel="preload" as="image" href={assetPath(accentSrc)} type="image/webp" />}
     <style is:inline>
       *, *::before, *::after { box-sizing: border-box; }
       body { margin: 0; background: #f7f1e6; color: #123d2f; }
       .site-header { position: sticky; top: 0; display: flex; align-items: center; height: 4.25rem; background: #f7f1e6; }
-      .nav ul { display: flex; gap: 1rem; list-style: none; margin: 0; padding: 0; }
+      .nav-bar { display: none; }
       .hero { display: grid; padding: 0.6rem 1.25rem 3.25rem; }
-      .hero-stage { position: relative; height: 0; margin-top: 0.65rem; padding-bottom: 120%; }
+      .hero-stage { position: relative; margin-top: 1.4rem; aspect-ratio: 5 / 5.65; }
+      .hero-slab { position: absolute; top: 16%; right: 0; width: 68%; height: 76%; background: #d2266e; }
       .hero-main, .hero-side { position: absolute; overflow: hidden; margin: 0; }
-      .hero-main { top: 0; right: 0; width: 76%; height: 84%; }
+      .hero-main { top: 0; right: 14%; width: 74%; height: 74%; }
       .hero-side { left: 0; bottom: 0; width: 48%; height: 42%; }
       .names { margin: 0; font-weight: 400; font-size: clamp(4.4rem, 20vw, 6rem); line-height: 0.84; letter-spacing: -0.04em; }
       .names .line, .names .and { display: block; }
       .names .and { font-size: 0.38em; line-height: 1; margin: 0.16em 0 0.06em; }
+      @media (min-width: 720px) { .nav-bar { display: block; } .nav-menu { display: none; } }
       @media (min-width: 880px) {
         .hero { grid-template-columns: minmax(16rem, 0.78fr) minmax(0, 1.2fr); align-items: end; min-height: calc(100svh - 4.25rem); padding-bottom: 3.5rem; }
-        .hero-stage { margin-top: 0; padding-bottom: 112%; }
+        .hero-stage { margin-top: 0; }
         .names { font-size: clamp(4.8rem, 6.4vw, 7.4rem); }
       }
     </style>

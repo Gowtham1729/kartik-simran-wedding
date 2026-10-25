@@ -13,7 +13,7 @@ public/                   Favicon, share image, and any photographs.
 docs/design-research.md   Why the page looks like this.
 ```
 
-Ivory ground, bottle green for the type, rani for the monogram ampersand and the hero colour block. The display face is Instrument Serif at weight 400. The interface is Manrope. A short marigold toran sits on the hero frame. Licenses for the fonts are in `src/assets/fonts/`.
+Ivory ground, bottle green for the type, rani for the monogram ampersand and the offset block behind the hero frame. The display face is Instrument Serif at weight 400. The interface is Manrope. A marigold garland is strung across the top of the large hero frame. Licenses for the fonts are in `src/assets/fonts/`. Below 720px the header is the monogram and a Menu button.
 
 ## Edit the content
 
@@ -44,11 +44,12 @@ Files are WebP in `public/photos/`, 1600px on the long side, each under 250KB. S
 | `photos/story.webp` | Our Story. MOCK | Bride and groom outdoors | [Suresh Chavan](https://unsplash.com/@741suresh) |
 | `photos/gallery-pair.webp` | Gallery. MOCK | Bride and groom in red and white, with garlands | [iKshana Productions](https://unsplash.com/@ikshanaproductions) |
 | `photos/gallery-wide.webp` | Gallery. MOCK | Smiling bride and groom outdoors | [Suresh Chavan](https://unsplash.com/@741suresh) |
-| `photos/mehndi.webp` | Celebrations and gallery | Mehndi, red and white bangles, marigolds | [Prajna Amey](https://unsplash.com/@prajna) |
+| `photos/mehndi.webp` | Celebrations | Mehndi, red and white bangles, marigolds | [Prajna Amey](https://unsplash.com/@prajna) |
+| `photos/marigolds.webp` | Gallery | Marigold garlands at a flower stall | [Zoshua Colah](https://unsplash.com/@zoshuacolah) |
 | `photos/bangles.webp` | Gallery | Red and gold bridal bangles on embroidered cloth | [Hush Naidoo Jade Photography](https://unsplash.com/@hush52) |
 | `photos/drums.webp` | Gallery | Traditional Indian drums at a celebration | [Tomás Robertson](https://unsplash.com/@tomasrobertson) |
 
-The footer lists each photographer once. All eight pictures are free under the [Unsplash License](https://unsplash.com/license). `hero-720.webp` is the same hero picture, only smaller.
+The footer lists each photographer once. All nine pictures are free under the [Unsplash License](https://unsplash.com/license). `hero-720.webp` is the same hero picture, only smaller.
 
 ## RSVP link
 

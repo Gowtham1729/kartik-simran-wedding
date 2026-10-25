@@ -6,6 +6,7 @@ const notes = wedding.travel.notes.trim();
 const stays = wedding.travel.stays.filter((stay) => stay.name.trim() || stay.detail.trim());
 ---
 <section class="section travel rise" id="travel" aria-labelledby="travel-title">
+  {!(notes || stays.length) && <p class="kicker flag">Placeholder</p>}
   <p class="kicker">Getting there</p>
   <h2 id="travel-title">Travel and stay</h2>
   {notes || stays.length ? (
@@ -29,9 +30,19 @@ const stays = wedding.travel.stays.filter((stay) => stay.name.trim() || stay.det
       )}
     </div>
   ) : (
-    <div class="prose travel-copy">
-      <p class="kicker">Placeholder</p>
-      <p class="placeholder">How to arrive, and where to stay, will be added once the celebrations are set.</p>
-    </div>
+    <ul class="travel-grid">
+      <li>
+        <h3>Fly into</h3>
+        <p>The arrival city is still to be announced.</p>
+      </li>
+      <li>
+        <h3>Stay</h3>
+        <p>Places to stay will be added here.</p>
+      </li>
+      <li>
+        <h3>Getting around</h3>
+        <p>How to travel between the celebrations is still to be announced.</p>
+      </li>
+    </ul>
   )}
 </section>

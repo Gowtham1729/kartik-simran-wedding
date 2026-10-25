@@ -178,12 +178,12 @@ export const wedding: Wedding = {
       creditUrl: "https://unsplash.com/@ikshanaproductions",
     },
     {
-      src: "photos/mehndi.webp",
-      alt: "Mehndi on a pair of hands, with red and white bangles and marigolds",
-      width: 1600,
-      height: 1066,
-      credit: "Prajna Amey",
-      creditUrl: "https://unsplash.com/@prajna",
+      src: "photos/marigolds.webp",
+      alt: "Marigold garlands hanging at a flower stall",
+      width: 1215,
+      height: 1600,
+      credit: "Zoshua Colah",
+      creditUrl: "https://unsplash.com/@zoshuacolah",
     },
     {
       src: "photos/bangles.webp",
