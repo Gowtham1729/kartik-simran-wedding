@@ -14,7 +14,9 @@ const indexPath = join(dist, "index.html");
 const index = readFileSync(indexPath, "utf8");
 const rewritten = index
   .replaceAll(`="${base}/`, '="./')
-  .replaceAll(`='${base}/`, "='./");
+  .replaceAll(`='${base}/`, "='./")
+  .replaceAll(`, ${base}/`, ", ./")
+  .replaceAll(`,${base}/`, ",./");
 writeFileSync(indexPath, rewritten);
 
 function walk(dir) {

@@ -1,34 +1,22 @@
 ---
 import { wedding } from "../config/wedding";
-import { assetPath, heroModel } from "../lib/content";
-import Toran from "./Toran.astro";
+import { assetPath, heroModel, imageSrcSet } from "../lib/content";
 
 const hero = heroModel(wedding);
 const [first, second] = hero.partners;
-const image = hero.image;
-const photo = image.src.trim();
+const one = first.trim().charAt(0);
+const two = second.trim().charAt(0);
+const photo = hero.image.src.trim();
+const accent = hero.accent.src.trim();
+const heroSrcSet = imageSrcSet(hero.image);
 ---
-<section class:list={["hero", photo && "has-photo"]} id="top" aria-labelledby="hero-title">
-  <div class="hero-sky" aria-hidden="true">
-    {photo && (
-      <img
-        class="hero-photo"
-        src={assetPath(photo)}
-        alt=""
-        width={image.width}
-        height={image.height}
-        decoding="async"
-        fetchpriority="high"
-      />
-    )}
-    <div class="hero-wash"></div>
-    {photo && <div class="hero-scrim"></div>}
-    <svg class="hero-grain" focusable="false">
-      <rect width="100%" height="100%" filter="url(#arch-grain)"></rect>
-    </svg>
-  </div>
-  <Toran />
+<section class="hero" id="top" aria-labelledby="hero-title">
   <div class="hero-copy">
+    <p class="hero-mark" aria-hidden="true">
+      <span translate="no">{one}</span>
+      <i>&</i>
+      <span translate="no">{two}</span>
+    </p>
     <h1 id="hero-title" class="names">
       <span class="line" translate="no">{first}</span>
       <span class="and">and</span>
@@ -40,89 +28,145 @@ const photo = image.src.trim();
         <span>{hero.gurmukhi.two}</span>
       </p>
     )}
-  </div>
-  <div class="hero-meta">
-    {hero.parts && (
-      <p class="when">
-        <span class="visually-hidden">{hero.longDate}</span>
-        <span aria-hidden="true">{hero.parts.weekdayLong}, {hero.parts.day} {hero.parts.monthLong} {hero.parts.year}</span>
-      </p>
-    )}
-    <p class="where">{hero.city}</p>
-    {hero.target && (
-      <div class="count-block">
-        <p class="countdown" data-countdown data-target={hero.target}>
-          <span data-count-text>{hero.phrase}</span>
+    <div class="hero-meta">
+      {hero.parts && (
+        <p class="when">
+          <span class="visually-hidden">{hero.longDate}</span>
+          <time datetime={wedding.date ?? undefined} aria-hidden="true">{hero.parts.weekdayLong}, {hero.parts.day} {hero.parts.monthLong} {hero.parts.year}</time>
         </p>
-        <p class="count-done" data-count-done data-passed={hero.passed} hidden>{hero.here}</p>
-        <p class="visually-hidden" data-count-live aria-live="polite"></p>
-        <noscript>
-          <p class="count-note">The live count needs JavaScript. The date above is the one to keep.</p>
-        </noscript>
-        <script is:inline>
-          (function () {
-            var root = document.querySelector("[data-countdown]");
-            if (!root) return;
-            var target = new Date(root.getAttribute("data-target") || "");
-            if (isNaN(target.getTime())) return;
-            var text = root.querySelector("[data-count-text]");
-            var done = document.querySelector("[data-count-done]");
-            var live = document.querySelector("[data-count-live]");
-            var lastSpoken = 0;
-
-            function parts(ms) {
-              var s = Math.floor(ms / 1000);
-              return {
-                days: Math.floor(s / 86400),
-                hours: Math.floor((s % 86400) / 3600),
-                minutes: Math.floor((s % 3600) / 60)
-              };
-            }
-
-            function phrase(v) {
-              if (v.days > 1) return v.days + " days to go";
-              if (v.days === 1) return "1 day to go";
-              if (v.hours > 1) return v.hours + " hours to go";
-              if (v.hours === 1) return "1 hour to go";
-              if (v.minutes > 1) return v.minutes + " minutes to go";
-              return "Less than a minute to go";
-            }
-
-            function finish(ms) {
-              root.hidden = true;
-              if (done) {
-                if (ms < -36 * 60 * 60 * 1000 && done.getAttribute("data-passed")) {
-                  done.textContent = done.getAttribute("data-passed");
-                }
-                done.hidden = false;
-                if (live) live.textContent = done.textContent;
-              }
-            }
-
-            function tick() {
-              var ms = target.getTime() - Date.now();
-              if (ms <= 0) {
-                finish(ms);
-                return false;
-              }
-              var values = parts(ms);
-              var line = phrase(values);
-              if (text && text.textContent !== line) text.textContent = line;
-              var now = Date.now();
-              if (live && now - lastSpoken > 60000) {
-                live.textContent = values.days + " days, " + values.hours + " hours, " + values.minutes + " minutes";
-                lastSpoken = now;
-              }
-              return true;
-            }
-
-            if (!tick()) return;
-            var timer = setInterval(function () {
-              if (!tick()) clearInterval(timer);
-            }, 30000);
-          })();
-        </script>
-      </div>
+      )}
+      <p class="where">{hero.city}</p>
+      {hero.target && (
+        <div class="count-block">
+          <p class="countdown" data-countdown data-target={hero.target}>
+            <span data-count-text>{hero.phrase}</span>
+          </p>
+          <p class="count-done" data-count-done data-passed={hero.passed} hidden>{hero.here}</p>
+          <p class="visually-hidden" data-count-live aria-live="polite"></p>
+          <noscript>
+            <p class="count-note">The live count needs JavaScript. The date above is the one to keep.</p>
+          </noscript>
+        </div>
+      )}
+    </div>
+  </div>
+  <div class="hero-stage">
+    <div class="hero-slab" aria-hidden="true"></div>
+    <figure class="hero-main">
+      <svg class="toran-accent" viewBox="0 0 320 40" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false">
+        <defs>
+          <symbol id="accent-bloom" viewBox="0 0 64 64">
+            <ellipse cx="32" cy="16" rx="8" ry="14" fill="#F2A12C"></ellipse>
+            <ellipse cx="43" cy="21" rx="8" ry="14" fill="#F2A12C" transform="rotate(45 43 21)"></ellipse>
+            <ellipse cx="47" cy="32" rx="8" ry="14" fill="#F2A12C" transform="rotate(90 47 32)"></ellipse>
+            <ellipse cx="43" cy="43" rx="8" ry="14" fill="#F2A12C" transform="rotate(135 43 43)"></ellipse>
+            <ellipse cx="32" cy="48" rx="8" ry="14" fill="#E07A1F" transform="rotate(180 32 48)"></ellipse>
+            <ellipse cx="21" cy="43" rx="8" ry="14" fill="#E07A1F" transform="rotate(225 21 43)"></ellipse>
+            <ellipse cx="17" cy="32" rx="8" ry="14" fill="#E07A1F" transform="rotate(270 17 32)"></ellipse>
+            <ellipse cx="21" cy="21" rx="8" ry="14" fill="#F2A12C" transform="rotate(315 21 21)"></ellipse>
+            <circle cx="32" cy="32" r="8" fill="#7A320C"></circle>
+            <circle cx="30" cy="30" r="2.4" fill="#E07A1F"></circle>
+          </symbol>
+          <symbol id="accent-leaf" viewBox="0 0 24 10">
+            <path fill="#123D2F" d="M1.1 5C6.2 0.7 16.2 0.35 22.9 5C16.2 9.65 6.2 9.3 1.1 5Z"></path>
+            <path fill="none" stroke="#A9D4BE" stroke-width="1.15" stroke-linecap="round" d="M3.4 5C9.4 4.55 16.4 4.5 20.8 5"></path>
+          </symbol>
+        </defs>
+        <use href="#accent-leaf" x="4" y="14" width="22" height="9" transform="rotate(-18 15 18)"></use>
+        <use href="#accent-leaf" x="294" y="14" width="22" height="9" transform="rotate(18 305 18)"></use>
+        {Array.from({ length: 9 }, (_, index) => (
+          <use href="#accent-bloom" x={18 + index * 32} y="6" width="28" height="28"></use>
+        ))}
+      </svg>
+      {photo && (
+        <img
+          class="hero-still"
+          src={assetPath(photo)}
+          srcset={heroSrcSet || undefined}
+          sizes={heroSrcSet ? "(min-width: 880px) 50vw, 74vw" : undefined}
+          alt={hero.image.alt}
+          width={hero.image.width}
+          height={hero.image.height}
+          fetchpriority="high"
+        />
+      )}
+    </figure>
+    {accent && (
+      <figure class="hero-side">
+        <img
+          src={assetPath(accent)}
+          alt={hero.accent.alt}
+          width={hero.accent.width}
+          height={hero.accent.height}
+          decoding="async"
+          fetchpriority="low"
+        />
+      </figure>
     )}
   </div>
 </section>
+{hero.target && (
+  <script is:inline>
+    (function () {
+      var root = document.querySelector("[data-countdown]");
+      if (!root) return;
+      var target = new Date(root.getAttribute("data-target") || "");
+      if (isNaN(target.getTime())) return;
+      var text = root.querySelector("[data-count-text]");
+      var done = document.querySelector("[data-count-done]");
+      var live = document.querySelector("[data-count-live]");
+      var lastSpoken = 0;
+
+      function parts(ms) {
+        var s = Math.floor(ms / 1000);
+        return {
+          days: Math.floor(s / 86400),
+          hours: Math.floor((s % 86400) / 3600),
+          minutes: Math.floor((s % 3600) / 60)
+        };
+      }
+
+      function phrase(v) {
+        if (v.days > 1) return v.days + " days to go";
+        if (v.days === 1) return "1 day to go";
+        if (v.hours > 1) return v.hours + " hours to go";
+        if (v.hours === 1) return "1 hour to go";
+        if (v.minutes > 1) return v.minutes + " minutes to go";
+        return "Less than a minute to go";
+      }
+
+      function finish(ms) {
+        root.hidden = true;
+        if (done) {
+          if (ms < -36 * 60 * 60 * 1000 && done.getAttribute("data-passed")) {
+            done.textContent = done.getAttribute("data-passed");
+          }
+          done.hidden = false;
+          if (live) live.textContent = done.textContent;
+        }
+      }
+
+      function tick() {
+        var ms = target.getTime() - Date.now();
+        if (ms <= 0) {
+          finish(ms);
+          return false;
+        }
+        var values = parts(ms);
+        var line = phrase(values);
+        if (text && text.textContent !== line) text.textContent = line;
+        var now = Date.now();
+        if (live && now - lastSpoken > 60000) {
+          live.textContent = values.days + " days, " + values.hours + " hours, " + values.minutes + " minutes";
+          lastSpoken = now;
+        }
+        return true;
+      }
+
+      if (!tick()) return;
+      var timer = setInterval(function () {
+        if (!tick()) clearInterval(timer);
+      }, 30000);
+    })();
+  </script>
+)}

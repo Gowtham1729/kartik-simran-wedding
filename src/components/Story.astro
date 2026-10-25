@@ -1,20 +1,39 @@
 ---
 import { wedding } from "../config/wedding";
+import { assetPath } from "../lib/content";
 
-const paragraphs = [wedding.intro, ...wedding.story].map((p) => p.trim()).filter(Boolean);
+const intro = wedding.intro.trim();
+const paragraphs = wedding.story.map((paragraph) => paragraph.trim()).filter(Boolean);
+const photo = wedding.storyPhoto.src.trim();
 ---
-<section class="section rise" id="story" aria-labelledby="story-title">
-  <div class="split">
-    <h2 id="story-title">Story</h2>
-    <div class="split-body">
-      {paragraphs.length > 0 ? (
-        paragraphs.map((paragraph) => <p>{paragraph}</p>)
-      ) : (
-        <>
-          <p class="kicker">Placeholder</p>
-          <p class="placeholder">This story has not been written yet.</p>
-        </>
-      )}
-    </div>
+<section class="section story rise" id="story" aria-labelledby="story-title">
+  <div class="story-copy">
+    <p class="kicker">Our story</p>
+    <h2 id="story-title">How they met</h2>
+    {intro || paragraphs.length ? (
+      <div class="prose">
+        {intro && <p>{intro}</p>}
+        {paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+      </div>
+    ) : (
+      <div class="prose">
+        <p class="kicker">Placeholder</p>
+        <p class="placeholder">Replace this with Kartik and Simran's own account of how they met.</p>
+        <p>Nothing has been written here yet.</p>
+      </div>
+    )}
   </div>
+  {photo && (
+    <figure class="story-figure">
+      <div class="story-slab" aria-hidden="true"></div>
+      <img
+        src={assetPath(photo)}
+        alt={wedding.storyPhoto.alt}
+        width={wedding.storyPhoto.width}
+        height={wedding.storyPhoto.height}
+        loading="lazy"
+        decoding="async"
+      />
+    </figure>
+  )}
 </section>

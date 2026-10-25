@@ -6,7 +6,11 @@ import sansUrl from "../assets/fonts/manrope-400.woff2";
 import sansMediumUrl from "../assets/fonts/manrope-500.woff2";
 import { pageUrl } from "../config/site";
 import { wedding } from "../config/wedding";
-import { pageTitle } from "../lib/content";
+import { assetPath, imageSrcSet, pageTitle } from "../lib/content";
+
+const heroSrc = wedding.heroPhoto.src.trim();
+const heroSrcSet = imageSrcSet(wedding.heroPhoto);
+const heroSizes = "(min-width: 880px) 50vw, 74vw";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 
@@ -25,34 +29,41 @@ const imageAlt = pageTitle();
 <html lang="en">
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <link rel="preload" href={serifUrl} as="font" type="font/woff2" crossorigin />
     <link rel="preload" href={serifItalicUrl} as="font" type="font/woff2" crossorigin />
     <link rel="preload" href={sansUrl} as="font" type="font/woff2" crossorigin />
     <link rel="preload" href={sansMediumUrl} as="font" type="font/woff2" crossorigin />
+    {heroSrc && (
+      <link
+        rel="preload"
+        as="image"
+        href={assetPath(wedding.heroPhoto.narrow?.src || heroSrc)}
+        imagesrcset={heroSrcSet || undefined}
+        imagesizes={heroSrcSet ? heroSizes : undefined}
+        type="image/webp"
+        fetchpriority="high"
+      />
+    )}
     <style is:inline>
       *, *::before, *::after { box-sizing: border-box; }
-      body { margin: 0; background: #f7f1e6; }
-      .site-header { height: 4.25rem; overflow: hidden; position: relative; z-index: 6; background: transparent; }
-      .nav, .reply-btn { display: none; }
-      .hero { display: grid; grid-template-rows: 30svh minmax(0, 1fr) auto; height: 100svh; margin-top: -4.25rem; overflow: hidden; color: #f7f1e6; background: linear-gradient(180deg, #f6ddd2 0%, #f3d0c6 18%, #e7b4be 28%, #c94b78 40%, #ce266e 56%, #b41d58 72%, #9e1a4e 86%, #8f1844 94%, #c2412e 98%, #e39a14 100%); }
-      .hero-sky { position: absolute; inset: 0; }
-      .toran { width: 100%; height: 100%; }
-      .hero-copy { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 0; text-align: center; }
-      .hero-meta { text-align: center; padding: 0 1.25rem clamp(1.35rem, 4.5svh, 2.75rem); }
-      .names { margin: 0; font-weight: 400; font-size: clamp(4.75rem, 22vw, 6.5rem); line-height: 0.84; letter-spacing: -0.035em; color: #f7f1e6; }
-      .names .line, .names .and { display: block; white-space: nowrap; }
-      .names .and { font-size: 0.38em; line-height: 1.1; margin: 0.18em 0 0.08em; letter-spacing: 0; }
-      .hero-meta .when, .hero-meta .where, .hero-meta .countdown { margin: 0; font-weight: 500; font-size: 0.75rem; letter-spacing: 0.16em; text-transform: uppercase; color: #f7f1e6; }
-      @media (max-height: 760px) and (max-width: 879px) {
-        .names { font-size: clamp(3.5rem, 16vw, 4.6rem); }
-      }
+      body { margin: 0; background: #f7f1e6; color: #123d2f; }
+      .site-header { position: sticky; top: 0; display: flex; align-items: center; height: 4.25rem; background: #f7f1e6; }
+      .nav ul { display: flex; gap: 1rem; list-style: none; margin: 0; padding: 0; }
+      .hero { display: grid; padding: 0.6rem 1.25rem 3.25rem; }
+      .hero-stage { position: relative; height: 0; margin-top: 0.65rem; padding-bottom: 120%; }
+      .hero-main, .hero-side { position: absolute; overflow: hidden; margin: 0; }
+      .hero-main { top: 0; right: 0; width: 76%; height: 84%; }
+      .hero-side { left: 0; bottom: 0; width: 48%; height: 42%; }
+      .names { margin: 0; font-weight: 400; font-size: clamp(4.4rem, 20vw, 6rem); line-height: 0.84; letter-spacing: -0.04em; }
+      .names .line, .names .and { display: block; }
+      .names .and { font-size: 0.38em; line-height: 1; margin: 0.16em 0 0.06em; }
       @media (min-width: 880px) {
-        .header-tools, .nav, .reply-btn { display: flex; }
-        .header-tools { align-items: center; gap: 1.2rem; margin-left: auto; }
-        .names { font-size: clamp(4.75rem, 7vw, 7rem); }
+        .hero { grid-template-columns: minmax(16rem, 0.78fr) minmax(0, 1.2fr); align-items: end; min-height: calc(100svh - 4.25rem); padding-bottom: 3.5rem; }
+        .hero-stage { margin-top: 0; padding-bottom: 112%; }
+        .names { font-size: clamp(4.8rem, 6.4vw, 7.4rem); }
       }
     </style>
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="theme-color" content="#F7F1E6" />
@@ -84,17 +95,6 @@ const imageAlt = pageTitle();
     {jsonLd && <script is:inline type="application/ld+json" set:html={jsonLd} />}
   </head>
   <body>
-    <svg class="defs" width="0" height="0" aria-hidden="true" focusable="false">
-      <defs>
-        <clipPath id="arch-clip" clipPathUnits="objectBoundingBox">
-          <path d="M0.14,1 L0.14,0.484 C0.14,0.281 0.32,0.125 0.5,0.047 C0.68,0.125 0.86,0.281 0.86,0.484 L0.86,1 Z"></path>
-        </clipPath>
-        <filter id="arch-grain" x="0%" y="0%" width="100%" height="100%">
-          <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="4" stitchTiles="stitch"></feTurbulence>
-          <feColorMatrix type="saturate" values="0"></feColorMatrix>
-        </filter>
-      </defs>
-    </svg>
     <a class="skip" href="#main">Skip to content</a>
     <Header />
     <main id="main">

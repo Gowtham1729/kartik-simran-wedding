@@ -6,37 +6,28 @@ import { namesLine } from "../lib/format";
 const items = navItems();
 const reply = rsvpLink(wedding);
 const home = import.meta.env.BASE_URL;
-const showNav = items.length > 1;
+const one = wedding.partnerOne.trim().charAt(0);
+const two = wedding.partnerTwo.trim().charAt(0);
 ---
 <header class="site-header">
-  <a class="brand" href={home} aria-label={namesLine(wedding)}>
-    <svg class="brand-arch" viewBox="0 0 100 128" aria-hidden="true" focusable="false">
-      <path d="M18 120 L18 64 C18 40 34 22 50 12 C66 22 82 40 82 64 L82 120" fill="none" stroke="currentColor" stroke-width="3"></path>
-    </svg>
-    <span translate="no">{wedding.partnerOne} <i>and</i> {wedding.partnerTwo}</span>
+  <a class="mark" href={home} aria-label={`${one} & ${two}, ${namesLine(wedding)}`}>
+    <span translate="no">{one}</span>
+    <i>&</i>
+    <span translate="no">{two}</span>
   </a>
-  {(showNav || reply) && (
-    <div class="header-tools">
-      {showNav && (
-        <nav class="nav" aria-label="Sections">
-          <ul>
-            {items.map((item) => (
-              <li><a href={item.href}>{item.label}</a></li>
-            ))}
-          </ul>
-        </nav>
-      )}
+  <nav class="nav" aria-label="Sections">
+    <ul>
+      {items.map((item) => (
+        <li><a href={item.href}>{item.label}</a></li>
+      ))}
       {reply && (
-        <a
-          class="reply-btn"
-          href={reply.href}
-          target={reply.external ? "_blank" : undefined}
-          rel={reply.external ? "noopener" : undefined}
-        >
-          {reply.label}
-          {reply.external && <span class="visually-hidden"> (opens in a new tab)</span>}
-        </a>
+        <li>
+          <a href={reply.href} target={reply.external ? "_blank" : undefined} rel={reply.external ? "noopener" : undefined}>
+            {reply.label}
+            {reply.external && <span class="visually-hidden"> (opens in a new tab)</span>}
+          </a>
+        </li>
       )}
-    </div>
-  )}
+    </ul>
+  </nav>
 </header>

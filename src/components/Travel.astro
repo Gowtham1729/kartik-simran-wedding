@@ -4,42 +4,34 @@ import { httpUrl } from "../lib/content";
 
 const notes = wedding.travel.notes.trim();
 const stays = wedding.travel.stays.filter((stay) => stay.name.trim() || stay.detail.trim());
-const open = !notes && stays.length === 0;
 ---
-<section class="section rise" id="travel" aria-labelledby="travel-title">
-  <div class="split">
-    <h2 id="travel-title">Travel</h2>
-    <div class="split-body">
-      {open ? (
-        <>
-          <p class="kicker">Placeholder</p>
-          <p class="placeholder">Travel notes have not been added.</p>
-        </>
-      ) : (
-        <>
-          {notes && <p>{notes}</p>}
-          {stays.length > 0 && (
-            <ul class="stays">
-              {stays.map((stay) => {
-                const url = httpUrl(stay.url);
-                return (
-                  <li>
-                    <h3>{stay.name.trim() || "Place to be confirmed"}</h3>
-                    {stay.detail.trim() && <p>{stay.detail.trim()}</p>}
-                    {url && (
-                      <p>
-                        <a href={url} target="_blank" rel="noopener">
-                          Open<span class="visually-hidden"> (opens in a new tab)</span>
-                        </a>
-                      </p>
-                    )}
-                  </li>
-                );
-              })}
-            </ul>
-          )}
-        </>
+<section class="section travel rise" id="travel" aria-labelledby="travel-title">
+  <p class="kicker">Getting there</p>
+  <h2 id="travel-title">Travel and stay</h2>
+  {notes || stays.length ? (
+    <div class="prose travel-copy">
+      {notes && <p>{notes}</p>}
+      {stays.length > 0 && (
+        <ul class="stays">
+          {stays.map((stay) => {
+            const href = httpUrl(stay.url);
+            return (
+              <li>
+                <h3>{stay.name.trim() || "A place to stay"}</h3>
+                {stay.detail.trim() && <p>{stay.detail.trim()}</p>}
+                {href && (
+                  <p><a href={href} target="_blank" rel="noopener">Directions<span class="visually-hidden"> (opens in a new tab)</span></a></p>
+                )}
+              </li>
+            );
+          })}
+        </ul>
       )}
     </div>
-  </div>
+  ) : (
+    <div class="prose travel-copy">
+      <p class="kicker">Placeholder</p>
+      <p class="placeholder">How to arrive, and where to stay, will be added once the celebrations are set.</p>
+    </div>
+  )}
 </section>

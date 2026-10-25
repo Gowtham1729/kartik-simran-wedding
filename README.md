@@ -13,28 +13,42 @@ public/                   Favicon, share image, and any photographs.
 docs/design-research.md   Why the page looks like this.
 ```
 
-Ivory ground, bottle green for the type and for the functions band, rani only on the RSVP control and on links. The display face is Instrument Serif at weight 400. The interface is Manrope. One motif, a pointed arch, with a marigold toran across the top. Licenses are in `src/assets/fonts/`.
+Ivory ground, bottle green for the type, rani for the monogram ampersand and the hero colour block. The display face is Instrument Serif at weight 400. The interface is Manrope. A short marigold toran sits on the hero frame. Licenses for the fonts are in `src/assets/fonts/`.
 
 ## Edit the content
 
-Open `src/config/wedding.ts`. Leave a string as `""` and a list as `[]` until you know the real value. Hero, Functions, and RSVP always show. Story, Venue, Travel, Dress, Photographs, and Questions stay off until their fields are filled in (`sections` in that file, all false). Filling a field turns that section, and its nav link, back on. Guests will treat whatever you type as fact, so do not guess a venue, a time, a function name, or a story.
+Open `src/config/wedding.ts`. Leave a string as `""` until you know the real value. Story, Travel, Questions, and RSVP always show. Empty fields stay placeholders. Guests will treat whatever you type as fact, so do not guess a venue, a time, or a story.
 
-- `partnerOne`, `partnerTwo`: first names.
-- `showGurmukhi`, `gurmukhiOne`, `gurmukhiTwo`: off by default. Spelling to be confirmed by the couple. Leave the flag false until both spellings are real. The line is not shown while either string is empty.
+- `partnerOne`, `partnerTwo`: first names. The monogram uses the first letter of each.
+- `showGurmukhi`, `gurmukhiOne`, `gurmukhiTwo`: off by default. Spelling to be confirmed by the couple.
 - `date`: `"YYYY-MM-DD"`, or `null` to hide the date and the countdown. The weekday is calculated.
-- `time`: `"HH:MM"` in 24-hour time, or `null`. Null counts down to midnight at the start of the day, and the page says so.
+- `time`: `"HH:MM"` in 24-hour time, or `null`. Null counts down to midnight at the start of the day.
 - `utcOffset`: `"+05:30"` is India Standard Time.
 - `city`: `""` shows "Punjab, India" until a city is set.
-- `heroPhoto`: `src` is a path inside `public/`, or `""` for the dusk gradient inside the arch. `width` and `height` are the pixel size of the file.
-- `intro`: the story paragraph. `""` leaves the story as a placeholder.
-- `venue`: `name`, `address`, `notes`, `mapsUrl`. An empty venue says it has not been named.
-- `events`: one object per confirmed function, in order. Each card shows the name, the day and time, and the venue with a map link. A dress line appears only once `dress` or `dressColor` is set. `dressColor` is a hex such as `"#E39A14"` and draws a round swatch. Leave the list empty until a function is real. The page then shows a single placeholder card, not a made-up ceremony.
-- `travel`: `notes` and `stays`. Empty until you write them.
-- `dressCode`: one or two sentences. Empty until set.
-- `story`: an array of paragraphs.
-- `faq`: `{ question, answer }`.
-- `gallery`: `{ src, alt, width, height }`. Put files in `public/photos/` and set `src` to `"photos/evening.jpg"`. An empty list hides Photographs.
+- `heroPhoto`, `heroAccent`, `storyPhoto`, `celebrationsPhoto`, `gallery`: see the photograph list below.
+- `intro` and `story`: the story. Empty keeps the placeholder.
+- `celebrations`: Mehndi, Sangeet, Anand Karaj, and Reception. Set `enabled` to `false` to hide one. `date`, `time`, and `place` empty show "Date and venue to be announced".
+- `travel`: `notes` and `stays`. Empty keeps the placeholder.
+- `faq`: `{ question, answer }`. Empty keeps the placeholder.
 - `rsvp`: see below.
+
+## Photographs
+
+Files are WebP in `public/photos/`, 1600px on the long side, each under 250KB. Swap a picture by replacing the file and the `src`, `alt`, `width`, `height`, `credit`, and `creditUrl` in `src/config/wedding.ts`. A `MOCK` comment means the picture is a stand-in couple. Do not write a caption that calls them Kartik and Simran.
+
+| File | Where it sits | What it shows | Credit |
+| --- | --- | --- | --- |
+| `photos/hero.webp` | Large hero frame. MOCK | Bride in a red lehenga, groom in a turban and sherwani | [Royal Photography](https://unsplash.com/@royalfoto) |
+| `photos/hero-720.webp` | Same hero picture, 720px wide, for phones. Replace this when you replace `hero.webp` | Same picture | [Royal Photography](https://unsplash.com/@royalfoto) |
+| `photos/accent.webp` | Overlapping hero frame. MOCK | Bride and groom under a canopy of flowers | [shades by 43](https://unsplash.com/@shades_by_43) |
+| `photos/story.webp` | Our Story. MOCK | Bride and groom outdoors | [Suresh Chavan](https://unsplash.com/@741suresh) |
+| `photos/gallery-pair.webp` | Gallery. MOCK | Bride and groom in red and white, with garlands | [iKshana Productions](https://unsplash.com/@ikshanaproductions) |
+| `photos/gallery-wide.webp` | Gallery. MOCK | Smiling bride and groom outdoors | [Suresh Chavan](https://unsplash.com/@741suresh) |
+| `photos/mehndi.webp` | Celebrations and gallery | Mehndi, red and white bangles, marigolds | [Prajna Amey](https://unsplash.com/@prajna) |
+| `photos/bangles.webp` | Gallery | Red and gold bridal bangles on embroidered cloth | [Hush Naidoo Jade Photography](https://unsplash.com/@hush52) |
+| `photos/drums.webp` | Gallery | Traditional Indian drums at a celebration | [Tomás Robertson](https://unsplash.com/@tomasrobertson) |
+
+The footer lists each photographer once. All eight pictures are free under the [Unsplash License](https://unsplash.com/license). `hero-720.webp` is the same hero picture, only smaller.
 
 ## RSVP link
 
@@ -89,7 +103,7 @@ GitHub Pages is on a project path today. A custom domain is served from the root
 
 ## Look
 
-`src/styles/global.css` starts with the tokens: ivory, green, rani, gold, marigold. Gold is a hairline. Marigold is the timeline square. The arch is a clip on each photograph. Reduced motion drops the rise and keeps every word where it is. The countdown is one sentence.
+`src/styles/global.css` starts with the tokens: ivory, green, rani, marigold. Reduced motion drops the rise and the hero parallax. The countdown is one sentence.
 
 ## Fonts
 

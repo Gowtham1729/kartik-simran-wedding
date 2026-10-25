@@ -2,28 +2,19 @@
 import Base from "../layouts/Base.astro";
 import Hero from "../components/Hero.astro";
 import Story from "../components/Story.astro";
-import Divider from "../components/Divider.astro";
-import Schedule from "../components/Schedule.astro";
-import Venue from "../components/Venue.astro";
-import Travel from "../components/Travel.astro";
-import Dress from "../components/Dress.astro";
+import Celebrations from "../components/Celebrations.astro";
 import Gallery from "../components/Gallery.astro";
+import Travel from "../components/Travel.astro";
 import Faq from "../components/Faq.astro";
 import Reply from "../components/Reply.astro";
 import { eventJsonLd, pageDescription, pageTitle } from "../lib/content";
-import { sectionFlags } from "../config/wedding";
-
-const sections = sectionFlags();
 ---
 <Base title={pageTitle()} description={pageDescription()} jsonLd={eventJsonLd()}>
   <Hero />
-  {sections.story && <Story />}
-  {sections.story && <Divider />}
-  <Schedule />
-  {sections.venue && <Venue />}
-  {sections.travel && <Travel />}
-  {sections.dress && <Dress />}
-  {sections.photographs && <Gallery />}
-  {sections.questions && <Faq />}
+  <Story />
+  <Celebrations />
+  <Gallery />
+  <Travel />
+  <Faq />
   <Reply />
 </Base>
