@@ -1,21 +1,13 @@
-import { wedding, type Wedding } from "../config/wedding";
+import { wedding, type Celebration, type Photo, type Wedding } from "../config/wedding";
 import { pageUrl } from "../config/site";
 import {
-  countdownNote,
+  countdownPhrase,
   countdownTarget,
-  folio,
-  formatClock,
   formatLongDate,
   formatParts,
   namesLine,
+  placeLine,
 } from "./format";
-
-export interface SheetRow {
-  label: string;
-  value: string;
-  open: boolean;
-  href?: string;
-}
 
 export interface RsvpLink {
   href: string;
@@ -33,9 +25,7 @@ export function pageTitle(w: Wedding = wedding): string {
 export function pageDescription(w: Wedding = wedding): string {
   const names = namesLine(w);
   const when = w.date ? formatLongDate(w.date) : "a date still to be set";
-  const city = w.city.trim();
-  if (city) return `${names} are marrying on ${when}, in ${city}.`;
-  return `${names} are marrying on ${when}. The city is still to be announced.`;
+  return `${names} are marrying on ${when}, in ${placeLine(w)}.`;
 }
 
 export function rsvpLink(w: Wedding = wedding): RsvpLink | null {
@@ -48,7 +38,7 @@ export function rsvpLink(w: Wedding = wedding): RsvpLink | null {
       href: value,
       external: true,
       note: "Opens a form in a new tab.",
-      label: w.rsvp.label || "Reply",
+      label: w.rsvp.label || "RSVP",
     };
   }
   if (w.rsvp.mode === "mailto") {
@@ -57,7 +47,7 @@ export function rsvpLink(w: Wedding = wedding): RsvpLink | null {
       href: `mailto:${value}?subject=${subject}`,
       external: false,
       note: "Opens an email.",
-      label: w.rsvp.label || "Reply",
+      label: w.rsvp.label || "RSVP",
     };
   }
   const digits = value.replace(/\D/g, "");
@@ -70,82 +60,49 @@ export function rsvpLink(w: Wedding = wedding): RsvpLink | null {
     href,
     external: true,
     note: "Opens WhatsApp.",
-    label: w.rsvp.label || "Reply",
+    label: w.rsvp.label || "RSVP",
   };
 }
 
-export function venueHasDetail(w: Wedding = wedding): boolean {
-  const v = w.venue;
-  return Boolean(v.name.trim() || v.address.trim() || v.notes.trim() || v.mapsUrl.trim());
+export function activeCelebrations(w: Wedding = wedding): Celebration[] {
+  return w.celebrations.filter((item) => item.enabled && item.name.trim());
 }
 
-export function travelHasDetail(w: Wedding = wedding): boolean {
-  return Boolean(w.travel.notes.trim() || w.travel.stays.length);
+/** What a guest can be told. Empty fields stay announced, never invented. */
+export function celebrationLine(item: Celebration): string {
+  const date = item.date.trim();
+  const time = item.time.trim();
+  const place = item.place.trim();
+  if (!date && !time && !place) return "Date and venue to be announced";
+  const when = [date, time].filter(Boolean).join(", ") || "Date to be announced";
+  return `${when}. ${place || "Venue to be announced"}`;
 }
 
-export function detailRows(w: Wedding = wedding): SheetRow[] {
-  const rows: SheetRow[] = [];
-  if (w.date) {
-    const time = w.time ? `, ${formatClock(w.time)}` : "";
-    rows.push({
-      label: "Date",
-      value: `${formatLongDate(w.date)}${time}, India time`,
-      open: false,
-    });
+export function photoCredits(w: Wedding = wedding): { name: string; url: string }[] {
+  const photos: Photo[] = [w.heroPhoto, w.heroAccent, w.storyPhoto, w.celebrationsPhoto, ...w.gallery];
+  const seen = new Map<string, string>();
+  for (const photo of photos) {
+    const name = photo.credit.trim();
+    const url = photo.creditUrl.trim();
+    if (name && url && !seen.has(name)) seen.set(name, url);
   }
-  const city = w.city.trim();
-  rows.push({
-    label: "City",
-    value: city || "To be announced",
-    open: !city,
-  });
-  const venueName = w.venue.name.trim();
-  rows.push({
-    label: "Venue",
-    value: venueName || "To be announced",
-    open: !venueName,
-    href: venueHasDetail(w) ? "#venue" : undefined,
-  });
-  const count = w.events.length;
-  rows.push({
-    label: "Schedule",
-    value: count ? `${count} ${count === 1 ? "event" : "events"}` : "To be announced",
-    open: count === 0,
-    href: count ? "#schedule" : undefined,
-  });
-  if (travelHasDetail(w)) {
-    const stays = w.travel.stays.length;
-    rows.push({
-      label: "Travel",
-      value: stays ? `${stays} ${stays === 1 ? "place to stay" : "places to stay"}` : "Notes",
-      open: false,
-      href: "#travel",
-    });
-  }
-  const dress = w.dressCode.trim();
-  if (dress) {
-    rows.push({ label: "Dress", value: dress, open: false });
-  }
-  const reply = rsvpLink(w);
-  rows.push({
-    label: "Reply",
-    value: reply ? reply.label : "Not open yet",
-    open: !reply,
-    href: reply ? "#reply" : undefined,
-  });
-  return rows;
+  return [...seen].map(([name, url]) => ({ name, url }));
 }
 
-export function navItems(w: Wedding = wedding): { href: string; label: string }[] {
-  const items = [{ href: "#details", label: "Details" }];
-  if (w.story.some((p) => p.trim())) items.push({ href: "#story", label: "Story" });
-  if (w.events.length) items.push({ href: "#schedule", label: "Schedule" });
-  if (venueHasDetail(w)) items.push({ href: "#venue", label: "Venue" });
-  if (travelHasDetail(w)) items.push({ href: "#travel", label: "Travel" });
-  if (w.gallery.length) items.push({ href: "#gallery", label: "Photographs" });
-  if (w.faq.length) items.push({ href: "#faq", label: "Questions" });
-  if (rsvpLink(w)) items.push({ href: "#reply", label: "Reply" });
-  return items.length > 1 ? items : [];
+export function navItems(): { href: string; label: string }[] {
+  return [
+    { href: "#story", label: "Story" },
+    { href: "#celebrations", label: "Celebrations" },
+    { href: "#gallery", label: "Gallery" },
+    { href: "#travel", label: "Travel" },
+    { href: "#faq", label: "Questions" },
+    { href: "#rsvp", label: "RSVP" },
+  ];
+}
+
+export function httpUrl(value: string): string {
+  const url = value.trim();
+  return /^https?:\/\//i.test(url) ? url : "";
 }
 
 export function eventJsonLd(w: Wedding = wedding): string | null {
@@ -160,15 +117,12 @@ export function eventJsonLd(w: Wedding = wedding): string | null {
     description: pageDescription(w),
     url: pageUrl(),
   };
-  const city = w.city.trim();
-  const venueName = w.venue.name.trim();
-  const address = w.venue.address.trim();
-  if (city || venueName || address) {
+  const city = placeLine(w);
+  if (city) {
     data.location = {
       "@type": "Place",
-      name: venueName || city || address,
-      ...(address ? { address } : {}),
-      ...(city ? { addressLocality: city } : {}),
+      name: city,
+      addressLocality: city,
     };
   }
   return JSON.stringify(data);
@@ -180,10 +134,15 @@ export function heroModel(w: Wedding = wedding) {
     partners: [w.partnerOne, w.partnerTwo] as const,
     parts,
     longDate: w.date ? formatLongDate(w.date) : "",
-    folioText: w.date ? folio(w.date) : "",
-    city: w.city.trim(),
+    city: placeLine(w),
+    image: w.heroPhoto,
+    accent: w.heroAccent,
+    gurmukhi:
+      w.showGurmukhi && w.gurmukhiOne.trim() && w.gurmukhiTwo.trim()
+        ? { one: w.gurmukhiOne.trim(), two: w.gurmukhiTwo.trim() }
+        : null,
     target: countdownTarget(w),
-    note: countdownNote(w),
+    phrase: countdownPhrase(w),
     here: w.date ? `${formatLongDate(w.date)} is here.` : "",
     passed: w.date ? `${formatLongDate(w.date)} has passed.` : "",
   };
@@ -193,4 +152,11 @@ export function assetPath(src: string): string {
   if (/^https?:\/\//.test(src)) return src;
   const base = import.meta.env.BASE_URL;
   return base + src.replace(/^\//, "");
+}
+
+/** Phone file plus the full file, so a small screen does not download the large one. */
+export function imageSrcSet(photo: Photo): string {
+  const narrow = photo.narrow;
+  if (!narrow?.src.trim() || !narrow.width || !photo.src.trim() || !photo.width) return "";
+  return `${assetPath(narrow.src)} ${narrow.width}w, ${assetPath(photo.src)} ${photo.width}w`;
 }

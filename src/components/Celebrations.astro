@@ -1,0 +1,48 @@
+---
+import { wedding } from "../config/wedding";
+import { activeCelebrations, assetPath, celebrationLine, httpUrl } from "../lib/content";
+
+const items = activeCelebrations();
+const photo = wedding.celebrationsPhoto.src.trim();
+---
+<section class="section celebrations rise" id="celebrations" aria-labelledby="celebrations-title">
+  <div class="cele-head">
+    <p class="kicker">The weekend</p>
+    <h2 id="celebrations-title">Celebrations</h2>
+  </div>
+  {photo && (
+    <figure class="cele-figure">
+      <img
+        src={assetPath(photo)}
+        alt={wedding.celebrationsPhoto.alt}
+        width={wedding.celebrationsPhoto.width}
+        height={wedding.celebrationsPhoto.height}
+        loading="lazy"
+        decoding="async"
+      />
+    </figure>
+  )}
+  {items.length === 0 ? (
+    <p class="placeholder">Celebrations will be listed here once they are confirmed.</p>
+  ) : (
+    <ol class="cele-list">
+      {items.map((item, index) => {
+        const map = httpUrl(item.mapsUrl);
+        const note = item.note.trim();
+        return (
+          <li>
+            <span class="idx">{String(index + 1).padStart(2, "0")}</span>
+            <div>
+              <h3>{item.name.trim()}</h3>
+              <p>{celebrationLine(item)}</p>
+              {map && (
+                <p><a href={map} target="_blank" rel="noopener">Map<span class="visually-hidden"> (opens in a new tab)</span></a></p>
+              )}
+              {note && <p>{note}</p>}
+            </div>
+          </li>
+        );
+      })}
+    </ol>
+  )}
+</section>

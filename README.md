@@ -1,6 +1,6 @@
 # Kartik and Simran
 
-A save-the-date for Saturday, 27 February 2027, India time. Astro builds a static site. GitHub Pages serves it.
+A wedding page for Saturday, 27 February 2027, India time. Astro builds a static site. GitHub Pages serves it.
 
 **Live site:** https://gowtham1729.github.io/kartik-simran-wedding/
 
@@ -8,50 +8,65 @@ A save-the-date for Saturday, 27 February 2027, India time. Astro builds a stati
 src/config/wedding.ts     The words. Edit this.
 src/config/site.ts        Origin and base path. Touch this for a custom domain.
 src/styles/global.css     Colour, type, spacing. Tokens are at the top.
-src/components/           One file per section. Empty sections render nothing.
+src/components/           One file per section.
 public/                   Favicon, share image, and any photographs.
 docs/design-research.md   Why the page looks like this.
 ```
 
-The design is a letterpress sheet whose vermillion pass is slightly out of register. You can see it on the day number, on the word "and", and in the two rules at the left edge. Names are Brygada 1918, reading text is Newsreader, the clock and the folio are Azeret Mono. All three are SIL Open Font License, subset, and self-hosted. Licenses are in `src/assets/fonts/`.
+Ivory ground, bottle green for the type, rani for the monogram ampersand and the offset block behind the hero frame. The display face is Instrument Serif at weight 400. The interface is Manrope. A marigold garland is strung across the top of the large hero frame. Licenses for the fonts are in `src/assets/fonts/`. Below 720px the header is the monogram and a Menu button.
 
 ## Edit the content
 
-Open `src/config/wedding.ts`. Leave a string as `""` and a list as `[]` until you know the real value.
+Open `src/config/wedding.ts`. Leave a string as `""` until you know the real value. Story, Travel, Questions, and RSVP always show. Empty fields stay placeholders. Guests will treat whatever you type as fact, so do not guess a venue, a time, or a story.
 
-- `partnerOne`, `partnerTwo`: first names.
+- `partnerOne`, `partnerTwo`: first names. The monogram uses the first letter of each.
+- `showGurmukhi`, `gurmukhiOne`, `gurmukhiTwo`: off by default. Spelling to be confirmed by the couple.
 - `date`: `"YYYY-MM-DD"`, or `null` to hide the date and the countdown. The weekday is calculated.
-- `time`: `"HH:MM"` in 24-hour time, or `null`. Null counts down to midnight at the start of the day, and the page says so. Guests should not think the ceremony is at midnight.
-- `utcOffset`: `"+05:30"` is India Standard Time. The countdown uses it, so it hits zero at the same moment everywhere.
-- `city`: `""` shows "City to be announced".
-- `intro`: the sentence under Details. `""` hides it.
-- `venue`: `name`, `address`, `notes`, `mapsUrl`. A maps link becomes "Open the map". The venue section appears once any of these is filled in.
-- `events`: one object per ceremony, in order. `note: ""` hides that line.
-- `travel`: `notes` and `stays`. Hidden until one of them is filled in.
-- `dressCode`: one or two sentences. Hidden until set. It shows as a row in Details.
-- `story`: an array of paragraphs. Hidden until you write them.
-- `faq`: `{ question, answer }`. Hidden until there is one.
-- `gallery`: `{ src, alt, width, height }`. Put files in `public/photos/` and set `src` to `"photos/evening.jpg"`. `width` and `height` are the pixel size of the file, so the layout does not jump.
+- `time`: `"HH:MM"` in 24-hour time, or `null`. Null counts down to midnight at the start of the day.
+- `utcOffset`: `"+05:30"` is India Standard Time.
+- `city`: `""` shows "Punjab, India" until a city is set.
+- `heroPhoto`, `heroAccent`, `storyPhoto`, `celebrationsPhoto`, `gallery`: see the photograph list below.
+- `intro` and `story`: the story. Empty keeps the placeholder.
+- `celebrations`: Mehndi, Sangeet, Anand Karaj, and Reception. Set `enabled` to `false` to hide one. `date`, `time`, and `place` empty show "Date and venue to be announced".
+- `travel`: `notes` and `stays`. Empty keeps the placeholder.
+- `faq`: `{ question, answer }`. Empty keeps the placeholder.
 - `rsvp`: see below.
 
-Do not invent a city, a venue, or a story. Guests will treat the page as fact.
+## Photographs
 
-## Reply link
+Files are WebP in `public/photos/`, 1600px on the long side, each under 250KB. Swap a picture by replacing the file and the `src`, `alt`, `width`, `height`, `credit`, and `creditUrl` in `src/config/wedding.ts`. A `MOCK` comment means the picture is a stand-in couple. Do not write a caption that calls them Kartik and Simran.
+
+| File | Where it sits | What it shows | Credit |
+| --- | --- | --- | --- |
+| `photos/hero.webp` | Large hero frame. MOCK | Bride in a red lehenga, groom in a turban and sherwani | [Royal Photography](https://unsplash.com/@royalfoto) |
+| `photos/hero-720.webp` | Same hero picture, 720px wide, for phones. Replace this when you replace `hero.webp` | Same picture | [Royal Photography](https://unsplash.com/@royalfoto) |
+| `photos/accent.webp` | Overlapping hero frame. MOCK | Bride and groom under a canopy of flowers | [shades by 43](https://unsplash.com/@shades_by_43) |
+| `photos/story.webp` | Our Story. MOCK | Bride and groom outdoors | [Suresh Chavan](https://unsplash.com/@741suresh) |
+| `photos/gallery-pair.webp` | Gallery. MOCK | Bride and groom in red and white, with garlands | [iKshana Productions](https://unsplash.com/@ikshanaproductions) |
+| `photos/gallery-wide.webp` | Gallery. MOCK | Smiling bride and groom outdoors | [Suresh Chavan](https://unsplash.com/@741suresh) |
+| `photos/mehndi.webp` | Celebrations | Mehndi, red and white bangles, marigolds | [Prajna Amey](https://unsplash.com/@prajna) |
+| `photos/marigolds.webp` | Gallery | Marigold garlands at a flower stall | [Zoshua Colah](https://unsplash.com/@zoshuacolah) |
+| `photos/bangles.webp` | Gallery | Red and gold bridal bangles on embroidered cloth | [Hush Naidoo Jade Photography](https://unsplash.com/@hush52) |
+| `photos/drums.webp` | Gallery | Traditional Indian drums at a celebration | [Tomás Robertson](https://unsplash.com/@tomasrobertson) |
+
+The footer lists each photographer once. All nine pictures are free under the [Unsplash License](https://unsplash.com/license). `hero-720.webp` is the same hero picture, only smaller.
+
+## RSVP link
 
 There is no form on this site and nowhere for replies to be stored. Set `rsvp.mode`:
 
 | mode | value | What the guest gets |
 | --- | --- | --- |
-| `""` | `""` | The row says "Not open yet". No button. |
+| `""` | `""` | The section says "RSVP is not open yet". No RSVP button yet. |
 | `"url"` | a Google Form link, or any https link | Recommended. Opens in a new tab. |
 | `"mailto"` | an email address | Opens an email with the subject filled in. |
 | `"whatsapp"` | digits only, country code included, such as `"919876543210"` | Opens WhatsApp. `whatsappMessage` is optional prefilled text. |
 
-`"url"` is the right default once you know the questions you want to ask. A Google Form can collect names, a count, and which events someone can attend, without a server here.
+`"url"` is the right choice once you know the questions you want to ask. The header button and the phone button appear only after `mode` and `value` are set. Until then the section says RSVP is not open yet.
 
 ## Preview
 
-Node 22 or newer.
+Node 22.23 or newer. The Pages workflow builds on Node 24.
 
 ```sh
 npm install
@@ -89,14 +104,14 @@ GitHub Pages is on a project path today. A custom domain is served from the root
 
 ## Look
 
-`src/styles/global.css` starts with the tokens: paper, ink, vermillion, and the three families. The vermillion rule is the second press pass. It is slightly to the right of the ink rule, and it draws itself on load. Scrolling drifts it a little further where the browser supports scroll-linked animation. Reduced motion shows both rules, already offset, and the countdown numbers change without the tick.
+`src/styles/global.css` starts with the tokens: ivory, green, rani, marigold. Reduced motion drops the rise and the hero parallax. The countdown is one sentence.
 
 ## Fonts
 
 | Family | Role | License |
 | --- | --- | --- |
-| Brygada 1918 | Names, the day number, headings | SIL OFL |
-| Newsreader | Prose, the word "and" | SIL OFL |
-| Azeret Mono | The folio, the countdown | SIL OFL |
+| Instrument Serif | Names and headings, weight 400 | SIL OFL |
+| Manrope | Interface, 400 and 500 | SIL OFL |
+| Noto Sans Gurmukhi | Optional names line, weight 300 | SIL OFL |
 
-`src/assets/fonts/OFL-*.txt` are the license texts. `scripts/fonts/` holds the instances the share image is drawn with. Both are generated from the Google Fonts sources and subset to Latin.
+`src/assets/fonts/OFL-*.txt` are the license texts. `scripts/fonts/` holds the files the share image is drawn with. Both are generated from the Google Fonts sources. The Latin faces are subset. Gurmukhi is limited to its own letters.

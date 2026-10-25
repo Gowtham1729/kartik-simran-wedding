@@ -1,40 +1,48 @@
 ---
 import { wedding } from "../config/wedding";
-import { travelHasDetail } from "../lib/content";
-import Arrow from "./Arrow.astro";
+import { httpUrl } from "../lib/content";
 
-const travel = wedding.travel;
-const show = travelHasDetail(wedding);
+const notes = wedding.travel.notes.trim();
+const stays = wedding.travel.stays.filter((stay) => stay.name.trim() || stay.detail.trim());
 ---
-{show && (
-  <section class="section" id="travel" aria-labelledby="travel-title">
-    <h2 id="travel-title">Travel and stay</h2>
-    {travel.notes.trim() && (
-      <div class="prose">
-        {travel.notes
-          .trim()
-          .split(/\n+/)
-          .map((paragraph) => <p>{paragraph}</p>)}
-      </div>
-    )}
-    {travel.stays.length > 0 && (
-      <ul class="stays">
-        {travel.stays.map((stay) => (
-          <li>
-            <h3>{stay.name}</h3>
-            {stay.detail.trim() && <p>{stay.detail.trim()}</p>}
-            {stay.url.trim() && (
-              <p>
-                <a class="text-link" href={stay.url.trim()} target="_blank" rel="noopener noreferrer">
-                  Open the link
-                  <Arrow />
-                  <span class="visually-hidden"> (opens in a new tab)</span>
-                </a>
-              </p>
-            )}
-          </li>
-        ))}
-      </ul>
-    )}
-  </section>
-)}
+<section class="section travel rise" id="travel" aria-labelledby="travel-title">
+  {!(notes || stays.length) && <p class="kicker flag">Placeholder</p>}
+  <p class="kicker">Getting there</p>
+  <h2 id="travel-title">Travel and stay</h2>
+  {notes || stays.length ? (
+    <div class="prose travel-copy">
+      {notes && <p>{notes}</p>}
+      {stays.length > 0 && (
+        <ul class="stays">
+          {stays.map((stay) => {
+            const href = httpUrl(stay.url);
+            return (
+              <li>
+                <h3>{stay.name.trim() || "A place to stay"}</h3>
+                {stay.detail.trim() && <p>{stay.detail.trim()}</p>}
+                {href && (
+                  <p><a href={href} target="_blank" rel="noopener">Directions<span class="visually-hidden"> (opens in a new tab)</span></a></p>
+                )}
+              </li>
+            );
+          })}
+        </ul>
+      )}
+    </div>
+  ) : (
+    <ul class="travel-grid">
+      <li>
+        <h3>Fly into</h3>
+        <p>The arrival city is still to be announced.</p>
+      </li>
+      <li>
+        <h3>Stay</h3>
+        <p>Places to stay will be added here.</p>
+      </li>
+      <li>
+        <h3>Getting around</h3>
+        <p>How to travel between the celebrations is still to be announced.</p>
+      </li>
+    </ul>
+  )}
+</section>

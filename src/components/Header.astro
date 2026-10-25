@@ -1,25 +1,60 @@
 ---
 import { wedding } from "../config/wedding";
-import { heroModel, navItems } from "../lib/content";
+import { navItems, rsvpLink } from "../lib/content";
 import { namesLine } from "../lib/format";
-import Mark from "./Mark.astro";
 
-const hero = heroModel(wedding);
-const items = navItems(wedding);
+const items = navItems();
+const reply = rsvpLink(wedding);
 const home = import.meta.env.BASE_URL;
+const one = wedding.partnerOne.trim().charAt(0);
+const two = wedding.partnerTwo.trim().charAt(0);
 ---
 <header class="site-header">
-  <a class="wordmark" href={home} aria-label={namesLine(wedding)}>
-    <Mark size={32} />
+  <a class="mark" href={home} aria-label={`${one} & ${two}, ${namesLine(wedding)}`}>
+    <span translate="no">{one}</span>
+    <i>&</i>
+    <span translate="no">{two}</span>
   </a>
-  {items.length > 0 && (
-    <nav class="nav" aria-label="Sections">
+  <details class="nav-menu">
+    <summary>Menu</summary>
+    <nav aria-label="Sections">
       <ul>
         {items.map((item) => (
           <li><a href={item.href}>{item.label}</a></li>
         ))}
+        {reply && (
+          <li>
+            <a href={reply.href} target={reply.external ? "_blank" : undefined} rel={reply.external ? "noopener" : undefined}>
+              {reply.label}
+              {reply.external && <span class="visually-hidden"> (opens in a new tab)</span>}
+            </a>
+          </li>
+        )}
       </ul>
     </nav>
-  )}
-  {hero.folioText && <p class="folio">{hero.folioText}</p>}
+  </details>
+  <nav class="nav nav-bar" aria-label="Sections">
+    <ul>
+      {items.map((item) => (
+        <li><a href={item.href}>{item.label}</a></li>
+      ))}
+      {reply && (
+        <li>
+          <a href={reply.href} target={reply.external ? "_blank" : undefined} rel={reply.external ? "noopener" : undefined}>
+            {reply.label}
+            {reply.external && <span class="visually-hidden"> (opens in a new tab)</span>}
+          </a>
+        </li>
+      )}
+    </ul>
+  </nav>
 </header>
+<script is:inline>
+  (function () {
+    var menu = document.querySelector(".nav-menu");
+    if (!menu) return;
+    menu.addEventListener("click", function (event) {
+      if (event.target.closest("a")) menu.open = false;
+    });
+  })();
+</script>

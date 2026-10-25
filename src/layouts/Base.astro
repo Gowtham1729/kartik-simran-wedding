@@ -1,8 +1,17 @@
 ---
 import "../styles/global.css";
+import serifUrl from "../assets/fonts/instrument-serif.woff2";
+import serifItalicUrl from "../assets/fonts/instrument-serif-italic.woff2";
+import sansUrl from "../assets/fonts/manrope-400.woff2";
+import sansMediumUrl from "../assets/fonts/manrope-500.woff2";
 import { pageUrl } from "../config/site";
 import { wedding } from "../config/wedding";
-import { pageTitle } from "../lib/content";
+import { assetPath, imageSrcSet, pageTitle } from "../lib/content";
+
+const heroSrc = wedding.heroPhoto.src.trim();
+const heroSrcSet = imageSrcSet(wedding.heroPhoto);
+const heroSizes = "(min-width: 880px) 50vw, 74vw";
+const accentSrc = wedding.heroAccent.src.trim();
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 
@@ -22,9 +31,46 @@ const imageAlt = pageTitle();
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <link rel="preload" href={serifUrl} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={serifItalicUrl} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={sansUrl} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={sansMediumUrl} as="font" type="font/woff2" crossorigin />
+    {heroSrc && (
+      <link
+        rel="preload"
+        as="image"
+        href={assetPath(wedding.heroPhoto.narrow?.src || heroSrc)}
+        imagesrcset={heroSrcSet || undefined}
+        imagesizes={heroSrcSet ? heroSizes : undefined}
+        type="image/webp"
+        fetchpriority="high"
+      />
+    )}
+    {accentSrc && <link rel="preload" as="image" href={assetPath(accentSrc)} type="image/webp" />}
+    <style is:inline>
+      *, *::before, *::after { box-sizing: border-box; }
+      body { margin: 0; background: #f7f1e6; color: #123d2f; }
+      .site-header { position: sticky; top: 0; display: flex; align-items: center; height: 4.25rem; background: #f7f1e6; }
+      .nav-bar { display: none; }
+      .hero { display: grid; padding: 0.6rem 1.25rem 3.25rem; }
+      .hero-stage { position: relative; margin-top: 1.4rem; aspect-ratio: 5 / 5.65; }
+      .hero-slab { position: absolute; top: 16%; right: 0; width: 68%; height: 76%; background: #d2266e; }
+      .hero-main, .hero-side { position: absolute; overflow: hidden; margin: 0; }
+      .hero-main { top: 0; right: 14%; width: 74%; height: 74%; }
+      .hero-side { left: 0; bottom: 0; width: 48%; height: 42%; }
+      .names { margin: 0; font-weight: 400; font-size: clamp(4.4rem, 20vw, 6rem); line-height: 0.84; letter-spacing: -0.04em; }
+      .names .line, .names .and { display: block; }
+      .names .and { font-size: 0.38em; line-height: 1; margin: 0.16em 0 0.06em; }
+      @media (min-width: 720px) { .nav-bar { display: block; } .nav-menu { display: none; } }
+      @media (min-width: 880px) {
+        .hero { grid-template-columns: minmax(16rem, 0.78fr) minmax(0, 1.2fr); align-items: end; min-height: calc(100svh - 4.25rem); padding-bottom: 3.5rem; }
+        .hero-stage { margin-top: 0; }
+        .names { font-size: clamp(4.8rem, 6.4vw, 7.4rem); }
+      }
+    </style>
     <title>{title}</title>
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#efe7d8" />
+    <meta name="theme-color" content="#F7F1E6" />
     <meta name="color-scheme" content="light" />
     <meta name="format-detection" content="telephone=no" />
     <link rel="canonical" href={canonical} />
@@ -53,10 +99,6 @@ const imageAlt = pageTitle();
     {jsonLd && <script is:inline type="application/ld+json" set:html={jsonLd} />}
   </head>
   <body>
-    <div class="spine" aria-hidden="true">
-      <span class="spine-ink"></span>
-      <span class="spine-red"></span>
-    </div>
     <a class="skip" href="#main">Skip to content</a>
     <Header />
     <main id="main">

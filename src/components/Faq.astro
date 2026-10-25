@@ -2,19 +2,40 @@
 import { wedding } from "../config/wedding";
 
 const items = wedding.faq.filter((item) => item.question.trim() && item.answer.trim());
+const samples = [
+  "What should guests wear?",
+  "Are children invited?",
+  "Where should guests fly into?",
+  "Is there a place to stay nearby?",
+  "How do guests get between the celebrations?",
+  "Who can guests write to with a question?",
+];
 ---
-{items.length > 0 && (
-  <section class="section" id="faq" aria-labelledby="faq-title">
-    <h2 id="faq-title">Questions</h2>
-    <div class="faq">
-      {items.map((item) => (
-        <details>
-          <summary>
-            <h3>{item.question.trim()}</h3>
-          </summary>
-          <p>{item.answer.trim()}</p>
-        </details>
-      ))}
-    </div>
-  </section>
-)}
+<section class="section faq rise" id="faq" aria-labelledby="faq-title">
+  {items.length === 0 ? (
+    <>
+      <p class="kicker flag">Placeholder</p>
+      <p class="kicker">Practical</p>
+      <h2 id="faq-title">Questions</h2>
+      <ul class="sample-questions">
+        {samples.map((question) => (
+          <li>{question}</li>
+        ))}
+      </ul>
+      <p class="sample-note">Sample questions only. Nothing here is confirmed, and no answers have been written yet.</p>
+    </>
+  ) : (
+    <>
+      <p class="kicker">Practical</p>
+      <h2 id="faq-title">Questions</h2>
+      <div class="faqs">
+        {items.map((item) => (
+          <details>
+            <summary>{item.question.trim()}</summary>
+            <p>{item.answer.trim()}</p>
+          </details>
+        ))}
+      </div>
+    </>
+  )}
+</section>

@@ -1,24 +1,43 @@
 ---
+import { wedding } from "../config/wedding";
 import { rsvpLink } from "../lib/content";
-import Arrow from "./Arrow.astro";
 
-const reply = rsvpLink();
+const reply = rsvpLink(wedding);
+const label = wedding.rsvp.label.trim() || "RSVP";
 ---
+<section class="section rsvp rise" id="rsvp" aria-labelledby="rsvp-title">
+  <div class="rsvp-copy">
+    <p class="kicker">A note back</p>
+    <h2 id="rsvp-title">RSVP</h2>
+  </div>
+  <div class="rsvp-panel">
+    {reply ? (
+      <>
+        <p>
+          <a class="text-link" href={reply.href} target={reply.external ? "_blank" : undefined} rel={reply.external ? "noopener" : undefined}>
+            {label}
+            {reply.external && <span class="visually-hidden"> (opens in a new tab)</span>}
+          </a>
+        </p>
+        <p class="note">{reply.note}</p>
+      </>
+    ) : (
+      <>
+        <p class="kicker">Placeholder</p>
+        <p class="placeholder">RSVP is not open yet.</p>
+      </>
+    )}
+  </div>
+</section>
+
 {reply && (
-  <section class="section" id="reply" aria-labelledby="reply-title">
-    <h2 id="reply-title" class="visually-hidden">Reply</h2>
-    <p class="reply-row">
-      <a
-        class="reply-link"
-        href={reply.href}
-        target={reply.external ? "_blank" : undefined}
-        rel={reply.external ? "noopener noreferrer" : undefined}
-      >
-        {reply.label}
-        <Arrow />
-        {reply.external && <span class="visually-hidden"> (opens in a new tab)</span>}
-      </a>
-    </p>
-    <p class="count-note">{reply.note}</p>
-  </section>
+  <a
+    class="sticky-reply"
+    href={reply.href}
+    target={reply.external ? "_blank" : undefined}
+    rel={reply.external ? "noopener" : undefined}
+  >
+    {label}
+    {reply.external && <span class="visually-hidden"> (opens in a new tab)</span>}
+  </a>
 )}

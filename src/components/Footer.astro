@@ -1,14 +1,30 @@
 ---
 import { wedding } from "../config/wedding";
-import { heroModel } from "../lib/content";
+import { photoCredits } from "../lib/content";
+import { formatLongDate, placeLine } from "../lib/format";
 
-const hero = heroModel(wedding);
+const when = wedding.date ? formatLongDate(wedding.date) : "";
+const city = placeLine(wedding);
+const credits = photoCredits();
 ---
-<footer class="footer">
+<footer class="site-footer">
   <p class="sign">
     <span translate="no">{wedding.partnerOne}</span>
-    <span class="and">and</span>
+    <i>and</i>
     <span translate="no">{wedding.partnerTwo}</span>
   </p>
-  {hero.longDate && <p class="sign-date"><time datetime={wedding.date ?? undefined}>{hero.longDate}</time></p>}
+  {when && <p class="sign-meta"><time datetime={wedding.date ?? undefined}>{when}</time></p>}
+  {city && <p class="sign-meta">{city}</p>}
+  {credits.length > 0 && (
+    <div class="credits">
+      <p>Stand-in photographs, free under the Unsplash License.</p>
+      <ul>
+        {credits.map((credit) => (
+          <li>
+            <a href={credit.url}>{credit.name}</a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  )}
 </footer>

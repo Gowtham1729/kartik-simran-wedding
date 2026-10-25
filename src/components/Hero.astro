@@ -1,172 +1,173 @@
 ---
 import { wedding } from "../config/wedding";
-import { heroModel } from "../lib/content";
+import { assetPath, heroModel, imageSrcSet } from "../lib/content";
 
 const hero = heroModel(wedding);
 const [first, second] = hero.partners;
+const one = first.trim().charAt(0);
+const two = second.trim().charAt(0);
+const photo = hero.image.src.trim();
+const accent = hero.accent.src.trim();
+const heroSrcSet = imageSrcSet(hero.image);
 ---
 <section class="hero" id="top" aria-labelledby="hero-title">
-  <p class="kicker">Save the date</p>
-
-  <div class="hero-main">
+  <div class="hero-copy">
+    <p class="hero-mark" aria-hidden="true">
+      <span translate="no">{one}</span>
+      <i>&</i>
+      <span translate="no">{two}</span>
+    </p>
     <h1 id="hero-title" class="names">
       <span class="line" translate="no">{first}</span>
       <span class="and">and</span>
       <span class="line" translate="no">{second}</span>
     </h1>
-
-    {hero.parts && (
-      <p class="datemark">
-        <span class="visually-hidden">{hero.longDate}</span>
-        <span class="part" aria-hidden="true">{hero.parts.weekdayShort}</span>
-        <span class="num" aria-hidden="true">
-          <span class="num-red">{hero.parts.day}</span>
-          <span class="num-ink">{hero.parts.day}</span>
-        </span>
-        <span class="part" aria-hidden="true">{hero.parts.monthShort} {hero.parts.year}</span>
+    {hero.gurmukhi && (
+      <p class="gurmukhi" lang="pa" translate="no">
+        <span>{hero.gurmukhi.one}</span>
+        <span>{hero.gurmukhi.two}</span>
       </p>
     )}
-  </div>
-
-  <p class:list={["city", { "is-open": !hero.city }]}>
-    {hero.city || "City to be announced"}
-  </p>
-
-  {hero.target && (
-    <div class="count-block">
-      <div
-        class="countdown"
-        data-countdown
-        data-target={hero.target}
-        aria-hidden="true"
-      >
-        <div class="count-days">
-          <span class="day-count" data-days></span>
-          <span class="label">days</span>
+    <div class="hero-meta">
+      {hero.parts && (
+        <p class="when">
+          <span class="visually-hidden">{hero.longDate}</span>
+          <time datetime={wedding.date ?? undefined} aria-hidden="true">{hero.parts.weekdayLong}, {hero.parts.day} {hero.parts.monthLong} {hero.parts.year}</time>
+        </p>
+      )}
+      <p class="where">{hero.city}</p>
+      {hero.target && (
+        <div class="count-block">
+          <p class="countdown" data-countdown data-target={hero.target}>
+            <span data-count-text>{hero.phrase}</span>
+          </p>
+          <p class="count-done" data-count-done data-passed={hero.passed} hidden>{hero.here}</p>
+          <p class="visually-hidden" data-count-live aria-live="polite"></p>
+          <noscript>
+            <p class="count-note">The live count needs JavaScript. The date above is the one to keep.</p>
+          </noscript>
         </div>
-        <div class="clock">
-          <span class="digits" data-unit="hours" data-pad="2"></span>
-          <span class="colon">:</span>
-          <span class="digits" data-unit="minutes" data-pad="2"></span>
-          <span class="colon">:</span>
-          <span class="digits" data-unit="seconds" data-pad="2"></span>
-        </div>
-      </div>
-      <p class="count-note" data-count-note>{hero.note}</p>
-      <p class="count-done" data-count-done data-passed={hero.passed} hidden>{hero.here}</p>
-      <p class="visually-hidden" data-count-live aria-live="polite"></p>
-      <noscript>
-        <p class="count-note">The live figures need JavaScript. The date above is the one to keep.</p>
-      </noscript>
-      <script is:inline>
-        (function () {
-          var root = document.querySelector("[data-countdown]");
-          if (!root) return;
-          var target = new Date(root.getAttribute("data-target") || "");
-          if (isNaN(target.getTime())) return;
-          var note = document.querySelector("[data-count-note]");
-          var done = document.querySelector("[data-count-done]");
-          var live = document.querySelector("[data-count-live]");
-          var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-          var units = ["hours", "minutes", "seconds"];
-          var dayEl = root.querySelector("[data-days]");
-          var slots = {};
-
-          units.forEach(function (unit) {
-            var holder = root.querySelector('[data-unit="' + unit + '"]');
-            var pad = Number(holder.getAttribute("data-pad") || "2");
-            slots[unit] = [];
-            for (var i = 0; i < pad; i++) {
-              var cell = document.createElement("span");
-              cell.className = "digit";
-              var inner = document.createElement("span");
-              inner.className = "digit-n";
-              inner.textContent = "0";
-              cell.appendChild(inner);
-              holder.appendChild(cell);
-              slots[unit].push(inner);
-            }
-          });
-
-          function parts(ms) {
-            var s = Math.floor(ms / 1000);
-            return {
-              days: Math.floor(s / 86400),
-              hours: Math.floor((s % 86400) / 3600),
-              minutes: Math.floor((s % 3600) / 60),
-              seconds: s % 60
-            };
-          }
-
-          function paint(values, animate) {
-            if (dayEl) {
-              var dayText = String(values.days);
-              if (dayEl.textContent !== dayText) {
-                dayEl.textContent = dayText;
-                if (animate && !reduce) {
-                  dayEl.classList.remove("is-tick");
-                  void dayEl.offsetWidth;
-                  dayEl.classList.add("is-tick");
-                }
-              }
-            }
-            units.forEach(function (unit) {
-              var pad = slots[unit].length;
-              var text = String(values[unit]).padStart(pad, "0");
-              if (text.length > pad) text = text.slice(-pad);
-              slots[unit].forEach(function (inner, index) {
-                if (inner.textContent === text[index]) return;
-                inner.textContent = text[index];
-                if (animate && !reduce) {
-                  inner.classList.remove("is-tick");
-                  void inner.offsetWidth;
-                  inner.classList.add("is-tick");
-                }
-              });
-            });
-          }
-
-          function speak(values) {
-            if (!live) return;
-            live.textContent =
-              values.days + " days, " + values.hours + " hours, " + values.minutes + " minutes";
-          }
-
-          var lastSpoken = 0;
-          function finish(ms) {
-            root.hidden = true;
-            if (note) note.hidden = true;
-            if (done) {
-              if (ms < -36 * 60 * 60 * 1000 && done.getAttribute("data-passed")) {
-                done.textContent = done.getAttribute("data-passed");
-              }
-              done.hidden = false;
-              if (live) live.textContent = done.textContent;
-            }
-          }
-
-          function tick(animate) {
-            var ms = target.getTime() - Date.now();
-            if (ms <= 0) {
-              finish(ms);
-              return false;
-            }
-            var values = parts(ms);
-            paint(values, animate);
-            var now = Date.now();
-            if (now - lastSpoken > 60000) {
-              speak(values);
-              lastSpoken = now;
-            }
-            return true;
-          }
-
-          if (!tick(false)) return;
-          var timer = setInterval(function () {
-            if (!tick(true)) clearInterval(timer);
-          }, 1000);
-        })();
-      </script>
+      )}
     </div>
-  )}
+  </div>
+  <div class="hero-stage">
+    <div class="hero-slab" aria-hidden="true"></div>
+    <figure class="hero-main">
+      <svg class="toran-accent" viewBox="0 0 560 132" preserveAspectRatio="xMidYMin meet" aria-hidden="true" focusable="false">
+        <defs>
+          <symbol id="accent-bloom" viewBox="0 0 64 64">
+            <ellipse cx="32" cy="16" rx="8" ry="14" fill="#F2A12C"></ellipse>
+            <ellipse cx="43" cy="21" rx="8" ry="14" fill="#F2A12C" transform="rotate(45 43 21)"></ellipse>
+            <ellipse cx="47" cy="32" rx="8" ry="14" fill="#F2A12C" transform="rotate(90 47 32)"></ellipse>
+            <ellipse cx="43" cy="43" rx="8" ry="14" fill="#F2A12C" transform="rotate(135 43 43)"></ellipse>
+            <ellipse cx="32" cy="48" rx="8" ry="14" fill="#E07A1F" transform="rotate(180 32 48)"></ellipse>
+            <ellipse cx="21" cy="43" rx="8" ry="14" fill="#E07A1F" transform="rotate(225 21 43)"></ellipse>
+            <ellipse cx="17" cy="32" rx="8" ry="14" fill="#E07A1F" transform="rotate(270 17 32)"></ellipse>
+            <ellipse cx="21" cy="21" rx="8" ry="14" fill="#F2A12C" transform="rotate(315 21 21)"></ellipse>
+            <circle cx="32" cy="32" r="8" fill="#7A320C"></circle>
+            <circle cx="30" cy="30" r="2.4" fill="#E07A1F"></circle>
+          </symbol>
+          <symbol id="accent-leaf" viewBox="0 0 24 10">
+            <path fill="#123D2F" d="M1.1 5C6.2 0.7 16.2 0.35 22.9 5C16.2 9.65 6.2 9.3 1.1 5Z"></path>
+            <path fill="none" stroke="#A9D4BE" stroke-width="1.15" stroke-linecap="round" d="M3.4 5C9.4 4.55 16.4 4.5 20.8 5"></path>
+          </symbol>
+        </defs>
+        <path d="M2 22C78 46 150 8 230 30C310 54 390 10 470 32C510 42 540 24 558 28" fill="none" stroke="#123D2F" stroke-width="4" stroke-linecap="round"></path>
+        <use href="#accent-leaf" x="8" y="18" width="36" height="14" transform="rotate(-24 26 25)"></use>
+        <use href="#accent-leaf" x="516" y="20" width="36" height="14" transform="rotate(22 534 27)"></use>
+        {Array.from({ length: 7 }, (_, index) => (
+          <use href="#accent-bloom" x={16 + index * 76} y="36" width="64" height="64"></use>
+        ))}
+      </svg>
+      {photo && (
+        <img
+          class="hero-still"
+          src={assetPath(photo)}
+          srcset={heroSrcSet || undefined}
+          sizes={heroSrcSet ? "(min-width: 880px) 50vw, 74vw" : undefined}
+          alt={hero.image.alt}
+          width={hero.image.width}
+          height={hero.image.height}
+          loading="eager"
+          fetchpriority="high"
+        />
+      )}
+    </figure>
+    {accent && (
+      <figure class="hero-side">
+        <img
+          src={assetPath(accent)}
+          alt={hero.accent.alt}
+          width={hero.accent.width}
+          height={hero.accent.height}
+          loading="eager"
+        />
+      </figure>
+    )}
+  </div>
 </section>
+{hero.target && (
+  <script is:inline>
+    (function () {
+      var root = document.querySelector("[data-countdown]");
+      if (!root) return;
+      var target = new Date(root.getAttribute("data-target") || "");
+      if (isNaN(target.getTime())) return;
+      var text = root.querySelector("[data-count-text]");
+      var done = document.querySelector("[data-count-done]");
+      var live = document.querySelector("[data-count-live]");
+      var lastSpoken = 0;
+
+      function parts(ms) {
+        var s = Math.floor(ms / 1000);
+        return {
+          days: Math.floor(s / 86400),
+          hours: Math.floor((s % 86400) / 3600),
+          minutes: Math.floor((s % 3600) / 60)
+        };
+      }
+
+      function phrase(v) {
+        if (v.days > 1) return v.days + " days to go";
+        if (v.days === 1) return "1 day to go";
+        if (v.hours > 1) return v.hours + " hours to go";
+        if (v.hours === 1) return "1 hour to go";
+        if (v.minutes > 1) return v.minutes + " minutes to go";
+        return "Less than a minute to go";
+      }
+
+      function finish(ms) {
+        root.hidden = true;
+        if (done) {
+          if (ms < -36 * 60 * 60 * 1000 && done.getAttribute("data-passed")) {
+            done.textContent = done.getAttribute("data-passed");
+          }
+          done.hidden = false;
+          if (live) live.textContent = done.textContent;
+        }
+      }
+
+      function tick() {
+        var ms = target.getTime() - Date.now();
+        if (ms <= 0) {
+          finish(ms);
+          return false;
+        }
+        var values = parts(ms);
+        var line = phrase(values);
+        if (text && text.textContent !== line) text.textContent = line;
+        var now = Date.now();
+        if (live && now - lastSpoken > 60000) {
+          live.textContent = values.days + " days, " + values.hours + " hours, " + values.minutes + " minutes";
+          lastSpoken = now;
+        }
+        return true;
+      }
+
+      if (!tick()) return;
+      var timer = setInterval(function () {
+        if (!tick()) clearInterval(timer);
+      }, 30000);
+    })();
+  </script>
+)}
