@@ -32,27 +32,24 @@ const imageAlt = pageTitle();
     <style is:inline>
       *, *::before, *::after { box-sizing: border-box; }
       body { margin: 0; background: #f7f1e6; }
-      .site-header { height: 4.25rem; overflow: hidden; }
+      .site-header { height: 4.25rem; overflow: hidden; position: relative; z-index: 6; background: transparent; }
       .nav, .reply-btn { display: none; }
-      .hero { display: flex; flex-direction: column; padding: 0.85rem 0 1.25rem; }
-      .hero-frame { width: 100%; }
-      .hero-frame .frame { display: block; width: 100%; aspect-ratio: 100 / 80; min-height: 80vw; position: relative; }
-      @media (max-height: 760px) and (max-width: 879px) {
-        .hero-frame .frame { aspect-ratio: 100 / 48; min-height: 48vw; }
-        .names { font-size: clamp(3.5rem, 18vw, 5.2rem); }
-      }
-      .hero-copy { padding: 1.35rem clamp(1.25rem, 4.5vw, 4.5rem) 0; }
-      .names { margin: 0; font-weight: 400; font-size: clamp(4.75rem, 22vw, 6.5rem); line-height: 0.84; letter-spacing: -0.035em; }
+      .hero { display: grid; grid-template-rows: 30svh minmax(0, 1fr) auto; height: 100svh; margin-top: -4.25rem; overflow: hidden; color: #f7f1e6; background: linear-gradient(180deg, #f6ddd2 0%, #f3d0c6 18%, #e7b4be 28%, #c94b78 40%, #ce266e 56%, #b41d58 72%, #9e1a4e 86%, #8f1844 94%, #c2412e 98%, #e39a14 100%); }
+      .hero-sky { position: absolute; inset: 0; }
+      .toran { width: 100%; height: 100%; }
+      .hero-copy { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 0; text-align: center; }
+      .hero-meta { text-align: center; padding: 0 1.25rem clamp(1.35rem, 4.5svh, 2.75rem); }
+      .names { margin: 0; font-weight: 400; font-size: clamp(4.75rem, 22vw, 6.5rem); line-height: 0.84; letter-spacing: -0.035em; color: #f7f1e6; }
       .names .line, .names .and { display: block; white-space: nowrap; }
       .names .and { font-size: 0.38em; line-height: 1.1; margin: 0.18em 0 0.08em; letter-spacing: 0; }
+      .hero-meta .when, .hero-meta .where, .hero-meta .countdown { margin: 0; font-weight: 500; font-size: 0.75rem; letter-spacing: 0.16em; text-transform: uppercase; color: #f7f1e6; }
+      @media (max-height: 760px) and (max-width: 879px) {
+        .names { font-size: clamp(3.5rem, 16vw, 4.6rem); }
+      }
       @media (min-width: 880px) {
         .header-tools, .nav, .reply-btn { display: flex; }
         .header-tools { align-items: center; gap: 1.2rem; margin-left: auto; }
-        .hero { display: flex; flex-direction: row; align-items: stretch; justify-content: center; gap: 12px; box-sizing: border-box; width: min(1100px, 100%); margin-inline: auto; min-height: 85vh; padding: 0 0 64px; }
-        .hero-copy { align-self: center; width: max-content; max-width: 46%; padding: 0; }
-        .hero-frame { flex: 0 0 46%; width: 46%; display: flex; align-self: stretch; min-height: 0; }
-        .hero-frame .frame { aspect-ratio: auto; min-height: 0; width: 100%; height: 100%; }
-        .names { font-size: clamp(5.5rem, 7.4vw, 8.75rem); }
+        .names { font-size: clamp(4.75rem, 7vw, 7rem); }
       }
     </style>
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />

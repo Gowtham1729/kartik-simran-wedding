@@ -238,6 +238,9 @@ a:hover {
   padding: 0 var(--pad);
   border-bottom: none;
   overflow: hidden;
+  position: relative;
+  z-index: 6;
+  background: transparent;
 }
 
 .brand {
@@ -331,22 +334,111 @@ a:hover {
 }
 
 .hero {
-  display: flex;
-  flex-direction: column;
-  padding: 0.85rem 0 1.25rem;
+  --hero-dusk: linear-gradient(
+    180deg,
+    #f6ddd2 0%,
+    #f3d0c6 18%,
+    #e7b4be 28%,
+    #c94b78 40%,
+    #ce266e 56%,
+    #b41d58 72%,
+    #9e1a4e 86%,
+    #8f1844 94%,
+    #c2412e 98%,
+    #e39a14 100%
+  );
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-rows: 30svh minmax(0, 1fr) auto;
+  height: 100svh;
+  margin-top: calc(-1 * var(--header));
+  overflow: hidden;
+  color: var(--ivory);
+  background: var(--hero-dusk);
 }
 
-.hero-frame {
+.hero-sky {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.hero-photo {
+  position: absolute;
+  inset: 0;
   width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
-.hero-frame .frame {
-  aspect-ratio: 100 / 80;
-  min-height: 80vw;
+.hero-wash {
+  position: absolute;
+  inset: 0;
+  background: var(--hero-dusk);
+}
+
+.has-photo .hero-wash {
+  opacity: 0.78;
+}
+
+.hero-scrim {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 30%;
+  background: linear-gradient(180deg, rgba(18, 28, 24, 0.55) 0%, rgba(18, 28, 24, 0.16) 68%, rgba(18, 28, 24, 0) 100%);
+  pointer-events: none;
+}
+
+.hero-grain {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.4;
+  mix-blend-mode: multiply;
+  pointer-events: none;
 }
 
 .hero-copy {
-  padding: 1.35rem var(--pad) 0;
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 0;
+  padding: 0 var(--pad);
+  text-align: center;
+}
+
+.hero .names,
+.hero .gurmukhi {
+  color: var(--ivory);
+}
+
+.hero-meta {
+  position: relative;
+  z-index: 2;
+  padding: 0 var(--pad) clamp(1.35rem, 4.5svh, 2.75rem);
+  text-align: center;
+}
+
+.hero-meta .when,
+.hero-meta .where,
+.hero-meta .countdown,
+.hero-meta .count-done,
+.hero-meta .count-note {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-style: normal;
+  font-size: 0.75rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  line-height: 1.45;
+  color: var(--ivory);
 }
 
 .names {
@@ -394,9 +486,10 @@ a:hover {
 .when {
   display: flex;
   align-items: center;
+  justify-content: center;
   flex-wrap: wrap;
   gap: 0.7rem;
-  margin-top: 0.9rem;
+  margin-top: 0;
 }
 
 .rule {
@@ -404,6 +497,11 @@ a:hover {
   height: 1px;
   background: var(--gold);
   flex: 0 0 auto;
+}
+
+.hero-meta .where,
+.hero-meta .count-block {
+  margin-top: 0.55rem;
 }
 
 .where {
@@ -425,7 +523,7 @@ a:hover {
 }
 
 .count-block {
-  margin-top: 0.7rem;
+  margin-top: 0.55rem;
 }
 
 .countdown {
@@ -490,9 +588,8 @@ a:hover {
 }
 
 .toran {
-  position: absolute;
+  position: relative;
   z-index: 1;
-  inset: 0;
   width: 100%;
   height: 100%;
   pointer-events: none;
@@ -735,8 +832,8 @@ a:hover {
     scroll-padding-bottom: calc(3.75rem + env(safe-area-inset-bottom));
   }
 
-  body:has(.sticky-reply) .hero {
-    padding-bottom: calc(1.25rem + 3.75rem + env(safe-area-inset-bottom));
+  body:has(.sticky-reply) .hero-meta {
+    padding-bottom: calc(4.75rem + env(safe-area-inset-bottom));
   }
 
   body:has(.sticky-reply) .site-footer {
@@ -788,17 +885,8 @@ a:hover {
 }
 
 @media (max-height: 760px) and (max-width: 879px) {
-  .hero-frame .frame {
-    aspect-ratio: 100 / 48;
-    min-height: 48vw;
-  }
-
   .names {
-    font-size: clamp(3.5rem, 18vw, 5.2rem);
-  }
-
-  .when {
-    margin-top: 0.55rem;
+    font-size: clamp(3.5rem, 16vw, 4.6rem);
   }
 }
 
@@ -825,56 +913,8 @@ a:hover {
     padding-right: max(var(--pad), calc((100% - 1100px) / 2));
   }
 
-  .site-header {
-    border-bottom: 1px solid var(--gold);
-  }
-
-  .hero {
-    display: flex;
-    flex-direction: row;
-    align-items: stretch;
-    justify-content: center;
-    gap: 12px;
-    box-sizing: border-box;
-    width: min(1100px, 100%);
-    margin-inline: auto;
-    min-height: 85vh;
-    padding: 0 0 64px;
-  }
-
-  .hero-copy {
-    align-self: center;
-    width: max-content;
-    max-width: 46%;
-    padding: 0;
-  }
-
-  .hero-frame {
-    flex: 0 0 46%;
-    width: 46%;
-    align-self: stretch;
-    display: flex;
-    min-height: 0;
-    padding-top: 0;
-  }
-
   .names {
-    font-size: clamp(5.5rem, 7.4vw, 8.75rem);
-  }
-
-  .when {
-    margin-top: 1.4rem;
-  }
-
-  .count-block {
-    margin-top: 1.15rem;
-  }
-
-  .hero-frame .frame {
-    width: 100%;
-    height: 100%;
-    aspect-ratio: auto;
-    min-height: 0;
+    font-size: clamp(4.75rem, 7vw, 7rem);
   }
 
   .split,

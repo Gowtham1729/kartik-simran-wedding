@@ -1,26 +1,34 @@
 ---
 import { wedding } from "../config/wedding";
-import { heroModel } from "../lib/content";
-import Frame from "./Frame.astro";
+import { assetPath, heroModel } from "../lib/content";
+import Toran from "./Toran.astro";
 
 const hero = heroModel(wedding);
 const [first, second] = hero.partners;
 const image = hero.image;
+const photo = image.src.trim();
 ---
-<section class="hero" id="top" aria-labelledby="hero-title">
-  <div class="hero-frame">
-    <Frame
-      src={image.src}
-      alt={image.alt || "Photograph to be added"}
-      width={image.width}
-      height={image.height}
-      priority={Boolean(image.src.trim())}
-      caption={false}
-      doorway
-    />
+<section class:list={["hero", photo && "has-photo"]} id="top" aria-labelledby="hero-title">
+  <div class="hero-sky" aria-hidden="true">
+    {photo && (
+      <img
+        class="hero-photo"
+        src={assetPath(photo)}
+        alt=""
+        width={image.width}
+        height={image.height}
+        decoding="async"
+        fetchpriority="high"
+      />
+    )}
+    <div class="hero-wash"></div>
+    {photo && <div class="hero-scrim"></div>}
+    <svg class="hero-grain" focusable="false">
+      <rect width="100%" height="100%" filter="url(#arch-grain)"></rect>
+    </svg>
   </div>
+  <Toran />
   <div class="hero-copy">
-    <p class="kicker">The wedding of</p>
     <h1 id="hero-title" class="names">
       <span class="line" translate="no">{first}</span>
       <span class="and">and</span>
@@ -32,12 +40,12 @@ const image = hero.image;
         <span>{hero.gurmukhi.two}</span>
       </p>
     )}
+  </div>
+  <div class="hero-meta">
     {hero.parts && (
       <p class="when">
         <span class="visually-hidden">{hero.longDate}</span>
-        <span aria-hidden="true">{hero.parts.weekdayLong}</span>
-        <span class="rule" aria-hidden="true"></span>
-        <span aria-hidden="true">{hero.parts.day} {hero.parts.monthLong} {hero.parts.year}</span>
+        <span aria-hidden="true">{hero.parts.weekdayLong}, {hero.parts.day} {hero.parts.monthLong} {hero.parts.year}</span>
       </p>
     )}
     <p class="where">{hero.city}</p>

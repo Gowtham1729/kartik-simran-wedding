@@ -38,7 +38,7 @@ export interface Stay {
 export interface FrameImage {
   /**
    * Path inside public/, for example "photos/evening.jpg".
-   * Or a full https URL. "" keeps the arched placeholder.
+   * Or a full https URL. "" keeps the dusk gradient.
    */
   src: string;
   alt: string;
